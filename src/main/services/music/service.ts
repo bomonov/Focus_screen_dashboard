@@ -37,6 +37,8 @@ export interface MusicService {
   readonly hasDemo: boolean
   isDemoEnabled(): boolean
   setDemoEnabled(on: boolean): void
+  /** Only follow these players; null follows every one (the default). */
+  setAllowedPlayers?(players: readonly PlayerId[] | null): void
   dispose(): void
 }
 
@@ -87,6 +89,7 @@ export function createMusicService({
   const loadingArtwork = new Set<string>()
   const listeners = new Set<(state: PlaybackState) => void>()
   let demoEnabled = demo !== null
+  let allowed: ReadonlySet<PlayerId> | null = null
   let lastShown: PlayerId | null = null
   const lastPlayed = new Map<PlayerId, number>()
   /** A button just pressed, shown before the player confirms it. */
@@ -122,7 +125,7 @@ export function createMusicService({
   function refresh(): void {
     const at = now()
     const choice = choosePlayer(
-      realPlayers.map((id) => current(id, at)),
+      realPlayers.filter((id) => allowed === null || allowed.has(id)).map((id) => current(id, at)),
       demo && demoEnabled ? current('demo', at) : null,
       lastShown,
       lastPlayed
@@ -246,6 +249,11 @@ export function createMusicService({
     setDemoEnabled(on) {
       if (!demo || on === demoEnabled) return
       demoEnabled = on
+      refresh()
+    },
+    setAllowedPlayers(players) {
+      allowed = players === null ? null : new Set(players)
+      if (lastShown !== null && allowed !== null && !allowed.has(lastShown)) lastShown = null
       refresh()
     },
     dispose() {
