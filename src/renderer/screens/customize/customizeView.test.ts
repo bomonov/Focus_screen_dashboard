@@ -28,6 +28,7 @@ import {
 } from './customizeView'
 
 const music: MusicSettings = {
+  source: 'auto',
   cover: 'record',
   spinSpeed: 'normal',
   coverLight: 'sheen',

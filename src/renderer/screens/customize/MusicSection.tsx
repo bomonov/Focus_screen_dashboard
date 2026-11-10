@@ -33,6 +33,16 @@ export function MusicSection({
   return (
     <Section title="Music">
       <PillGroup
+        label="Plays from"
+        options={[
+          { value: 'auto', label: 'Whatever’s playing' },
+          { value: 'appleMusic', label: 'Apple Music' },
+          { value: 'youtube', label: 'YouTube' }
+        ]}
+        value={music.source}
+        onPick={(source) => update({ music: { source } })}
+      />
+      <PillGroup
         label="Lyrics"
         options={[
           { value: 'synced', label: 'Synced' },
