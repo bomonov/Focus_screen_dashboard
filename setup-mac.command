@@ -38,6 +38,8 @@ cd "$DIR"
 
 echo "== 4/6 Packages"
 npm install
+# Some npm setups skip Electron's own download; fetch it if it's missing.
+[ -f node_modules/electron/path.txt ] || node node_modules/electron/install.js
 
 echo "== 5/6 Browser extension and the Mac helper (Calendar, Reminders, weather)"
 npm run build:extension
