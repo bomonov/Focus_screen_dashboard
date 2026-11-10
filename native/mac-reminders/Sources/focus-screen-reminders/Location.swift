@@ -99,6 +99,9 @@ final class LocationBridge: NSObject, CLLocationManagerDelegate {
   }
 
   private func place(_ id: Int, _ location: CLLocation) {
+    // macOS 26's geocoder only exists in the macOS 26 SDK (Swift 6.2+); older Command Line
+    // Tools build with CLGeocoder alone (Bek's fork, for macOS 15 without Xcode 26).
+    #if compiler(>=6.2)
     if #available(macOS 26, *) {
       guard let request = MKReverseGeocodingRequest(location: location) else {
         replyError(id, "failed")
@@ -114,7 +117,10 @@ final class LocationBridge: NSObject, CLLocationManagerDelegate {
           reply(id, ["ok": true, "place": town ?? NSNull()])
         }
       }
-    } else {
+      return
+    }
+    #endif
+    do {
       CLGeocoder().reverseGeocodeLocation(location) { marks, error in
         DispatchQueue.main.async {
           guard error == nil else {
