@@ -140,7 +140,11 @@ export type CoverLight = 'none' | 'sheen' | 'sparkle'
 /** Synced: the line being sung with the ones around it. Full: the whole text, current line lit. */
 export type LyricsStyle = 'synced' | 'full'
 
+/** Which player the music card follows: whichever is playing, or just one (added by Bek). */
+export type MusicSource = 'auto' | 'appleMusic' | 'youtube'
+
 export interface MusicSettings {
+  source: MusicSource
   cover: CoverStyle
   spinSpeed: SpinSpeed
   coverLight: CoverLight
@@ -294,6 +298,7 @@ const MOTION_STRENGTH = { min: 0.5, max: 2.5 }
 
 export function defaultMusicSettings(): MusicSettings {
   return {
+    source: 'auto',
     cover: 'record',
     spinSpeed: 'normal',
     coverLight: 'sheen',
@@ -530,6 +535,7 @@ function parseTimerSettings(value: unknown, base: TimerSettings): TimerSettings 
 function parseMusicSettings(value: unknown, base: MusicSettings): MusicSettings {
   const raw = section(value)
   return {
+    source: oneOf(raw.source, ['auto', 'appleMusic', 'youtube'], base.source),
     cover: oneOf(raw.cover, ['record', 'animated'], base.cover),
     spinSpeed: oneOf(raw.spinSpeed, ['normal', 'slow', 'still'], base.spinSpeed),
     // "glow" (the glow alone) was its name before the glow got its own switch.
