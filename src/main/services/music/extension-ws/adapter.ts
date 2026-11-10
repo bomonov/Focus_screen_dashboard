@@ -30,8 +30,8 @@ function browserFor(player: PlayerId): BrowserKind | null {
 }
 
 const PLAYERS: readonly PlayerInfo[] = [
-  { id: 'ytmChrome', name: 'YouTube Music', repeatModes: ['off', 'all', 'one'] },
-  { id: 'ytmSafari', name: 'YouTube Music', repeatModes: ['off', 'all', 'one'] }
+  { id: 'ytmChrome', name: 'YouTube', repeatModes: ['off', 'all', 'one'] },
+  { id: 'ytmSafari', name: 'YouTube', repeatModes: ['off', 'all', 'one'] }
 ]
 
 const epochSeconds = (): number => Date.now() / 1000
