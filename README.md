@@ -1,5 +1,19 @@
 # Focus Screen
 
+> **Credit:** Focus Screen was designed and built by **[KennyLewd](https://github.com/KennyLewd)**
+> ([original repository](https://github.com/KennyLewd/Focus_screen_dashboard)). This is
+> Bek's ([bomonov](https://github.com/bomonov)) copy, with a few changes on top:
+>
+> - **Regular YouTube videos** (www.youtube.com) as well as YouTube Music, through the same
+>   browser extension. Titles like "Artist - Song (Official Video)" are split into song and
+>   artist so lyrics can be found.
+> - **Customize › Music › Plays from:** follow whatever is playing, or only Apple Music, or only
+>   YouTube.
+> - **`setup-mac.command`:** one-step install on a Mac (Command Line Tools, Node, packages,
+>   extension, Mac helper and a Desktop launcher).
+>
+> All other credit goes to the original author. MIT license, unchanged.
+
 A desktop app that turns a second monitor into a study screen: what's playing with synced lyrics,
 one to-do list from Canvas, Google Tasks, Apple Reminders and your own homework, and a Pomodoro
 timer, plus your next class, the next bus, the weather and trip planning in the top bar.
