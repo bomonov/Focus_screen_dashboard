@@ -15,7 +15,7 @@ const safariOut = join(root, 'dist-safari')
 rmSync(chromeOut, { recursive: true, force: true })
 rmSync(safariOut, { recursive: true, force: true })
 
-for (const name of ['background', 'content', 'queueCovers', 'popup']) {
+for (const name of ['background', 'content', 'youtube', 'queueCovers', 'popup']) {
   await build({
     configFile: false,
     publicDir: false,

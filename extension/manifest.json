@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Focus Screen",
   "version": "0.1.0",
-  "description": "Shows the YouTube Music song you're playing on Focus Screen, and lets you control it from there.",
+  "description": "Shows the YouTube Music song or YouTube video you are playing on Focus Screen, and lets you control it from there.",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1oG6W7aPmoSDxA+HNbbvCAZ4Pow7X0DCN1JhlQbQGVmlR9b4qd85M1DwFKcy5Za0DYxDefBht4pKpwjl3YYkzm1angmQMhf4nRxH2co3SX9orwpmP8QW8UzM6/m8QwOr1VmDiF9KQtOJZFDw/qEXtArWZ3gMXU9aXCtHpOBh361L3LOM4P/ngSCy7f0Rhj6yCMeeyTix4qItqdOKbhcyKorZAv7XdEy2gth4fi1kLUByDsheGY/y+Nx7tXo2pdtViZ2skFREl+GSJeQxlujemAv7vdp9hnaYurPN7cgEfY+qxPchOVik7zBu+TbqVGiz+M5AUjJ27lM+IpVeos1L4wIDAQAB",
   "icons": {
     "16": "icons/icon-16.png",
@@ -32,11 +32,17 @@
       "js": ["queueCovers.js"],
       "run_at": "document_idle",
       "world": "MAIN"
+    },
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["youtube.js"],
+      "run_at": "document_idle"
     }
   ],
   "permissions": ["storage"],
   "host_permissions": [
     "https://music.youtube.com/*",
+    "https://www.youtube.com/*",
     "https://*.googleusercontent.com/*",
     "https://i.ytimg.com/*",
     "https://*.ggpht.com/*"
