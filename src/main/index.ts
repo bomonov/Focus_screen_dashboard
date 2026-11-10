@@ -72,6 +72,7 @@ import { createMusicAdapters } from './services/music/factory'
 import { createMockMusicAdapter } from './services/music/mock/adapter'
 import { parseMusicCommand } from './services/music/parse'
 import { createMusicService } from './services/music/service'
+import type { PlayerId } from './services/music/types'
 import { fetchBinary, fetchJson, fetchText, requestJson } from './services/http'
 import { openLyricsCache } from './services/lyrics/cache'
 import { createLrclibProvider, LRCLIB_MAX_BYTES, LRCLIB_TIMEOUT_MS } from './services/lyrics/lrclib'
@@ -220,6 +221,14 @@ function start(): void {
     demo: isDev ? createMockMusicAdapter() : null,
     toArtwork: toArtworkDataUrl
   })
+  // Which player the card follows (Customize › Music › Plays from), added by Bek.
+  const playersFor = (source: string): PlayerId[] | null =>
+    source === 'appleMusic'
+      ? ['appleMusic']
+      : source === 'youtube'
+        ? ['ytmChrome', 'ytmSafari']
+        : null
+  music.setAllowedPlayers?.(playersFor(settings.get().music.source))
   const lrclib = createLrclibProvider((url) =>
     fetchJson(url, { maxBytes: LRCLIB_MAX_BYTES, timeoutMs: LRCLIB_TIMEOUT_MS })
   )
@@ -1250,6 +1259,7 @@ function start(): void {
     prepareClassMaps()
     busRoute.prepare()
     autosync.setEnabled(next.music.autoSync)
+    music.setAllowedPlayers?.(playersFor(next.music.source))
     lyrics.setVisible(next.music.showLyrics)
     lyrics.setRomaji(next.music.romaji)
     prepare.refresh()
