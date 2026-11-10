@@ -200,6 +200,18 @@ function openPrivacyPane(anchor: string, label: string): void {
 
 function start(): void {
   denyAllPermissions(session.defaultSession)
+  // YouTube's embedded player refuses pages without a web Referer (the packaged app is a file://
+  // page), so the video in the Now playing card gets one. Only for that player (Bek's fork).
+  session.defaultSession.webRequest.onBeforeSendHeaders(
+    { urls: ['https://www.youtube-nocookie.com/*'] },
+    (details, callback) => {
+      const headers = details.requestHeaders
+      if (!headers.Referer || headers.Referer.startsWith('file:')) {
+        headers.Referer = 'https://github.com/bomonov/Focus_screen_dashboard'
+      }
+      callback({ requestHeaders: headers })
+    }
+  )
 
   const userData = app.getPath('userData')
   const settings = openSettingsStore(join(userData, 'settings.json'))
