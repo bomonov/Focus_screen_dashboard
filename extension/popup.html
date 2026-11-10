@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Focus Screen</title>
+    <style>
+      :root {
+        --bg: #000000;
+        --card: #191919;
+        --border: #484848;
+        --text: #ffffff;
+        --text-secondary: #bfbfbf;
+        --accent: #ffc627;
+        --ok: #78be20;
+        --error: #ff7f32;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        width: 300px;
+        margin: 0;
+        padding: 16px;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          14px/1.4 Arial,
+          Helvetica,
+          sans-serif;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: 16px;
+      }
+      .status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 4px;
+        font-weight: 700;
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--border);
+      }
+      .status[data-tone='ok'] .dot {
+        background: var(--ok);
+      }
+      .status[data-tone='error'] .dot {
+        background: var(--error);
+      }
+      .detail {
+        margin: 0 0 12px;
+        color: var(--text-secondary);
+      }
+      form {
+        display: flex;
+        gap: 8px;
+      }
+      input {
+        flex: 1;
+        min-width: 0;
+        min-height: 44px;
+        padding: 0 12px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--card);
+        color: var(--text);
+        font-size: 20px;
+        letter-spacing: 4px;
+        text-align: center;
+      }
+      button {
+        min-height: 44px;
+        padding: 0 16px;
+        border: 1px solid var(--accent);
+        border-radius: 999px;
+        background: var(--accent);
+        color: #000000;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+      button.quiet {
+        border-color: var(--border);
+        background: transparent;
+        color: var(--text);
+        font-weight: 400;
+      }
+      [hidden] {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Focus Screen</h1>
+    <p class="status" id="status" data-tone="idle">
+      <span class="dot" aria-hidden="true"></span><span id="status-text">Checking…</span>
+    </p>
+    <p class="detail" id="detail"></p>
+    <form id="pair">
+      <input
+        id="code"
+        inputmode="numeric"
+        autocomplete="off"
+        maxlength="7"
+        placeholder="123 456"
+        aria-label="Pairing code"
+        required
+      />
+      <button type="submit" id="connect">Connect</button>
+    </form>
+    <button type="button" class="quiet" id="forget" hidden>Disconnect</button>
+    <script src="popup.js"></script>
+  </body>
+</html>

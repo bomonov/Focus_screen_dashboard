@@ -1,0 +1,460 @@
+/* The card's height decides how much room the exam countdown takes (ExamStrip.css). The layout
+   grid gives every card a set height, so a size container is safe here. */
+.todo-list {
+  container: todo-card / size;
+}
+
+/* The title (with how many are left) and the filters on one row, like the timer's; a narrow
+   card wraps the filters under the title. */
+.todo-list__header {
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.todo-list__heading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.todo-list__left {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* The filters' lens pokes out above and below the track; leave it room to. */
+.todo-list__chips {
+  margin: 0.375rem 0;
+}
+
+.todo-list__tools {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-width: 0;
+}
+
+/* Adds one of the user's own homeworks or exams: a round button the size of a fingertip. */
+.todo-list__add {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--hit);
+  height: var(--hit);
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.todo-list__add svg {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.todo-list__add:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.todo-list__note {
+  flex: none;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--text-secondary);
+}
+
+.todo-list__note-action {
+  min-height: var(--hit);
+  padding: 0 0.875rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent-text);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@property --todo-fade {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+/* The mockup's right column is taller than the screen, so the list scrolls inside its card. */
+.todo-list__items {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  /* A cut-off last row fades out, so it reads as "more below"; at the bottom it's solid. A list
+     that fits has no scroll timeline, so it never fades. */
+  mask-image: linear-gradient(to bottom, #000 calc(100% - var(--todo-fade)), transparent);
+  animation: todo-list-fade linear both;
+  animation-timeline: scroll(self);
+}
+
+@keyframes todo-list-fade {
+  0%,
+  90% {
+    --todo-fade: 3rem;
+  }
+  100% {
+    --todo-fade: 0px;
+  }
+}
+
+.todo-item {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.375rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.todo-item__check {
+  flex: none;
+  width: var(--hit);
+  height: var(--hit);
+  border: none;
+  border-radius: 0.75rem;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+}
+
+.todo-item--pending .todo-item__check {
+  opacity: 0.6;
+}
+
+.source-icon {
+  display: block;
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.source-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.source-icon--canvas {
+  color: var(--source-canvas);
+}
+
+.source-icon--homework {
+  color: var(--source-homework);
+}
+
+.source-icon--reminders {
+  color: var(--source-reminders);
+}
+
+.source-icon--google {
+  color: var(--source-google);
+}
+
+.todo-item__text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1875rem;
+}
+
+.todo-item__title {
+  font-size: 1.0625rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+  /* Two lines at most, so one long task can't push the rest out of sight. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.todo-item--done .todo-item__title {
+  color: var(--text-dim);
+  text-decoration: line-through;
+}
+
+.todo-item__meta {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.todo-item__meta--overdue {
+  color: var(--accent-text);
+}
+
+.todo-list__message {
+  margin: auto;
+  max-width: 24rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.todo-list__heading {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.todo-list__hint {
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: var(--text-dim);
+}
+
+.todo-list__action {
+  margin-top: 0.5rem;
+  min-height: var(--hit);
+  padding: 0 1.125rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.todo-list__action--quiet {
+  border-color: var(--border-strong);
+  background: transparent;
+  color: var(--text);
+}
+
+.todo-list__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 0.75rem;
+}
+
+/* The Canvas connect form takes the list's place and scrolls like it in a short card. */
+.canvas-form {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.canvas-form__fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+}
+
+/* Side by side in a wide card, stacked in a narrow one. */
+.canvas-form__field {
+  flex: 1 1 14rem;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.canvas-form__label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.canvas-form__input {
+  min-height: var(--hit);
+  padding: 0 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-strong);
+  background: var(--inset);
+  color: var(--text);
+  font: inherit;
+  font-size: 1rem;
+}
+
+.canvas-form__input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.canvas-form__input[aria-invalid='true'] {
+  border-color: var(--accent);
+}
+
+.canvas-form__input::placeholder {
+  color: var(--text-dim);
+}
+
+.canvas-form__hint {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--text-dim);
+}
+
+.canvas-form__error {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--accent-text);
+}
+
+.canvas-form__link {
+  min-height: var(--hit);
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--accent-text);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.canvas-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 1rem;
+}
+
+.canvas-form__actions .todo-list__action {
+  margin-top: 0;
+}
+
+.todo-list__action:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* The homework form takes the card, like the Canvas form. The usual To-do card is short, so it
+   keeps to four rows under its title row, and those scroll if the classes wrap. */
+.homework-form {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.homework-form__top {
+  flex: none;
+}
+
+.homework-form__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.homework-form__actions .todo-list__action {
+  margin-top: 0;
+}
+
+.homework-form__error {
+  flex: none;
+}
+
+.homework-form__rows {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  /* Room for the switch's lens and the focus rings, which the scroll would clip. */
+  padding: 0.375rem 0.25rem;
+}
+
+.homework-form__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.homework-form__label {
+  flex: none;
+  min-width: 3.25rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.homework-form__kind {
+  flex: none;
+}
+
+.homework-form__name {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+.homework-form__chip {
+  min-height: var(--hit);
+  max-width: 100%;
+  padding: 0 1rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9375rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.homework-form__chip[aria-pressed='true'] {
+  border-color: var(--text);
+  background: var(--text);
+  color: var(--card);
+  font-weight: 700;
+}
+
+.homework-form__chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.homework-form__picker {
+  color-scheme: dark;
+}
+
+:root[data-theme='day'] .homework-form__picker {
+  color-scheme: light;
+}

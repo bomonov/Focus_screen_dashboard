@@ -1,0 +1,142 @@
+<style>
+  .options { display:block !important; }
+  .options .option { display:block !important; padding:12px; margin-bottom:22px; }
+  .options .option h3 { margin:0 0 10px; }
+  .optnote { font-size:13px; margin:10px 2px 0; }
+  .ed { --ichika:#33AAEE; --minori:#FFCCAA; --kohane:#FF6699; --tsukasa:#FFBB00; --kanade:#BB6688; --miku:#33CCBB; --accent:#FFC627; --added:#A78BFA;
+    background:#111; color:#fff; font-family:Arial,Helvetica,sans-serif; border-radius:12px; border:1px solid #333; min-width:740px; overflow:hidden; position:relative; }
+  .ed * { box-sizing:border-box; }
+  .tb { display:flex; align-items:center; gap:10px; padding:8px 12px; background:#1c1c1c; border-bottom:1px solid #2a2a2a; font-size:13px; }
+  .tb .t { font-weight:700; } .tb .s { color:#9a9a9a; }
+  .btn { height:30px; padding:0 12px; border-radius:15px; border:1px solid #484848; display:inline-flex; align-items:center; gap:6px; font-size:12.5px; color:#ddd; background:transparent; }
+  .btn.on { background:#fff; color:#000; border-color:#fff; font-weight:700; }
+  .btn.acc { border-color:var(--accent); color:var(--accent); }
+  .wave { position:relative; height:74px; background:#0b0b0b; border-bottom:1px solid #2a2a2a; overflow:hidden; }
+  .wave svg { position:absolute; inset:0; }
+  .blk { position:absolute; top:6px; height:16px; border-radius:4px; font-size:10px; font-weight:700; color:#000; padding:1px 5px; white-space:nowrap; overflow:hidden; }
+  .blk.add { background:repeating-linear-gradient(135deg, rgba(167,139,250,.55) 0 6px, rgba(167,139,250,.35) 6px 12px); color:#fff; }
+  .play { position:absolute; top:0; bottom:0; width:2px; background:var(--accent); }
+  .grid { font-size:13px; }
+  .gr { display:grid; grid-template-columns:28px 64px 64px 70px 1fr; gap:8px; padding:6px 12px; border-bottom:1px solid #222; align-items:center; }
+  .gr.h { color:#9a9a9a; font-size:11px; letter-spacing:1px; font-weight:700; background:#161616; }
+  .gr.sel { background:rgba(255,198,39,.10); box-shadow:inset 3px 0 0 var(--accent); }
+  .gr.new { box-shadow:inset 3px 0 0 var(--added); }
+  .mono { font-family:Menlo,monospace; font-size:12px; color:#bbb; }
+  .dim { color:#9a9a9a; }
+  .bd { display:inline-grid; place-items:center; width:20px; height:20px; border-radius:50%; font-size:8.5px; font-weight:700; color:#000; margin-right:2px; border:1.5px solid rgba(0,0,0,.25); }
+  .tag { font-size:10.5px; font-weight:700; color:var(--added); border:1px solid var(--added); border-radius:9px; padding:0 6px; margin-left:8px; }
+  .gap { position:relative; height:0; }
+  .gapbar { position:absolute; left:12px; right:12px; top:-9px; height:18px; display:flex; align-items:center; gap:8px; }
+  .gapbar::before { content:""; flex:1; height:2px; background:var(--accent); }
+  .gapbar::after { content:""; flex:6; height:2px; background:var(--accent); }
+  .gapbar span { order:0; font-size:11.5px; font-weight:700; color:#000; background:var(--accent); border-radius:9px; padding:1px 8px; }
+  .paste { margin:8px 12px 10px; border:1px solid var(--accent); border-radius:10px; background:#1a1a1a; padding:10px; }
+  .paste .lbl { font-size:11.5px; color:#bbb; margin-bottom:6px; }
+  .paste pre { margin:0; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:1.55; color:#fff; white-space:pre-wrap; }
+  .paste .row { display:flex; gap:8px; justify-content:flex-end; margin-top:8px; }
+  .hint { font-size:11.5px; color:#9a9a9a; padding:8px 12px 10px; }
+  .kbd { border:1px solid #555; border-radius:4px; padding:0 4px; font-size:10.5px; }
+  .step { display:inline-grid; place-items:center; width:18px; height:18px; border-radius:50%; background:#333; color:#fff; font-size:10.5px; font-weight:700; margin-right:4px; }
+  .two { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .cap { font-size:12.5px; color:inherit; margin:0 0 6px 2px; }
+  .txt { font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:1.7; padding:10px 14px; background:#141414; }
+  .txt .l { display:flex; gap:10px; }
+  .txt .n { width:22px; text-align:right; font-family:Menlo,monospace; font-size:11px; color:#9a9a9a; padding-top:2px; }
+  .txt .ins { background:rgba(167,139,250,.14); border-radius:4px; }
+  .caret { display:inline-block; width:2px; height:15px; background:#fff; vertical-align:-2px; }
+</style>
+
+<h2>Adding a missing verse: three ways</h2>
+<p class="subtitle">The Color-Code Lyrics window, with a made-up song whose lyrics skip verse 2. In all three, the added lines show on the Focus Screen like any other line, get colored the same way, and are timed with the same tap timing (<span class="kbd">J</span>). Click the one that feels easiest, then tell me in the chat.</p>
+
+<div class="options">
+
+<!-- A -->
+<div class="option" data-choice="a" onclick="toggleSelect(this)">
+<h3>A · Paste between two lines</h3>
+<div class="ed">
+  <div class="tb"><span class="t">Color-Code Lyrics</span><span class="s">Demo Song · made up</span><span style="flex:1"></span><span class="btn">▶ Play line</span><span class="mono">1:21.40 / 3:41</span></div>
+  <div class="grid">
+    <div class="gr h"><span>#</span><span>START</span><span>END</span><span>WHO</span><span>LYRICS</span></div>
+    <div class="gr"><span class="mono">11</span><span class="mono">1:12.10</span><span class="mono">1:16.80</span><span><span class="bd" style="background:var(--tsukasa)">Ts</span></span><span style="color:var(--tsukasa); font-weight:700">まだ見ぬ明日を 探して</span></div>
+    <div class="gr sel"><span class="mono">12</span><span class="mono">1:17.00</span><span class="mono">1:21.20</span><span><span class="bd" style="background:var(--kanade)">Ka</span></span><span style="color:var(--kanade); font-weight:700">この手で描いた 地図の先へ</span></div>
+    <div class="gap"><div class="gapbar"><span>＋ Add lines here</span></div></div>
+    <div class="paste">
+      <div class="lbl">Paste or type the missing lines, one per line. They go after line 12.</div>
+      <pre>夜空に浮かぶ 小さな灯り
+ひとつずつ 繋いでいこう
+遠回りでも かまわないから<span class="caret"></span></pre>
+      <div class="row"><span class="btn">Cancel</span><span class="btn on">Add 3 lines</span></div>
+    </div>
+    <div class="gr"><span class="mono">13</span><span class="mono">1:52.30</span><span class="mono">1:56.90</span><span><span class="bd" style="background:linear-gradient(135deg,var(--ichika),var(--kohane),var(--miku))">All</span></span><span style="font-weight:700">みんなで歌おう</span></div>
+  </div>
+  <div class="hint">Hover between any two lines and a ＋ shows. Also on the right-click menu: “Add lines after this one…”.</div>
+</div>
+<p class="optnote">You pick the spot in the list. The new lines sit between their neighbours with no times yet (they're spread over the gap so you can see them), and the first tap on each line puts it where it's sung.</p>
+</div>
+
+<!-- B -->
+<div class="option" data-choice="b" onclick="toggleSelect(this)">
+<h3>B · Add them where the song is playing</h3>
+<div class="ed">
+  <div class="tb"><span class="t">Color-Code Lyrics</span><span class="s">Demo Song · made up</span><span style="flex:1"></span><span class="btn">▶ Play line</span><span class="mono">1:24.10 / 3:41</span><span class="btn acc">＋ Add lines at 1:24</span></div>
+  <div class="wave">
+    <svg viewBox="0 0 740 74" preserveAspectRatio="none"><path fill="#3a3a3a" d="M0 46 L10 30 L20 54 L30 24 L40 56 L50 28 L60 50 L70 20 L80 58 L90 26 L100 48 L110 18 L120 60 L130 30 L140 46 L150 22 L160 58 L170 32 L180 48 L190 20 L200 58 L210 28 L220 50 L230 22 L240 56 L250 30 L260 44 L270 20 L280 58 L290 28 L300 50 L310 22 L320 58 L330 30 L340 48 L350 18 L360 60 L370 32 L380 46 L390 22 L400 56 L410 28 L420 50 L430 20 L440 58 L450 26 L460 48 L470 22 L480 56 L490 30 L500 46 L510 20 L520 58 L530 28 L540 50 L550 24 L560 56 L570 30 L580 46 L590 20 L600 58 L610 28 L620 50 L630 22 L640 56 L650 30 L660 46 L670 20 L680 58 L690 28 L700 50 L710 24 L720 56 L740 46 L740 74 L0 74Z"/></svg>
+    <div class="blk" style="left:10px; width:130px; background:var(--tsukasa)">まだ見ぬ明日を…</div>
+    <div class="blk" style="left:146px; width:130px; background:var(--kanade)">この手で描いた…</div>
+    <div class="blk add" style="left:292px; width:120px">夜空に浮かぶ…</div>
+    <div class="blk add" style="left:416px; width:100px">ひとつずつ…</div>
+    <div class="blk add" style="left:520px; width:110px">遠回りでも…</div>
+    <div class="blk" style="left:640px; width:96px; background:linear-gradient(90deg,var(--ichika),var(--kohane),var(--miku))">みんなで…</div>
+    <div class="play" style="left:300px"></div>
+  </div>
+  <div class="grid">
+    <div class="gr h"><span>#</span><span>START</span><span>END</span><span>WHO</span><span>LYRICS</span></div>
+    <div class="gr"><span class="mono">12</span><span class="mono">1:17.00</span><span class="mono">1:21.20</span><span><span class="bd" style="background:var(--kanade)">Ka</span></span><span style="color:var(--kanade); font-weight:700">この手で描いた 地図の先へ</span></div>
+    <div class="gr new sel"><span class="mono">13</span><span class="mono">1:24.10</span><span class="mono dim">≈1:33</span><span class="dim">—</span><span style="font-weight:700">夜空に浮かぶ 小さな灯り<span class="tag">added</span></span></div>
+    <div class="gr new"><span class="mono">14</span><span class="mono dim">≈1:33</span><span class="mono dim">≈1:42</span><span class="dim">—</span><span style="font-weight:700">ひとつずつ 繋いでいこう<span class="tag">added</span></span></div>
+    <div class="gr new"><span class="mono">15</span><span class="mono dim">≈1:42</span><span class="mono dim">≈1:52</span><span class="dim">—</span><span style="font-weight:700">遠回りでも かまわないから<span class="tag">added</span></span></div>
+    <div class="gr"><span class="mono">16</span><span class="mono">1:52.30</span><span class="mono">1:56.90</span><span><span class="bd" style="background:linear-gradient(135deg,var(--ichika),var(--kohane),var(--miku))">All</span></span><span style="font-weight:700">みんなで歌おう</span></div>
+  </div>
+  <div class="hint">While the verse plays, press <span class="kbd">＋ Add lines at 1:24</span> (or <span class="kbd">⌘N</span>) and paste. The first line starts right where you pressed; the rest share out the time up to the next line, then tap <span class="kbd">J</span> through them to put each in place.</div>
+</div>
+<p class="optnote">You find the spot by ear, where the verse is actually sung. The lines come in already close to where they belong, so a tap is fixing, not placing.</p>
+</div>
+
+<!-- C -->
+<div class="option" data-choice="c" onclick="toggleSelect(this)">
+<h3>C · Edit the song's words as text</h3>
+<div class="two">
+  <div>
+    <p class="cap"><span class="step">1</span>“Edit words…” turns the line list into the song's text. Paste the verse in the gap, fix any wrong word.</p>
+    <div class="ed" style="min-width:0">
+      <div class="tb"><span class="t">Edit words</span><span style="flex:1"></span><span class="btn">Cancel</span><span class="btn on">Done</span></div>
+      <div class="txt">
+        <div class="l"><span class="n">11</span><span>まだ見ぬ明日を 探して</span></div>
+        <div class="l"><span class="n">12</span><span>この手で描いた 地図の先へ</span></div>
+        <div class="l ins"><span class="n">+</span><span>夜空に浮かぶ 小さな灯り</span></div>
+        <div class="l ins"><span class="n">+</span><span>ひとつずつ 繋いでいこう</span></div>
+        <div class="l ins"><span class="n">+</span><span>遠回りでも かまわないから<span class="caret"></span></span></div>
+        <div class="l"><span class="n">13</span><span>みんなで歌おう</span></div>
+        <div class="l"><span class="n">14</span><span>まだ見ぬ明日を 探して</span></div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <p class="cap"><span class="step">2</span>On Done, lines you didn't touch keep their colors and times. New and changed ones are marked, ready to tap.</p>
+    <div class="ed" style="min-width:0">
+      <div class="grid">
+        <div class="gr h" style="grid-template-columns:24px 58px 46px 1fr"><span>#</span><span>START</span><span>WHO</span><span>LYRICS</span></div>
+        <div class="gr" style="grid-template-columns:24px 58px 46px 1fr"><span class="mono">12</span><span class="mono">1:17.00</span><span><span class="bd" style="background:var(--kanade)">Ka</span></span><span style="color:var(--kanade); font-weight:700">この手で描いた…</span></div>
+        <div class="gr new" style="grid-template-columns:24px 58px 46px 1fr"><span class="mono">13</span><span class="mono dim">—</span><span class="dim">—</span><span style="font-weight:700">夜空に浮かぶ…<span class="tag">added</span></span></div>
+        <div class="gr new" style="grid-template-columns:24px 58px 46px 1fr"><span class="mono">14</span><span class="mono dim">—</span><span class="dim">—</span><span style="font-weight:700">ひとつずつ…<span class="tag">added</span></span></div>
+        <div class="gr new" style="grid-template-columns:24px 58px 46px 1fr"><span class="mono">15</span><span class="mono dim">—</span><span class="dim">—</span><span style="font-weight:700">遠回りでも…<span class="tag">added</span></span></div>
+        <div class="gr" style="grid-template-columns:24px 58px 46px 1fr"><span class="mono">16</span><span class="mono">1:52.30</span><span><span class="bd" style="background:linear-gradient(135deg,var(--ichika),var(--kohane),var(--miku))">All</span></span><span style="font-weight:700">みんなで歌おう</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<p class="optnote">Like editing a text file: the most freedom (a whole verse, a typo, a line the lyrics split wrong), but the words you change become your own version of the song's lyrics.</p>
+</div>
+
+</div>

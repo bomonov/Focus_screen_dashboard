@@ -1,0 +1,69 @@
+# Matches the helpers: com.focusscreen.reminders, the Safari connector's com.focusscreen.*.
+appId: com.focusscreen.app
+productName: Focus Screen
+directories:
+  buildResources: build
+# Only the built app goes in (production node_modules are added on their own). An allowlist,
+# so a stray file in the project folder, like a downloaded OAuth client secret, never ships.
+files:
+  - out/**/*
+  - package.json
+  # kuromoji's browser build and demo page (the romaji maker uses its Node code and dictionary).
+  - '!**/node_modules/kuromoji/{build,demo}/**'
+win:
+  executableName: focus-screen
+  extraResources:
+    - from: assets/tray
+      to: tray
+      filter: [tray.ico]
+nsis:
+  artifactName: ${name}-${version}-setup.${ext}
+  shortcutName: ${productName}
+  uninstallDisplayName: ${productName}
+  createDesktopShortcut: always
+mac:
+  # Built for the Mac it's built on; pass --universal for one that runs on Intel too.
+  target: dmg
+  category: public.app-category.productivity
+  # Signed with the first Apple Development certificate in the keychain unless CSC_NAME picks
+  # one. Not notarized: it runs on the Mac that built it, but Gatekeeper blocks a copy sent to
+  # someone else (that needs a paid Developer ID certificate).
+  entitlementsInherit: build/entitlements.mac.plist
+  extendInfo:
+    NSAppleEventsUsageDescription: Focus Screen shows the song playing in Spotify or Apple Music and lets you control it from your second screen.
+    # The Reminders helper asks macOS for access as itself; these cover the app if it ever can't.
+    NSRemindersFullAccessUsageDescription: Focus Screen shows your reminders in its to-do list and checks them off when you do.
+    NSRemindersUsageDescription: Focus Screen shows your reminders in its to-do list and checks them off when you do.
+    # Next class: the same helper's calendar mode asks as itself too.
+    NSCalendarsFullAccessUsageDescription: Focus Screen shows your next class from the calendars you pick. It only reads them.
+    NSCalendarsUsageDescription: Focus Screen shows your next class from the calendars you pick. It only reads them.
+    # Focus Screen Audio asks as itself; this covers the app the same way.
+    NSAudioCaptureUsageDescription: Focus Screen listens to your music player while a song plays, to time its lyrics. The sound stays on this Mac and is deleted once the timing is done.
+  # The Reminders and audio helpers are copied in by scripts/after-pack.mjs.
+  extraResources:
+    # The menu bar icon; macOS picks the @2x file for Retina screens.
+    - from: assets/tray
+      to: tray
+      filter: [trayTemplate*.png]
+    # The lyrics aligner's scripts; its Python runtime is installed by native/aligner/setup.sh.
+    - from: native/aligner
+      to: aligner
+      filter: [aligner.py, ctc.py]
+    # The moving cover parts' worker; its Python runtime is installed by native/cover-motion/setup.sh.
+    - from: native/cover-motion
+      to: cover-motion
+      filter: [worker.py]
+  notarize: false
+dmg:
+  artifactName: ${name}-${version}.${ext}
+npmRebuild: false
+afterPack: ./scripts/after-pack.mjs
+# Locks down the packaged app. Above all, no one can start it as plain Node
+# (ELECTRON_RUN_AS_NODE) to borrow its macOS Automation and Reminders permissions.
+electronFuses:
+  runAsNode: false
+  enableNodeOptionsEnvironmentVariable: false
+  enableNodeCliInspectArguments: false
+  enableCookieEncryption: true
+  onlyLoadAppFromAsar: true
+  enableEmbeddedAsarIntegrityValidation: true

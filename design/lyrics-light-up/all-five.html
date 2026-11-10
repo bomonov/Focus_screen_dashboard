@@ -1,0 +1,261 @@
+<h2>All five together, next to how it is now</h2>
+<p class="subtitle">Press Play. First an English line that auto-sync has timed, with its last word held long. Then a Japanese line with no word timings, so the app has to guess them, with its romaji underneath.</p>
+
+<div style="display:flex;gap:12px;align-items:center;margin-bottom:16px">
+  <button class="mock-button" id="play" style="min-height:44px;padding:0 22px;font-size:15px;cursor:pointer">▶ Play</button>
+  <span class="label" id="status">About 12 seconds.</span>
+</div>
+
+<div class="split">
+  <div class="mockup">
+    <div class="mockup-header">Now</div>
+    <div class="mockup-body"><div class="lyr-panel" data-style="now"></div></div>
+  </div>
+  <div class="mockup">
+    <div class="mockup-header">All five</div>
+    <div class="mockup-body"><div class="lyr-panel" data-style="new"></div></div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:18px">
+  <h3>What to watch for, on the right</h3>
+  <p class="subtitle" style="margin:0">
+    1. Each word pops (rise, swell, glow) as it lights.<br>
+    2. The Japanese guess times each piece by how long it sounds: ありがとう and 永遠に now get the same time, since both are five beats.<br>
+    3. The romaji lights up left to right with the line, quietly, without popping.<br>
+    4. The held "tonight" swells letter by letter as the light reaches each one.<br>
+    5. The light's edge is softer, so it flows from word to word.
+  </p>
+</div>
+
+<style>
+  .lyr-panel {
+    padding: 18px 22px 20px;
+    border-radius: 24px;
+    background: #191919;
+    border: 1px solid #2a2a2a;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+    min-height: 220px;
+    overflow: hidden;
+  }
+  .lyr-tag { font-size: 12px; color: #9a9a9a; margin-bottom: 6px; }
+  .lyr-row { font-weight: 700; font-size: 28px; line-height: 1.3; margin: 6px 0; }
+  .lyr-row.dim { opacity: 0.42; font-size: 24px; }
+  .lyr-row.dimmer { opacity: 0.24; font-size: 24px; filter: blur(1px); }
+  .lyr-word, .lyr-letter {
+    display: inline-block;
+    transform-origin: 50% 80%;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .lyr-word.held { background: none !important; color: inherit; }
+  .lyr-romaji {
+    display: block; font-size: 0.55em; font-weight: 400; margin-top: 4px; width: fit-content;
+    background-repeat: no-repeat; -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .lyr-romaji.still { color: #bfbfbf; background: none; }
+</style>
+
+<script>
+(() => {
+  const LIT = '#ffffff'
+  const DIM = 'rgba(255,255,255,0.38)'
+  const R_LIT = 'rgba(255,255,255,0.92)'
+  const R_DIM = 'rgba(255,255,255,0.4)'
+  const BAND = 30 // px: how soft the light's edge is
+  const SONG = [
+    {
+      tag: 'Auto-synced: real word timings',
+      prev: 'Every street was quiet when we met',
+      next: 'ありがとう 永遠に 星空の下で',
+      sec: 5.2,
+      timed: [['We', 0, 0.25], ['were', 0.25, 0.5], ['running', 0.5, 1.0], ['through', 1.0, 1.3], ['the', 1.3, 1.45], ['city', 1.45, 1.9], ['lights', 1.9, 2.4], ['tonight', 2.4, 5.0]]
+    },
+    {
+      tag: 'No word timings: the app guesses them',
+      prev: 'We were running through the city lights tonight',
+      text: 'ありがとう 永遠に 星空の下で',
+      romaji: 'arigatou eien ni hoshizora no shita de',
+      next: 'ずっと 声が 聞こえてた',
+      sec: 4.6
+    }
+  ]
+
+  // How long a piece sounds: a kanji is about two beats, small kana half, kana one.
+  const beats = (piece) => [...piece].reduce((sum, ch) => {
+    if (/[一-鿿]/.test(ch)) return sum + 2
+    if (/[ぁぃぅぇぉゃゅょっァィゥェォャュョッ]/.test(ch)) return sum + 0.5
+    if (/[぀-ヿ]/.test(ch)) return sum + 1
+    return sum + 1
+  }, 0)
+  function guess(text, sec, bySound) {
+    const tokens = text.split(' ')
+    const weights = tokens.map((t) => Math.max(1, bySound ? beats(t) : [...t].length))
+    const total = weights.reduce((a, b) => a + b, 0)
+    let at = 0
+    return tokens.map((t, i) => {
+      const w = { text: t, start: at, end: at + (sec * weights[i]) / total }
+      at = w.end
+      return w
+    })
+  }
+
+  function bump(t, rise = 0.28, fall = 0.62) {
+    if (t <= 0) return 0
+    if (t < rise) return 1 - Math.pow(1 - t / rise, 3)
+    const f = (t - rise) / fall
+    return f >= 1 ? 0 : 0.5 + 0.5 * Math.cos(Math.PI * f)
+  }
+
+  function build(panel, line, isNew) {
+    panel.innerHTML = ''
+    const add = (cls, text) => {
+      const d = document.createElement('div')
+      d.className = cls
+      d.textContent = text
+      panel.appendChild(d)
+      return d
+    }
+    add('lyr-tag', line.tag)
+    add('lyr-row dim', line.prev)
+    const row = add('lyr-row', '')
+    const words = line.timed
+      ? line.timed.map(([text, start, end]) => ({ text, start, end }))
+      : guess(line.text, line.sec, isNew)
+    const spans = words.map((w, i) => {
+      const el = document.createElement('span')
+      el.className = 'lyr-word'
+      const held = isNew && line.timed && w.end - w.start >= 1.2
+      const letters = []
+      if (held) {
+        el.classList.add('held')
+        for (const ch of w.text) {
+          const l = document.createElement('span')
+          l.className = 'lyr-letter'
+          l.textContent = ch
+          el.appendChild(l)
+          letters.push({ el: l })
+        }
+      } else el.textContent = w.text
+      row.appendChild(el)
+      if (i < words.length - 1) row.appendChild(document.createTextNode(' '))
+      return { el, letters, held, ...w }
+    })
+    let romaji = null
+    if (line.romaji) {
+      romaji = document.createElement('span')
+      romaji.className = 'lyr-romaji' + (isNew ? '' : ' still')
+      romaji.textContent = line.romaji
+      row.appendChild(romaji)
+    }
+    add('lyr-row dimmer', line.next)
+    // How far along the line, in reading order, each word and letter starts: one edge runs
+    // across it all, and on to the next row where the line wraps.
+    let along = 0
+    for (const w of spans) {
+      const r = w.el.getBoundingClientRect()
+      w.left = along
+      w.width = r.width
+      for (const l of w.letters) {
+        const lr = l.el.getBoundingClientRect()
+        l.left = along + (lr.left - r.left)
+        l.width = lr.width
+      }
+      along += r.width + 8
+    }
+    return { spans, romaji, end: words[words.length - 1].end }
+  }
+
+  function softFill(el, edgeInEl, lit, dim) {
+    el.style.backgroundImage = `linear-gradient(90deg, ${lit} ${(edgeInEl - BAND / 2).toFixed(1)}px, ${dim} ${(edgeInEl + BAND / 2).toFixed(1)}px)`
+  }
+
+  function paintNow(view, t) {
+    for (const w of view.spans) {
+      const p = Math.min(1, Math.max(0, (t - w.start) / (w.end - w.start)))
+      w.el.style.backgroundImage = `linear-gradient(90deg, ${LIT} 45%, ${DIM} 55%)`
+      w.el.style.backgroundSize = '225% 100%'
+      w.el.style.backgroundPosition = `${100 - 100 * p}% 0`
+    }
+  }
+
+  function paintNew(view, t) {
+    // The edge, in px along the line.
+    let edge = -BAND
+    for (const w of view.spans) {
+      if (t >= w.end) edge = w.left + w.width + BAND / 2
+      else if (t >= w.start) edge = w.left + w.width * ((t - w.start) / (w.end - w.start))
+    }
+    for (const w of view.spans) {
+      const since = t - w.start
+      if (w.held) {
+        const length = w.end - w.start
+        const strength = Math.min(1, (length - 1) / 2) // longer holds swell more
+        for (const l of w.letters) {
+          softFill(l.el, edge - l.left, LIT, DIM)
+          // Each letter swells as the light reaches its middle, slowly, then settles.
+          const reached = (edge - (l.left + l.width / 2)) / Math.max(1, w.width) * length
+          const b = bump(reached, 0.45, 1.1)
+          const waiting = since < 0 ? 0.03 : 0
+          const scale = 1 - waiting + (0.08 + 0.08 * strength) * b
+          const lift = -(3 + 3 * strength) * b + (since < 0 ? 0.9 : 0)
+          l.el.style.transform = `translateY(${lift.toFixed(2)}px) scale(${scale.toFixed(4)})`
+          const glow = 0.12 * (edge > l.left + l.width ? 1 : 0) + (0.35 + 0.25 * strength) * b
+          l.el.style.filter = glow > 0.01 ? `drop-shadow(0 0 ${12 + 6 * strength}px rgba(255,255,255,${glow.toFixed(3)}))` : 'none'
+        }
+        continue
+      }
+      softFill(w.el, edge - w.left, LIT, DIM)
+      const b = bump(since)
+      const waiting = since < 0 ? 0.03 : 0
+      const scale = 1 - waiting + 0.06 * b
+      const lift = -4 * b + (since < 0 ? 0.9 : 0)
+      w.el.style.transform = `translateY(${lift.toFixed(2)}px) scale(${scale.toFixed(4)})`
+      const glow = 0.5 * b + (t >= w.end ? 0.12 : 0)
+      w.el.style.filter = glow > 0.01 ? `drop-shadow(0 0 12px rgba(255,255,255,${glow.toFixed(3)}))` : 'none'
+    }
+    if (view.romaji) {
+      const p = Math.min(1, Math.max(0, t / view.end))
+      softFill(view.romaji, view.romaji.getBoundingClientRect().width * p, R_LIT, R_DIM)
+    }
+  }
+
+  const panels = [...document.querySelectorAll('.lyr-panel')]
+  let running = 0
+  function show(line, t) {
+    return panels.map((panel) => {
+      const isNew = panel.dataset.style === 'new'
+      const view = build(panel, line, isNew)
+      ;(isNew ? paintNew : paintNow)(view, t)
+      return { view, isNew }
+    })
+  }
+  function play() {
+    const run = ++running
+    let index = 0
+    const status = document.getElementById('status')
+    const next = () => {
+      if (run !== running) return
+      if (index >= SONG.length) { status.textContent = 'Done. Press Play to see it again.'; return }
+      const line = SONG[index++]
+      const views = show(line, -1)
+      const t0 = performance.now() + 500
+      status.textContent = 'Playing…'
+      const frame = (now) => {
+        if (run !== running) return
+        const t = (now - t0) / 1000
+        for (const v of views) (v.isNew ? paintNew : paintNow)(v.view, t)
+        if (t < line.sec + 1.2) requestAnimationFrame(frame)
+        else next()
+      }
+      requestAnimationFrame(frame)
+    }
+    next()
+  }
+  show(SONG[0], -1)
+  document.getElementById('play').addEventListener('click', play)
+})()
+</script>

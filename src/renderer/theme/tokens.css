@@ -1,0 +1,47 @@
+/* Default theme (Sun Devil Night). Values come from the mockup in design/. */
+:root {
+  --bg: #000000;
+  --card: #191919;
+  --border: #2a2a2a;
+  --border-strong: #484848;
+  --text: #ffffff;
+  --text-secondary: #bfbfbf;
+  --text-dim: #9a9a9a;
+  --accent: #ffc627; /* replaced at runtime from settings.theme.accent */
+  /* The accent as words, made readable on the cards (presets.ts); the same on first paint. */
+  --accent-text: #ffc627;
+  --on-accent: #000000;
+  /* Recessed surfaces inside a card (the timer's mode buttons, flip tiles, form fields). */
+  --inset: var(--bg);
+  --maroon: #8c1d40;
+
+  /* The record's grooves on the music card. */
+  --disc-groove: #0a0a0a;
+  --disc-surface: #161616;
+
+  /* A Pomodoro break's ring and bar: calm, and nothing like the gold of a focus session. */
+  --timer-break: #4fd1c5;
+
+  --source-canvas: #ff7f32;
+  /* The user's own homework, added in the To-do card. */
+  --source-homework: #a78bfa;
+  --source-reminders: #00a3e0;
+  --source-google: #78be20;
+  /* A trip's live times: presets.ts fits it to each theme (Night's is this). */
+  --trip-live: #78be20;
+
+  --font: Arial, Helvetica, sans-serif;
+
+  /* rem values are the mockup's px / 16; see the root font-size in global.css. */
+  --page-padding: 2rem;
+  --gap: 1.5rem;
+  --radius-card: 1.5rem;
+  --radius-pill: 999px;
+  /* Buttons never drop below 44px, even when a small floating window shrinks the rem. */
+  --hit: max(44px, 2.75rem);
+}
+
+/* Day: the break color dark enough to stand out on white. */
+:root[data-theme='day'] {
+  --timer-break: #0f8f84;
+}

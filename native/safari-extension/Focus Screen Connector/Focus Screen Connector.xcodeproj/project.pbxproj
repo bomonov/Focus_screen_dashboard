@@ -1,0 +1,605 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 110;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B95EDA69307F579F00B8E18E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95EDA68307F579F00B8E18E /* AppDelegate.swift */; };
+		B95EDA6D307F579F00B8E18E /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = B95EDA6B307F579F00B8E18E /* Main.html */; };
+		B95EDA6F307F579F00B8E18E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B95EDA6E307F579F00B8E18E /* Icon.png */; };
+		B95EDA71307F579F00B8E18E /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = B95EDA70307F579F00B8E18E /* Style.css */; };
+		B95EDA73307F579F00B8E18E /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = B95EDA72307F579F00B8E18E /* Script.js */; };
+		B95EDA75307F579F00B8E18E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95EDA74307F579F00B8E18E /* ViewController.swift */; };
+		B95EDA78307F579F00B8E18E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B95EDA76307F579F00B8E18E /* Main.storyboard */; };
+		B95EDA7A307F579F00B8E18E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B95EDA79307F579F00B8E18E /* Assets.xcassets */; };
+		B95EDA81307F57A000B8E18E /* Focus Screen Connector Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B95EDA80307F57A000B8E18E /* Focus Screen Connector Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B95EDA86307F57A000B8E18E /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95EDA85307F57A000B8E18E /* SafariWebExtensionHandler.swift */; };
+		B95EDA98307F57A000B8E18E /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = B95EDA92307F57A000B8E18E /* popup.js */; };
+		B95EDA99307F57A000B8E18E /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = B95EDA93307F57A000B8E18E /* background.js */; };
+		B95EDA9A307F57A000B8E18E /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = B95EDA94307F57A000B8E18E /* popup.html */; };
+		B95EDA9B307F57A000B8E18E /* icons in Resources */ = {isa = PBXBuildFile; fileRef = B95EDA95307F57A000B8E18E /* icons */; };
+		B95EDA9C307F57A000B8E18E /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = B95EDA96307F57A000B8E18E /* manifest.json */; };
+		B95EDA9D307F57A000B8E18E /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = B95EDA97307F57A000B8E18E /* content.js */; };
+		B95EDA9F307F57A000B8E18E /* queueCovers.js in Resources */ = {isa = PBXBuildFile; fileRef = B95EDA9E307F57A000B8E18E /* queueCovers.js */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B95EDA82307F57A000B8E18E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B95EDA5D307F579F00B8E18E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B95EDA7F307F57A000B8E18E;
+			remoteInfo = "Focus Screen Connector Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B95EDA8D307F57A000B8E18E /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = PlugIns;
+			files = (
+				B95EDA81307F57A000B8E18E /* Focus Screen Connector Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		B95EDA65307F579F00B8E18E /* Focus Screen Connector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Focus Screen Connector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B95EDA68307F579F00B8E18E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B95EDA6C307F579F00B8E18E /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Main.html; sourceTree = "<group>"; };
+		B95EDA6E307F579F00B8E18E /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		B95EDA70307F579F00B8E18E /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		B95EDA72307F579F00B8E18E /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		B95EDA74307F579F00B8E18E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B95EDA77307F579F00B8E18E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		B95EDA79307F579F00B8E18E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B95EDA7B307F579F00B8E18E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B95EDA80307F57A000B8E18E /* Focus Screen Connector Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Focus Screen Connector Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B95EDA85307F57A000B8E18E /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		B95EDA87307F57A000B8E18E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B95EDA92307F57A000B8E18E /* popup.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = popup.js; path = ../../../../extension/dist-safari/popup.js; sourceTree = "<group>"; };
+		B95EDA93307F57A000B8E18E /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = background.js; path = ../../../../extension/dist-safari/background.js; sourceTree = "<group>"; };
+		B95EDA94307F57A000B8E18E /* popup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = popup.html; path = ../../../../extension/dist-safari/popup.html; sourceTree = "<group>"; };
+		B95EDA95307F57A000B8E18E /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../../../extension/dist-safari/icons; sourceTree = "<group>"; };
+		B95EDA96307F57A000B8E18E /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../../extension/dist-safari/manifest.json; sourceTree = "<group>"; };
+		B95EDA97307F57A000B8E18E /* content.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = content.js; path = ../../../../extension/dist-safari/content.js; sourceTree = "<group>"; };
+		B95EDA9E307F57A000B8E18E /* queueCovers.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = queueCovers.js; path = ../../../../extension/dist-safari/queueCovers.js; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B95EDA62307F579F00B8E18E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+		B95EDA7D307F57A000B8E18E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B95EDA5C307F579F00B8E18E = {
+			isa = PBXGroup;
+			children = (
+				B95EDA67307F579F00B8E18E /* Focus Screen Connector */,
+				B95EDA84307F57A000B8E18E /* Focus Screen Connector Extension */,
+				B95EDA66307F579F00B8E18E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B95EDA66307F579F00B8E18E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B95EDA65307F579F00B8E18E /* Focus Screen Connector.app */,
+				B95EDA80307F57A000B8E18E /* Focus Screen Connector Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B95EDA67307F579F00B8E18E /* Focus Screen Connector */ = {
+			isa = PBXGroup;
+			children = (
+				B95EDA68307F579F00B8E18E /* AppDelegate.swift */,
+				B95EDA74307F579F00B8E18E /* ViewController.swift */,
+				B95EDA76307F579F00B8E18E /* Main.storyboard */,
+				B95EDA79307F579F00B8E18E /* Assets.xcassets */,
+				B95EDA7B307F579F00B8E18E /* Info.plist */,
+				B95EDA6A307F579F00B8E18E /* Resources */,
+			);
+			path = "Focus Screen Connector";
+			sourceTree = "<group>";
+		};
+		B95EDA6A307F579F00B8E18E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B95EDA6B307F579F00B8E18E /* Main.html */,
+				B95EDA6E307F579F00B8E18E /* Icon.png */,
+				B95EDA70307F579F00B8E18E /* Style.css */,
+				B95EDA72307F579F00B8E18E /* Script.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		B95EDA84307F57A000B8E18E /* Focus Screen Connector Extension */ = {
+			isa = PBXGroup;
+			children = (
+				B95EDA91307F57A000B8E18E /* Resources */,
+				B95EDA85307F57A000B8E18E /* SafariWebExtensionHandler.swift */,
+				B95EDA87307F57A000B8E18E /* Info.plist */,
+			);
+			path = "Focus Screen Connector Extension";
+			sourceTree = "<group>";
+		};
+		B95EDA91307F57A000B8E18E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B95EDA92307F57A000B8E18E /* popup.js */,
+				B95EDA93307F57A000B8E18E /* background.js */,
+				B95EDA94307F57A000B8E18E /* popup.html */,
+				B95EDA95307F57A000B8E18E /* icons */,
+				B95EDA96307F57A000B8E18E /* manifest.json */,
+				B95EDA97307F57A000B8E18E /* content.js */,
+				B95EDA9E307F57A000B8E18E /* queueCovers.js */,
+			);
+			name = Resources;
+			path = "Focus Screen Connector Extension";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B95EDA64307F579F00B8E18E /* Focus Screen Connector */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B95EDA8E307F57A000B8E18E /* Build configuration list for PBXNativeTarget "Focus Screen Connector" */;
+			buildPhases = (
+				B95EDA61307F579F00B8E18E /* Sources */,
+				B95EDA62307F579F00B8E18E /* Frameworks */,
+				B95EDA63307F579F00B8E18E /* Resources */,
+				B95EDA8D307F57A000B8E18E /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B95EDA83307F57A000B8E18E /* PBXTargetDependency */,
+			);
+			name = "Focus Screen Connector";
+			productName = "Focus Screen Connector";
+			productReference = B95EDA65307F579F00B8E18E /* Focus Screen Connector.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B95EDA7F307F57A000B8E18E /* Focus Screen Connector Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B95EDA8A307F57A000B8E18E /* Build configuration list for PBXNativeTarget "Focus Screen Connector Extension" */;
+			buildPhases = (
+				B95EDA7C307F57A000B8E18E /* Sources */,
+				B95EDA7D307F57A000B8E18E /* Frameworks */,
+				B95EDA7E307F57A000B8E18E /* Resources */,
+			);
+			buildRules = (
+			);
+			name = "Focus Screen Connector Extension";
+			productName = "Focus Screen Connector Extension";
+			productReference = B95EDA80307F57A000B8E18E /* Focus Screen Connector Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B95EDA5D307F579F00B8E18E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2700;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					B95EDA64307F579F00B8E18E = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					B95EDA7F307F57A000B8E18E = {
+						CreatedOnToolsVersion = 27.0;
+					};
+				};
+			};
+			buildConfigurationList = B95EDA60307F579F00B8E18E /* Build configuration list for PBXProject "Focus Screen Connector" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B95EDA5C307F579F00B8E18E;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = B95EDA66307F579F00B8E18E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B95EDA64307F579F00B8E18E /* Focus Screen Connector */,
+				B95EDA7F307F57A000B8E18E /* Focus Screen Connector Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B95EDA63307F579F00B8E18E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+				B95EDA6F307F579F00B8E18E /* Icon.png in Resources */,
+				B95EDA78307F579F00B8E18E /* Main.storyboard in Resources */,
+				B95EDA73307F579F00B8E18E /* Script.js in Resources */,
+				B95EDA6D307F579F00B8E18E /* Main.html in Resources */,
+				B95EDA7A307F579F00B8E18E /* Assets.xcassets in Resources */,
+				B95EDA71307F579F00B8E18E /* Style.css in Resources */,
+			);
+		};
+		B95EDA7E307F57A000B8E18E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+				B95EDA9D307F57A000B8E18E /* content.js in Resources */,
+				B95EDA9F307F57A000B8E18E /* queueCovers.js in Resources */,
+				B95EDA99307F57A000B8E18E /* background.js in Resources */,
+				B95EDA9B307F57A000B8E18E /* icons in Resources */,
+				B95EDA9C307F57A000B8E18E /* manifest.json in Resources */,
+				B95EDA9A307F57A000B8E18E /* popup.html in Resources */,
+				B95EDA98307F57A000B8E18E /* popup.js in Resources */,
+			);
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B95EDA61307F579F00B8E18E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+				B95EDA75307F579F00B8E18E /* ViewController.swift in Sources */,
+				B95EDA69307F579F00B8E18E /* AppDelegate.swift in Sources */,
+			);
+		};
+		B95EDA7C307F57A000B8E18E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+				B95EDA86307F57A000B8E18E /* SafariWebExtensionHandler.swift in Sources */,
+			);
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B95EDA83307F57A000B8E18E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B95EDA7F307F57A000B8E18E /* Focus Screen Connector Extension */;
+			targetProxy = B95EDA82307F57A000B8E18E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B95EDA6B307F579F00B8E18E /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B95EDA6C307F579F00B8E18E /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		B95EDA76307F579F00B8E18E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B95EDA77307F579F00B8E18E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B95EDA88307F57A000B8E18E /* Debug configuration for PBXProject "Focus Screen Connector" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		B95EDA89307F57A000B8E18E /* Release configuration for PBXProject "Focus Screen Connector" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		B95EDA8B307F57A000B8E18E /* Debug configuration for PBXNativeTarget "Focus Screen Connector Extension" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Focus Screen Connector Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Focus Screen Connector Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.focusscreen.connector.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B95EDA8C307F57A000B8E18E /* Release configuration for PBXNativeTarget "Focus Screen Connector Extension" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Focus Screen Connector Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Focus Screen Connector Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.focusscreen.connector.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		B95EDA8F307F57A000B8E18E /* Debug configuration for PBXNativeTarget "Focus Screen Connector" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Focus Screen Connector/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Focus Screen Connector";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				INFOPLIST_KEY_NSViewGestureRecognizerIsExclusive = NO;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.focusscreen.connector;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B95EDA90307F57A000B8E18E /* Release configuration for PBXNativeTarget "Focus Screen Connector" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Focus Screen Connector/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Focus Screen Connector";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				INFOPLIST_KEY_NSViewGestureRecognizerIsExclusive = NO;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.focusscreen.connector;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B95EDA60307F579F00B8E18E /* Build configuration list for PBXProject "Focus Screen Connector" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B95EDA88307F57A000B8E18E /* Debug configuration for PBXProject "Focus Screen Connector" */,
+				B95EDA89307F57A000B8E18E /* Release configuration for PBXProject "Focus Screen Connector" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		B95EDA8A307F57A000B8E18E /* Build configuration list for PBXNativeTarget "Focus Screen Connector Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B95EDA8B307F57A000B8E18E /* Debug configuration for PBXNativeTarget "Focus Screen Connector Extension" */,
+				B95EDA8C307F57A000B8E18E /* Release configuration for PBXNativeTarget "Focus Screen Connector Extension" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		B95EDA8E307F57A000B8E18E /* Build configuration list for PBXNativeTarget "Focus Screen Connector" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B95EDA8F307F57A000B8E18E /* Debug configuration for PBXNativeTarget "Focus Screen Connector" */,
+				B95EDA90307F57A000B8E18E /* Release configuration for PBXNativeTarget "Focus Screen Connector" */,
+			);
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B95EDA5D307F579F00B8E18E /* Project object */;
+	validationLevel = 1;
+}

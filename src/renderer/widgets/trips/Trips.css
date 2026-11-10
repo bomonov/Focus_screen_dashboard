@@ -1,0 +1,931 @@
+/*
+ * The kept trip's countdown, in the search bubble's place at the bar's right end: the pills' own
+ * look (NextClass.css), as tall as the bubbles beside it. "Leave in 6 min [Orbit Venus] · home
+ * 4:41 PM": the lead stays whole; the chip, then the arrival, drop out when the row runs short
+ * (TripBubble's fit), never cut mid-word.
+ */
+.next-class.trip-countdown {
+  flex: none;
+  max-width: none;
+}
+
+.trip-countdown__icon {
+  flex: none;
+  align-self: center;
+  width: 1.375rem;
+  height: 1.375rem;
+  color: var(--accent);
+}
+
+.trip-countdown .trip-countdown__lead {
+  flex: none;
+  overflow: visible;
+}
+
+/* The route as the schedule colours it, on its own little plate (tripView's chipColors). */
+.trip-countdown__chip,
+.trip-chip {
+  flex: none;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  height: 1.75rem;
+  padding: 0 0.625rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.trip-countdown__chip[hidden] {
+  display: none;
+}
+
+/* Missed: the news steps back and the next way's time to leave is what stands out. */
+.trip-countdown__missed {
+  color: var(--text-secondary);
+}
+
+.trip-countdown--missed .trip-countdown__tail {
+  color: var(--text);
+  font-weight: 700;
+}
+
+/*
+ * Time to go: the border turns the accent and so do the words to act on, like the Bus pill's
+ * "Due". Glass mode draws the pills' edge as a light rim with a clear border, so the accent has
+ * to win there too.
+ */
+.next-class.trip-countdown--due,
+:root.glass .next-class.trip-countdown--due {
+  border-color: var(--accent);
+}
+
+.trip-countdown--due .trip-countdown__lead,
+.trip-countdown--due.trip-countdown--missed .trip-countdown__tail {
+  color: var(--accent-text);
+}
+
+.trip-countdown--due.trip-countdown--missed .trip-countdown__missed {
+  color: var(--text-secondary);
+}
+
+/* The bubble while its card is open: lit, like a pill with its card out. */
+.top-bar__customize.trip-search--open {
+  border-color: var(--accent);
+}
+
+/*
+ * The trip card: a peek card (PeekCard.css) grown down and to the left out of the search bubble
+ * (results mockup B). The field, the start and when stay put; what's under them scrolls once the
+ * card reaches the window's foot.
+ */
+.peek-card.trip-card {
+  width: min(30rem, calc(100vw - 2rem));
+}
+
+.trip-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 0;
+}
+
+.trip-card__scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* "Where to?": a recessed field on the glass, its ring on the whole field when it has the keys. */
+.trip-field {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0 0.875rem;
+  border-radius: 0.875rem;
+  background: var(--menu-well);
+  box-shadow: inset 0 0 0 1px var(--menu-edge);
+}
+
+.trip-field:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.trip-field__icon {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--text-secondary);
+}
+
+.trip-field__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: var(--hit);
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 1.125rem;
+}
+
+.trip-field__input:focus,
+.trip-field__input:focus-visible {
+  outline: none;
+}
+
+/* The prompt is read too: the theme's secondary grey, which holds 4.5:1. */
+.trip-field__input::placeholder {
+  color: var(--text-secondary);
+  opacity: 1;
+}
+
+/* "From where you are · Sun Devil Fitness Complex"  ·  "Leave now" */
+.trip-start {
+  flex: none;
+  display: flex;
+  align-items: stretch;
+  gap: 0.25rem;
+}
+
+.trip-start__from,
+.trip-start__when {
+  min-height: var(--hit);
+  padding: 0 0.5rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: transparent;
+  font-size: 1rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.12s ease-out;
+}
+
+.trip-start__from {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-secondary);
+}
+
+.trip-start__when {
+  flex: none;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.trip-start__from:hover,
+.trip-start__when:hover,
+.trip-start__from[aria-pressed='true'],
+.trip-start__when[aria-expanded='true'] {
+  background: var(--menu-highlight);
+}
+
+.trip-start__from:focus-visible,
+.trip-start__when:focus-visible {
+  outline-offset: -2px;
+}
+
+.trip-start__name {
+  font-weight: 400;
+  color: var(--text);
+}
+
+/* Where the Mac is can't be had: picking a start is what to do next. */
+.trip-start__name--pick {
+  font-weight: 700;
+  color: var(--accent-text);
+}
+
+/* Leave now / Leave at… / Arrive by…, a day and a time. */
+.trip-when {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.875rem;
+  background: var(--menu-well);
+}
+
+.trip-when__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+/* The seven days in rows of four and three, so no day is left alone on a row of its own. */
+.trip-when__days {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.trip-when__days .trip-chip-button {
+  padding: 0 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trip-chip-button {
+  min-height: var(--hit);
+  padding: 0 0.875rem;
+  border: 1px solid var(--menu-edge);
+  border-radius: var(--radius-pill);
+  background: var(--menu-highlight);
+  color: var(--text);
+  font-size: 0.9375rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.trip-chip-button:hover {
+  background: var(--menu-press);
+}
+
+.trip-chip-button[aria-pressed='true'] {
+  border-color: var(--text);
+  background: var(--text);
+  color: var(--card);
+  font-weight: 700;
+}
+
+.trip-when__time {
+  min-height: var(--hit);
+  padding: 0 0.875rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 0.75rem;
+  background: var(--menu-well);
+  color: var(--text);
+  font: inherit;
+  font-size: 1.0625rem;
+  color-scheme: dark;
+}
+
+:root[data-theme='day'] .trip-when__time {
+  color-scheme: light;
+}
+
+.trip-when__problem {
+  font-size: 0.9375rem;
+  color: var(--accent-text);
+}
+
+/* Something to do first: Location to turn on, the schedule to download, a start to pick. */
+.trip-notice {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.875rem;
+  background: var(--menu-well);
+}
+
+.trip-notice__words {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.trip-notice__hint {
+  font-size: 0.875rem;
+  line-height: 1.35;
+  color: var(--text-secondary);
+}
+
+.trip-notice__button {
+  flex: none;
+  min-height: var(--hit);
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: var(--menu-highlight);
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.trip-notice__button:hover {
+  background: var(--menu-press);
+}
+
+.trip-card__quiet {
+  padding: 0.75rem 0.5rem;
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+/* Small but words: the secondary grey, since the dim one falls under 4.5:1 on Maroon and OLED. */
+/* Said to a screen reader, not shown: how many places are listed. */
+.trip-card__said {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.trip-card__credit {
+  flex: none;
+  padding: 0 0.5rem 0.25rem;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+/* The places: a round icon, the name and a short second line, a thin rule between. */
+.trip-rows__section + .trip-rows__section {
+  margin-top: 0.5rem;
+}
+
+.trip-rows__heading {
+  margin: 0;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.trip-rows__list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trip-row {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-top: 1px solid var(--menu-line);
+}
+
+.trip-row:first-child {
+  border-top: 0;
+}
+
+.trip-row__pick {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: calc(var(--hit) + 0.5rem);
+  padding: 0.375rem 0.5rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.12s ease-out;
+}
+
+.trip-row__pick:hover,
+.trip-row--lit .trip-row__pick {
+  background: var(--menu-highlight);
+}
+
+.trip-row__pick:focus-visible,
+.trip-row__save:focus-visible,
+.trip-other:focus-visible,
+.trip-kept__close:focus-visible {
+  outline-offset: -2px;
+}
+
+.trip-row__pick:disabled {
+  cursor: default;
+  background: transparent;
+}
+
+.trip-row__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--menu-highlight);
+  color: var(--text-secondary);
+}
+
+.trip-row__icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.trip-row__icon--home,
+.trip-row__icon--class {
+  color: var(--accent);
+}
+
+.trip-row__words {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.trip-row__title,
+.trip-row__detail {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trip-row__title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.trip-row__detail,
+.trip-row__aside {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+}
+
+.trip-row__pick:disabled .trip-row__title {
+  color: var(--text-secondary);
+}
+
+.trip-row__aside {
+  flex: none;
+}
+
+.trip-row__save {
+  flex: none;
+  min-height: var(--hit);
+  padding: 0 0.75rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.trip-row__save:hover {
+  background: var(--menu-highlight);
+  color: var(--text);
+}
+
+/*
+ * "Save…" shows on the row being pointed at, gone to with the keys, or that Enter would pick: on
+ * every row at once it was a column of the same word. It's there (and pressable) all along.
+ */
+@media (hover: hover) {
+  .trip-row__save {
+    opacity: 0;
+    transition: opacity 0.12s ease-out;
+  }
+
+  .trip-row:hover .trip-row__save,
+  .trip-row:focus-within .trip-row__save,
+  .trip-row--lit .trip-row__save {
+    opacity: 1;
+  }
+}
+
+/* "Save…" open: the name to keep the place by. */
+.trip-save {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0.375rem 0.5rem;
+}
+
+.trip-save__name {
+  flex: 1 1 auto;
+  padding: 0 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 0.75rem;
+  background: var(--menu-well);
+  font-size: 1.0625rem;
+  user-select: text;
+}
+
+.trip-save__name:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.trip-save__button {
+  flex: none;
+  min-height: var(--hit);
+  padding: 0 0.875rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: var(--menu-highlight);
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.trip-save__button--keep {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+/* A picked place's trip: "Leave in 6 min" large in the accent, the arrival beside it. */
+.trip-plan {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: opacity 0.2s ease-out;
+}
+
+/* The last answer, while a new one's asked: dimmed, never blanked. */
+.trip-plan--planning {
+  opacity: 0.55;
+}
+
+.trip-plan__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 0.75rem;
+  padding: 0.25rem 0.25rem 0.375rem;
+}
+
+.trip-plan__leave {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--accent-text);
+}
+
+/* Its time to leave has gone (main's next plan replaces it), or the kept trip was missed. */
+.trip-plan__leave--stale {
+  color: var(--text-secondary);
+}
+
+.trip-plan__next {
+  color: var(--accent-text);
+}
+
+.trip-plan__arrive {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/*
+ * The steps down a line: each one's time on the left, a dot on the line (dotted grey for walks,
+ * the route's own colour for a ride), what to do on the right. Each row draws its half of the
+ * line either side of its dot, so the line runs on through the rows with no gaps.
+ */
+.trip-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trip-step {
+  --trip-dot: 0.875rem;
+  --trip-dot-top: 0.3125rem;
+  display: grid;
+  grid-template-columns: 5rem 1.25rem minmax(0, 1fr);
+  column-gap: 0.625rem;
+  align-items: start;
+  padding-bottom: 0.875rem;
+}
+
+.trip-step:last-child {
+  padding-bottom: 0;
+}
+
+/* A ride's first line is its chip, a little taller than a line of words. */
+.trip-step--ride {
+  --trip-dot-top: 0.4375rem;
+}
+
+.trip-step__time {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.trip-step--ride .trip-step__time {
+  line-height: 1.75rem;
+}
+
+/* The rail runs down through the row's own gap below, to the next row's top. */
+.trip-step__rail {
+  position: relative;
+  align-self: stretch;
+  margin-bottom: -0.875rem;
+}
+
+.trip-step:last-child .trip-step__rail {
+  margin-bottom: 0;
+}
+
+.trip-step__dot {
+  position: absolute;
+  left: 50%;
+  top: var(--trip-dot-top);
+  width: var(--trip-dot);
+  height: var(--trip-dot);
+  border: 0.1875rem solid var(--text-dim);
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+.trip-step__dot--route {
+  border-color: var(--trip-route, var(--text-dim));
+}
+
+.trip-step__line {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.trip-step__line--above {
+  top: 0;
+  height: var(--trip-dot-top);
+}
+
+.trip-step__line--below {
+  top: calc(var(--trip-dot-top) + var(--trip-dot));
+  bottom: 0;
+}
+
+.trip-step__line--route {
+  width: 0.25rem;
+  background: var(--trip-route, var(--text-dim));
+}
+
+.trip-step__line--walk {
+  width: 0;
+  border-left: 0.1875rem dotted var(--text-dim);
+}
+
+.trip-step__words {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.trip-step__title {
+  font-size: 1.0625rem;
+  line-height: 1.5rem;
+  overflow-wrap: anywhere;
+}
+
+.trip-step__title--end {
+  font-weight: 700;
+}
+
+.trip-step__detail {
+  font-size: 0.9375rem;
+  line-height: 1.35;
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.trip-step__ride {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.625rem;
+  min-height: 1.75rem;
+}
+
+/*
+ * A missed trip's old steps: in the secondary grey, its chips and line without their colour.
+ * Not faded: faded, the small words fell under 4.5:1 (the grey holds 6.0:1 or more everywhere).
+ */
+.trip-steps--dim,
+.trip-steps--dim .trip-step__time,
+.trip-steps--dim .trip-step__title,
+.trip-steps--dim .trip-status--live {
+  color: var(--text-secondary);
+}
+
+.trip-steps--dim .trip-step__title--end,
+.trip-steps--dim .trip-step__time {
+  font-weight: 400;
+}
+
+.trip-steps--dim .trip-chip,
+.trip-steps--dim .trip-step__rail,
+.trip-steps--dim .trip-status__icon {
+  filter: grayscale(1);
+}
+
+/* "live, 1 min late" in a green fitted to each theme, with its waves; "scheduled" in grey. */
+.trip-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+}
+
+.trip-status--live {
+  font-weight: 700;
+  color: var(--trip-live);
+}
+
+.trip-status__icon {
+  flex: none;
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+/* The two other ways, a line each under a thin rule; a click swaps one in. */
+.trip-others {
+  margin: 0;
+  padding: 0.375rem 0 0;
+  border-top: 1px solid var(--menu-line);
+  list-style: none;
+}
+
+.trip-other {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: var(--hit);
+  padding: 0.375rem 0.5rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.12s ease-out;
+}
+
+.trip-other:hover {
+  background: var(--menu-highlight);
+}
+
+/* A new answer is on its way: the ways shown may not be in it. */
+.trip-other:disabled {
+  cursor: default;
+}
+
+.trip-other:disabled:hover {
+  background: transparent;
+}
+
+/* The chips keep their line; the times beside them wrap first when a far day makes them long. */
+.trip-other__legs {
+  flex: none;
+  min-width: 0;
+  max-width: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.trip-other__walk {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.125rem;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+}
+
+.trip-other__walk-icon {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.trip-other__then {
+  color: var(--text-secondary);
+}
+
+.trip-other__ride {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.trip-other__when {
+  flex: 1 1 0;
+  min-width: 0;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+.trip-keep {
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.trip-keep:disabled {
+  color: var(--text-secondary);
+  cursor: default;
+}
+
+.trip-keep:disabled:hover {
+  background: var(--menu-highlight);
+}
+
+/* The kept trip, from its countdown: where it's going, and the × that takes it off the screen. */
+.trip-kept__top {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+.trip-kept__icon {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--accent);
+}
+
+.trip-kept__to {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trip-kept__close {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--hit);
+  height: var(--hit);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.trip-kept__close:hover {
+  background: var(--menu-highlight);
+  color: var(--text);
+}
+
+.trip-kept__close svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Nothing gets there in the hour asked about. */
+.trip-none {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem;
+}
+
+.trip-none__lead {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.trip-none__detail {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trip-plan,
+  .trip-row__save,
+  .trip-row__pick,
+  .trip-other,
+  .trip-start__from,
+  .trip-start__when {
+    transition: none;
+  }
+}

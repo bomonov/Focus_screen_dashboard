@@ -1,0 +1,12 @@
+# The cover-motion worker's runtime (Python 3.12, macOS arm64). setup.sh installs exactly these.
+# SAM 2.1 through transformers' Sam2Model, on the Mac's GPU (MPS).
+torch==2.14.1
+torchvision==0.29.1
+transformers==5.3.0
+tokenizers==0.22.2
+safetensors==0.7.0
+huggingface-hub==1.7.1
+# Masks, weight maps and the filled-in plate.
+opencv-python-headless==5.0.0.93
+numpy==2.4.3
+pillow==12.1.1

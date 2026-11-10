@@ -1,0 +1,983 @@
+/* Sizes are the mockup's px / 16. */
+.now-playing {
+  padding: 2rem;
+  gap: 1.75rem;
+}
+
+/* No lyrics under the song: the record grows and everything sits in the middle. */
+.now-playing--art {
+  justify-content: center;
+  --disc-size: 21rem;
+  --disc-label-size: 10.5rem;
+}
+
+.now-playing__main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.25rem;
+  align-items: center;
+}
+
+.now-playing__info {
+  flex: 1 1 17.5rem;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.375rem;
+}
+
+.now-playing__heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.now-playing__eyebrow {
+  font-size: 0.8125rem;
+  letter-spacing: 0.125rem;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+.now-playing__title {
+  max-width: 100%;
+  font-size: 2.5rem;
+  line-height: 1.1;
+  font-weight: 700;
+  /* Long titles (YouTube uploads, classical) wrap to two lines, then trail off. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+.now-playing__title--idle {
+  color: var(--text-secondary);
+}
+
+.now-playing__byline {
+  max-width: 100%;
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.now-playing__hint {
+  max-width: 28rem;
+  font-size: 1.125rem;
+  line-height: 1.4;
+  color: var(--text-dim);
+}
+
+/*
+ * The song up next (UpNextRow), for the last moments of this one. Its place is always kept while
+ * the player names a next song, so fading in moves nothing.
+ */
+.up-next {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  min-height: 3rem;
+  opacity: 0;
+  transform: translateY(0.375rem);
+  transition:
+    opacity 450ms ease,
+    transform 450ms ease;
+  pointer-events: none;
+}
+
+.up-next--shown {
+  opacity: 1;
+  transform: none;
+}
+
+.up-next__cover {
+  position: relative;
+  flex: none;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+/* A song without a cover gets the record's stand-in label, small. */
+.up-next__cover--stand-in {
+  background: var(--cover-base);
+}
+
+.up-next__cover--stand-in::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 30%;
+  background: var(--cover-band);
+}
+
+.up-next__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.up-next__label {
+  font-size: 0.75rem;
+  letter-spacing: 0.125rem;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+.up-next__title,
+.up-next__artist {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.up-next__title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.up-next__artist {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .up-next {
+    transform: none;
+    transition: opacity 450ms ease;
+  }
+}
+
+.now-playing__note {
+  font-size: 0.75rem;
+  letter-spacing: 0.0625rem;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.now-playing__action {
+  margin-top: 0.5rem;
+  min-height: var(--hit);
+  padding: 0 1.125rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Progress */
+.now-playing__times {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The record: 300px with a 150px label, larger when there are no lyrics. */
+.disc {
+  flex: none;
+  width: var(--disc-size, 18.75rem);
+  height: var(--disc-size, 18.75rem);
+  border-radius: 50%;
+  background: repeating-radial-gradient(
+    circle at center,
+    var(--disc-groove) 0,
+    var(--disc-groove) 0.125rem,
+    var(--disc-surface) 0.1875rem,
+    var(--disc-surface) 0.3125rem
+  );
+  box-shadow:
+    0 0 0 1px var(--border),
+    0 1.25rem 3.125rem rgb(0 0 0 / 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: disc-spin var(--disc-turn, 8s) linear infinite;
+  animation-play-state: paused;
+  will-change: transform;
+  transition:
+    width 0.4s ease,
+    height 0.4s ease;
+}
+
+.disc[data-spinning='true'] {
+  animation-play-state: running;
+}
+
+.disc--slow {
+  --disc-turn: 16s;
+}
+
+.disc--still {
+  animation: none;
+}
+
+@keyframes disc-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.disc__label {
+  position: relative;
+  width: var(--disc-label-size, 9.375rem);
+  height: var(--disc-label-size, 9.375rem);
+  transition:
+    width 0.4s ease,
+    height 0.4s ease;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* One per cover while a new song's fades in over the last (Crossfade). */
+.disc__layer {
+  position: absolute;
+  inset: 0;
+}
+
+.disc__art,
+.disc__placeholder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.disc__art {
+  object-fit: cover;
+}
+
+.disc__placeholder-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 41.33%;
+}
+
+.disc__placeholder-dot {
+  position: absolute;
+  left: 17.33%;
+  top: 14.67%;
+  width: 30.67%;
+  height: 30.67%;
+  border-radius: 50%;
+}
+
+.disc__hole {
+  position: relative;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 50%;
+  background: var(--bg);
+  box-shadow: 0 0 0 0.1875rem var(--border);
+}
+
+/*
+ * The animated cover (AnimatedCover): the square cover, the record's size. Its picture never
+ * moves; its colors glow behind it, and a glint or a few specks of light cross it.
+ */
+.cover {
+  flex: none;
+  position: relative;
+  width: var(--disc-size, 18.75rem);
+  height: var(--disc-size, 18.75rem);
+  transition:
+    width 0.4s ease,
+    height 0.4s ease;
+}
+
+.cover__frame {
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: var(--border);
+  /* A light shadow: a heavy one would put out the glow under the cover. */
+  box-shadow:
+    0 0 0 1px var(--border),
+    0 0.25rem 0.75rem rgb(0 0 0 / 0.25);
+}
+
+/* One per cover (or per glow) while a new song's fades in over the last (Crossfade). */
+.cover__layer,
+.cover__glow {
+  position: absolute;
+  inset: 0;
+}
+
+.cover__art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/*
+ * Soft shadows in the cover's colors, one to a side (top left, right, bottom): painted once,
+ * then only faded. They reach about 2rem, inside the card's padding.
+ */
+.cover__glow-light {
+  position: absolute;
+  inset: 0;
+  opacity: 0.9;
+}
+
+.cover__glow-colors {
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  box-shadow:
+    -0.75rem -1rem 2.25rem -0.25rem var(--glow-1),
+    1.25rem 0 2.25rem -0.25rem var(--glow-2),
+    -0.25rem 1.25rem 2.25rem -0.25rem var(--glow-3);
+}
+
+.cover__glow-colors--b {
+  opacity: 0;
+}
+
+/* The cover's moving parts, drawn live over its still picture (PartsCanvas). */
+.cover__parts {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* A soft diagonal band of light, three covers wide, slid across the frame now and then. */
+.cover__sheen {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 300%;
+  background: linear-gradient(
+    115deg,
+    transparent 42%,
+    rgb(255 255 255 / 0.06) 45%,
+    rgb(255 255 255 / 0.24) 50%,
+    rgb(255 255 255 / 0.06) 55%,
+    transparent 58%
+  );
+  transform: translateX(-80%);
+  pointer-events: none;
+}
+
+/* Each speck rides a layer the cover's size, so it drifts in shares of the cover. */
+.cover__speck {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cover__speck span {
+  position: absolute;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.9);
+  box-shadow: 0 0 0.5rem 0.125rem rgb(255 255 255 / 0.45);
+}
+
+/* Controls */
+.music-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex-wrap: wrap;
+}
+
+.music-controls__button,
+.music-controls__play {
+  position: relative;
+  flex: none;
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.music-controls__button {
+  width: var(--hit);
+  height: var(--hit);
+  background: transparent;
+  color: var(--text);
+}
+
+.music-controls__button svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.music-controls__button svg.music-controls__icon--small {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.music-controls__toggle {
+  color: var(--text-secondary);
+}
+
+.music-controls__toggle[aria-pressed='true'] {
+  color: var(--accent-text);
+}
+
+.music-controls__play {
+  width: max(var(--hit), 4rem);
+  height: max(var(--hit), 4rem);
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.music-controls__play svg {
+  width: 1.625rem;
+  height: 1.625rem;
+}
+
+/* "Repeat one" */
+.music-controls__badge {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.125rem;
+  width: 0.9375rem;
+  height: 0.9375rem;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 0.625rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.music-controls__lyrics {
+  margin-left: auto;
+  min-height: var(--hit);
+  padding: 0 1.125rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.music-controls__lyrics[aria-pressed='true'] {
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+/* Lyrics: the mockup's previous / current / next lines under the song. */
+.lyrics {
+  /* The album colors switch sits in its corner. */
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  /* What leaves a duet's colors faint until they're sung: the card, laid over them, as faint
+     as the uncolored light leaves the words still to come. */
+  --tint-veil: color-mix(in srgb, var(--card) 58%, transparent);
+}
+
+/*
+ * Words in the singers' colors (the user's coloring). Off the sung line a row is faint only by
+ * its distance, as every row is (mockup A's full colors, dimmed). One singer's words are plain
+ * colored text, and the light over them is one layer, like the uncolored light.
+ */
+.lyrics__tint,
+.glide__word--solo {
+  color: var(--part-color);
+}
+
+.lyrics__tint--sung,
+.glide__row[aria-current] .glide__word--solo,
+.glide__voice--sung .glide__word--solo {
+  background-image: linear-gradient(
+    90deg,
+    var(--part-color) calc(50% - 0.3em),
+    color-mix(in srgb, var(--part-color) 42%, transparent) calc(50% + 0.3em)
+  );
+  background-size: calc(200% + 0.6em) 100%;
+  background-position: 100% 0;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/*
+ * A part several sing: their gradient runs across the whole part (in a word box, RowWords
+ * measures the part's width and where the box starts in it) under a veil of the card. Off the
+ * light the veil sits aside; the light slides it off what's been sung, word by word, so its edge
+ * moves through the gradient (the sweep moves only that top layer).
+ */
+.lyrics__tint--blend,
+.glide__word--blend {
+  background-image:
+    linear-gradient(90deg, transparent calc(50% - 0.3em), var(--tint-veil) calc(50% + 0.3em)),
+    var(--part-gradient);
+  background-size:
+    calc(200% + 0.6em) 100%,
+    var(--part-width, 100%) 100%;
+  background-position:
+    0% 0,
+    var(--part-x, 0px) 0;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lyrics__tint--sung.lyrics__tint--blend,
+.glide__row[aria-current] .glide__word--blend,
+.glide__voice--sung .glide__word--blend {
+  background-position:
+    100% 0,
+    var(--part-x, 0px) 0;
+}
+
+.lyrics__lines {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+  overflow: hidden;
+}
+
+/* The one line shown while the lyrics are looked up. */
+.lyrics__line--current {
+  min-height: 2.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 1.875rem;
+  line-height: 1.25;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Romaji under a Japanese line: smaller and quieter, so the sung line still leads. */
+.lyrics__romaji {
+  display: block;
+  margin-top: 0.125rem;
+  font-size: 0.75em;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--text-dim);
+}
+
+.lyrics__line--waiting {
+  font-weight: 400;
+  color: var(--text-dim);
+}
+
+/* Where the words came from, said plainly: a sentence at a size that reads from the desk, not a
+   tracked capital label (the card's "Now playing" already is one). */
+.lyrics__caption {
+  font-size: 0.875rem;
+  color: var(--text-dim);
+}
+
+/* Plain lyrics: top at the start of the song, bottom at the end. `top` moves by the box's
+   height and the transform takes back the text's, so the text slides by exactly the overflow. */
+.lyrics__scroller {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  mask-image: linear-gradient(transparent, #000 12%, #000 88%, transparent);
+}
+
+.lyrics__plain {
+  position: absolute;
+  left: 0;
+  right: 0;
+  min-height: 100%;
+  top: calc(var(--progress) * 100%);
+  transform: translateY(calc(var(--progress) * -100%));
+  /* Progress ticks once a second; gliding over that second makes it a steady scroll. */
+  transition:
+    top 1s linear,
+    transform 1s linear;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.lyrics__plain-line {
+  font-size: 1.375rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/*
+ * Synced lyrics, after Apple Music's: every line bold, the sung one lit and a touch larger, the
+ * rest dimmer (and, further off, softly blurred) with distance. LyricsPanel sets --glide-y (how
+ * far the rows are slid so the sung one sits at its spot) and each row's transition-delay, so
+ * on the next line the rows glide up on a spring, the ones below a beat apart.
+ */
+.glide {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  /* Clip, not hidden: the rows are placed by --glide-y alone. A hidden box can still be
+     scrolled, e.g. to show a clicked line that the browser thinks is out of view (the rows'
+     own positions aren't where the glide draws them), which throws every line off. */
+  overflow: clip;
+  display: flex;
+  flex-direction: column;
+  gap: var(--glide-gap);
+  /* Lines arrive and leave through a fade, not a hard edge. */
+  mask-image: linear-gradient(transparent, #000 16%, #000 84%, transparent);
+  /* Room beside the words for a popping word's swell and glow, which the clip and the mask would
+     cut at the column's edge; the words themselves stay where they were. */
+  padding-inline: 0.75rem;
+  margin-inline: -0.75rem;
+  --glide-size: 1.75rem;
+  --glide-gap: 0.625rem;
+  --glide-hover: rgb(255 255 255 / 0.07);
+}
+
+.glide--full {
+  mask-image: linear-gradient(transparent, #000 10%, #000 82%, transparent);
+  --glide-size: 1.375rem;
+  --glide-gap: 0.5rem;
+}
+
+:root[data-theme='day'] .glide {
+  --glide-hover: rgb(0 0 0 / 0.05);
+  /* A dark glow would smudge dark words on white: Daylight's words pop without one. */
+  --pop-glow: none;
+  --pop-rest: none;
+}
+
+.glide__row {
+  flex: none;
+  display: block;
+  width: calc(100% + 1rem);
+  margin: 0 -0.5rem;
+  padding: 0.25rem 0.5rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-size: var(--glide-size);
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: left;
+  overflow-wrap: anywhere;
+  transform-origin: left center;
+  transform: translateY(var(--glide-y)) scale(var(--row-scale));
+  opacity: var(--row-opacity);
+  filter: var(--row-filter);
+  transition:
+    transform 0.9s var(--glide-easing),
+    opacity 0.45s ease-out,
+    filter 0.45s ease-out,
+    background-color 0.15s ease-out;
+}
+
+/* By distance from the sung line: 0 is it; 4 is as far as it gets dimmer. */
+.glide__row[data-distance='0'] {
+  --row-scale: 1;
+  --row-opacity: 1;
+  --row-filter: none;
+}
+
+.glide__row[data-distance='1'] {
+  --row-scale: 0.94;
+  --row-opacity: 0.42;
+  --row-filter: none;
+}
+
+.glide__row[data-distance='2'] {
+  --row-scale: 0.94;
+  --row-opacity: 0.3;
+  --row-filter: blur(0.04em);
+}
+
+.glide__row[data-distance='3'] {
+  --row-scale: 0.94;
+  --row-opacity: 0.24;
+  --row-filter: blur(0.07em);
+}
+
+.glide__row[data-distance='4'] {
+  --row-scale: 0.94;
+  --row-opacity: 0.18;
+  --row-filter: blur(0.1em);
+}
+
+/* Three lines: the lines either side read, and the ones beyond them barely show. */
+.glide--synced .glide__row[data-distance='2'] {
+  --row-opacity: 0.14;
+}
+
+.glide--synced .glide__row[data-distance='3'],
+.glide--synced .glide__row[data-distance='4'] {
+  --row-opacity: 0.05;
+}
+
+/* A row whose second voice is sung outside its line's time is as bright as the sung row (no
+   larger), so the voice reads while the next line is sung: two rows lit at once. */
+.glide .glide__row.glide__row--voice-sung[data-distance] {
+  --row-opacity: 1;
+  --row-filter: none;
+}
+
+/* Out of sight: these jump instead of gliding, so only the rows on show are animated. */
+.glide__row--far {
+  transition: none;
+}
+
+/*
+ * Every row's words are boxes (RowWords), so the sung one can pop and a row wraps the same either
+ * way; the spaces stay between them. On the sung row each box is painted with a gradient, bright
+ * on the left and dim on the right, slid across it as the word is sung. Its soft band is 0.6em
+ * wide in every word (the size is twice the box plus the band, the band in the middle), so the
+ * light looks like one soft edge moving through the line. The pop's glow is the theme's text color.
+ */
+.glide {
+  --glide-unsung: color-mix(in srgb, var(--text) 42%, transparent);
+  --pop-glow: color-mix(in srgb, var(--text) 50%, transparent);
+  --pop-rest: color-mix(in srgb, var(--text) 12%, transparent);
+}
+
+.glide__word {
+  display: inline-block;
+  /* Swells from just above the baseline, so it rises rather than grows down. */
+  transform-origin: 50% 80%;
+}
+
+.glide__row[aria-current]
+  .glide__word:not(.glide__word--solo, .glide__word--blend, .glide__word--ink),
+.glide__voice--sung .glide__word:not(.glide__word--solo, .glide__word--blend, .glide__word--ink) {
+  background-image: linear-gradient(
+    90deg,
+    var(--text) calc(50% - 0.3em),
+    var(--glide-unsung) calc(50% + 0.3em)
+  );
+  background-size: calc(200% + 0.6em) 100%;
+  background-position: 100% 0;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/*
+ * Album colors (the user's pick, 2026-11-07, "colored as it's sung"): a word's light is the plain
+ * one with its bright half in the box's own stretch of the line's colors (--ink, from RowWords),
+ * so the light uncovers the cover's colors and a sung line keeps them; lines still to come stay
+ * in the text color. Without --ink yet, it's the plain light.
+ */
+.glide__word--ink {
+  background-image: var(
+    --ink,
+    linear-gradient(90deg, var(--text) calc(50% - 0.3em), var(--glide-unsung) calc(50% + 0.3em))
+  );
+  background-size: calc(200% + 0.6em) 100%;
+  background-position: 100% 0;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glide__row--inked .glide__word--ink {
+  background-position: 0% 0;
+}
+
+/* A sung line's romaji in its colors, across its words rather than the whole box. */
+.glide__row .lyrics__romaji-ink {
+  background-image: var(--ink-line);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* The sung row's romaji: the colors stay put under a veil of its unsung grey, made solid on the
+   card (--ink-ground) so it hides them, which only the veil's edge slides off. */
+.glide__row .lyrics__romaji-light.lyrics__romaji--ink {
+  background-image:
+    linear-gradient(
+      90deg,
+      transparent calc(50% - 0.3em),
+      color-mix(in srgb, var(--text-secondary) 45%, var(--ink-ground, var(--card)))
+        calc(50% + 0.3em)
+    ),
+    var(--ink-line);
+  background-size:
+    calc(200% + 0.6em) 100%,
+    100% 100%;
+}
+
+/* The switch: a dot in the cover's colors (on) or the text color (off), in a ring. */
+.lyrics__ink {
+  position: absolute;
+  top: 0.75rem;
+  right: -0.375rem;
+  z-index: 1;
+  width: var(--hit);
+  height: var(--hit);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+
+.lyrics__ink-ring {
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  transition: border-color 0.15s ease-out;
+}
+
+.lyrics__ink:hover .lyrics__ink-ring {
+  border-color: var(--text-secondary);
+}
+
+.lyrics__ink-dot {
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 50%;
+  background: var(--text);
+}
+
+/* A second voice: a smaller row under its main line (and its romaji), lit on its own times
+   without the pops and swells, quieter than its main line (like the romaji). */
+.glide__voice {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.72em;
+}
+
+/* A held English word's letters stay one word; a long Japanese word's may wrap between them. */
+.glide__letters {
+  white-space: nowrap;
+}
+
+.glide__letters--wrap {
+  white-space: normal;
+}
+
+/* A line to jump the song to. */
+button.glide__row {
+  cursor: pointer;
+}
+
+button.glide__row:hover {
+  background: var(--glide-hover);
+  opacity: max(var(--row-opacity), 0.6);
+}
+
+.glide__row .lyrics__romaji {
+  margin-top: 0.2rem;
+  font-size: 0.55em;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+/* On the sung row the romaji lights along with its line, quieter than the line itself. */
+.glide__row .lyrics__romaji-light {
+  background-image: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--text) 50%, var(--text-secondary)) calc(50% - 0.3em),
+    color-mix(in srgb, var(--text-secondary) 45%, transparent) calc(50% + 0.3em)
+  );
+  background-size: calc(200% + 0.6em) 100%;
+  background-position: 100% 0;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/*
+ * An intro or instrumental break: one note that fills up from the bottom over the break (the
+ * fill's window rises while the solid note inside it moves the other way, so it stays put).
+ * Breaks already past show full, those to come empty.
+ */
+.glide__note {
+  position: relative;
+  display: block;
+  width: 1.3em;
+  height: 1.3em;
+  overflow: hidden;
+}
+
+.glide__note svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.glide__note-base {
+  position: absolute;
+  inset: 0;
+  opacity: 0.28;
+}
+
+.glide__note-fill,
+.glide__note-art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  transform: translateY(100%);
+}
+
+.glide__note-art {
+  transform: translateY(-100%);
+}
+
+.glide__note--done .glide__note-fill,
+.glide__note--done .glide__note-art {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glide__row,
+  .lyrics__plain,
+  .disc,
+  .disc__label,
+  .cover {
+    transition: none;
+  }
+}

@@ -1,0 +1,111 @@
+<style>
+  .fs { background:#000; color:#fff; font-family:Arial,Helvetica,sans-serif; border-radius:14px; padding:16px 18px; overflow:hidden; margin-top:10px; }
+  .fs-scale { zoom:0.42; }
+  .bar { display:flex; justify-content:space-between; align-items:flex-end; gap:16px; width:1440px; }
+  .left { display:flex; align-items:flex-end; gap:20px; min-width:0; }
+  .clock { display:flex; align-items:baseline; gap:16px; white-space:nowrap; }
+  .time { font-size:56px; font-weight:700; letter-spacing:-1px; line-height:1; }
+  .date { font-size:18px; color:#bfbfbf; }
+  .pill { display:inline-flex; align-items:center; gap:10px; height:44px; padding:0 18px; border-radius:999px; border:1px solid #484848; background:#191919; font-size:18px; white-space:nowrap; }
+  .lbl { font-size:13px; letter-spacing:2px; text-transform:uppercase; color:#bfbfbf; }
+  .b { font-weight:700; }
+  .sec { color:#bfbfbf; }
+  .sec::before { content:'·'; margin-right:10px; color:#9a9a9a; }
+  .acc { color:#ffc627; font-weight:700; }
+  .dot { width:12px; height:12px; border-radius:50%; background:#ffc627; }
+  .btn { display:inline-flex; align-items:center; gap:8px; height:44px; padding:0 18px; border-radius:999px; border:1px solid #484848; background:#191919; font-size:15px; }
+  .ico { width:22px; height:22px; flex:none; color:#ffc627; }
+  .hl { outline:3px dashed #4fd1c5; outline-offset:6px; }
+  .cards-below { display:flex; gap:24px; margin-top:28px; width:1440px; }
+  .ghost { flex:1; height:150px; border-radius:24px; background:#191919; border:1px solid #2a2a2a; }
+  .tripcard { flex:1; height:auto; border-radius:24px; background:#191919; border:1px solid #2a2a2a; padding:22px 26px; font-size:18px; }
+  .tripcard h4 { margin:0 0 12px; font-size:24px; }
+  .leg { display:flex; align-items:center; gap:12px; margin:8px 0; color:#bfbfbf; }
+  .chip { display:inline-flex; align-items:center; height:28px; padding:0 10px; border-radius:8px; background:#2d6cdf; color:#fff; font-weight:700; font-size:16px; }
+  .chip.rail { background:#7b6cf0; }
+  .walk { color:#9a9a9a; }
+  .note { font-size:13px; margin-top:6px; }
+</style>
+
+<h2>Where should trips live?</h2>
+<p class="subtitle">The top of the Focus Screen at about real proportions, on a sample afternoon: you're at the gym, class is done for the day, so it's planning home. The new part has a dashed teal outline. The sample stops and times are made up. Click the one you like.</p>
+
+<div class="options">
+
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>A pill of its own</h3>
+      <p>Its own pill in the top-bar row, like Next class, Bus and Weather. It shows when to leave and the first bus. Hold it and a glass card drops down with the whole trip and a couple of other options. Before a class it plans to class; after your last class it plans home.</p>
+      <div class="fs"><div class="fs-scale">
+        <div class="bar">
+          <div class="left">
+            <div class="clock"><span class="time">4:12</span><span class="date">Mon, Nov 2</span></div>
+            <div class="pill"><svg class="ico" style="color:#9a9a9a" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h6a2 2 0 0 1 2 2v12a2 2 0 0 0-2-2H4zM20 5h-6a2 2 0 0 0-2 2v12a2 2 0 0 1 2-2h6z"/></svg></div>
+            <div class="pill hl">
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8 18h7a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h7"/></svg>
+              <span class="lbl">Home</span><span class="b">Leave in 6 min</span><span class="sec">Orbit Venus</span><span class="sec">home 4:41</span>
+            </div>
+            <div class="pill"><span class="lbl">Bus</span><span class="b">Orbit Venus</span><span class="sec">9 min</span><span class="sec">then 24 min</span></div>
+            <div class="pill"><span class="b">78°</span><span class="sec">Tempe</span></div>
+          </div>
+          <span class="btn">Customize</span>
+        </div>
+        <div class="cards-below"><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Folded into the Next class pill</h3>
+      <p>No new pill. Before a class, the class pill adds "leave in 6 min", and its hold card adds the trip under the building's map. After your last class, the blank class pill (the dim book) turns into the trip home. The row stays as short as it is today.</p>
+      <div class="fs"><div class="fs-scale">
+        <div class="bar">
+          <div class="left">
+            <div class="clock"><span class="time">4:12</span><span class="date">Mon, Nov 2</span></div>
+            <div class="pill hl">
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 11l8-6 8 6v8H4z"/><path d="M10 19v-5h4v5"/></svg>
+              <span class="lbl">Home</span><span class="b">Leave in 6 min</span><span class="sec">Orbit Venus</span><span class="sec">home 4:41</span>
+            </div>
+            <div class="pill"><span class="lbl">Bus</span><span class="b">Orbit Venus</span><span class="sec">9 min</span><span class="sec">then 24 min</span></div>
+            <div class="pill"><span class="b">78°</span><span class="sec">Tempe</span></div>
+          </div>
+          <span class="btn">Customize</span>
+        </div>
+        <div class="cards-below"><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div></div>
+      </div></div>
+      <p class="note">Before a class it would read: ● NEXT CLASS · CSE 340 · in 35 min · leave in 6 min</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>A card in the grid</h3>
+      <p>A Trip card next to Music, To-do and Timer, which you'd place with the layout editor. The whole trip is always visible, readable from across the desk, no hold needed. It takes room from the other cards.</p>
+      <div class="fs"><div class="fs-scale">
+        <div class="bar">
+          <div class="left">
+            <div class="clock"><span class="time">4:12</span><span class="date">Mon, Nov 2</span></div>
+            <div class="pill"><span class="lbl">Bus</span><span class="b">Orbit Venus</span><span class="sec">9 min</span><span class="sec">then 24 min</span></div>
+            <div class="pill"><span class="b">78°</span><span class="sec">Tempe</span></div>
+          </div>
+          <span class="btn">Customize</span>
+        </div>
+        <div class="cards-below">
+          <div class="ghost" style="flex:1.4"></div>
+          <div class="tripcard hl">
+            <h4>Home · <span class="acc">leave in 6 min</span></h4>
+            <div class="leg"><span class="walk">Walk 5 min to Rural Rd &amp; Terrace</span></div>
+            <div class="leg"><span class="chip">Orbit Venus</span> 4:23 → Apache &amp; McClintock</div>
+            <div class="leg"><span class="walk">Walk 3 min · home 4:41</span></div>
+          </div>
+          <div class="ghost"></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+</div>

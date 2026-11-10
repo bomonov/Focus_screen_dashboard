@@ -1,0 +1,323 @@
+/*
+ * A saved (or edited) layout: a 20×12 grid. Each cell carries half a gap on every side, so a
+ * card's size is exactly its share of the grid and two neighbours sit one gap apart. Two classes,
+ * so it wins over the default flow's `.focus-screen__cards` whatever order the CSS loads in.
+ */
+.focus-screen__cards.focus-screen__cards--grid {
+  display: grid;
+  grid-template-columns: repeat(20, minmax(0, 1fr));
+  grid-template-rows: repeat(12, minmax(0, 1fr));
+  gap: 0;
+  margin: calc(var(--gap) / -2);
+}
+
+/* The right-hand column only exists for the default flow; on the grid its cards stand alone. */
+.focus-screen__cards--grid .focus-screen__side {
+  display: contents;
+}
+
+.focus-screen__cards--grid .layout-slot {
+  --slot-inset: calc(var(--gap) / 2);
+  padding: var(--slot-inset);
+  /* Cards scale their record and timer face to whatever size they're given (cq units), and
+     small ones drop extras (@container card). */
+  container: card / size;
+}
+
+.focus-screen__cards--grid .focus-screen__empty {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+}
+
+/* The record fits its card: the mockup's size in a big card, smaller in a narrow or short one. */
+.focus-screen__cards--grid .now-playing {
+  --disc-size: min(18.75rem, 38cqw, 48cqh);
+  --disc-label-size: calc(var(--disc-size) / 2);
+}
+
+.focus-screen__cards--grid .now-playing--art {
+  --disc-size: min(21rem, 70cqw, 62cqh);
+}
+
+/* Beside a smaller record the song's details need less room before they wrap underneath. */
+.focus-screen__cards--grid .now-playing__info {
+  flex-basis: 14rem;
+}
+
+/* A short music card keeps the record, the song and the controls; lyrics need more room. */
+@container card (max-height: 34rem) {
+  .now-playing {
+    justify-content: center;
+  }
+
+  .now-playing .lyrics {
+    display: none;
+  }
+
+  .now-playing__title {
+    font-size: 2rem;
+  }
+}
+
+/* A narrow timer gives its header to the mode buttons; the face already says it's a timer. */
+@container card (max-width: 24rem) {
+  .timer .card__title {
+    display: none;
+  }
+
+  .timer__header {
+    justify-content: center;
+  }
+}
+
+/* The timer face takes whatever height the card has left and grows with it. */
+.focus-screen__cards--grid .layout-slot--timer {
+  --timer-scale: 2.5;
+}
+
+.focus-screen__cards--grid .timer__face {
+  flex: 1 1 0;
+  height: auto;
+}
+
+/* Editing: faint cell lines show where cards can snap to. */
+.focus-screen__cards--editing {
+  background-image:
+    linear-gradient(to right, var(--layout-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--layout-line) 1px, transparent 1px);
+  background-size: calc(100% / 20) calc(100% / 12);
+  --layout-line: color-mix(in srgb, var(--text) 8%, transparent);
+}
+
+/* Over each card: drag it to move it, or its edges to resize it. */
+.layout-frame {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+  min-height: 0;
+  padding: calc(var(--gap) / 2);
+  cursor: grab;
+  touch-action: none;
+}
+
+.layout-frame:focus-visible {
+  outline: none;
+}
+
+.layout-frame__box {
+  position: relative;
+  height: 100%;
+  border: 2px dashed var(--accent);
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.layout-frame:focus-visible .layout-frame__box {
+  border-style: solid;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+/* A solid badge, so the name reads over whatever the card shows underneath. */
+.layout-frame__label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  max-width: calc(100% - 2rem);
+  padding: 0.875rem 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid var(--border-strong);
+  background: var(--bg);
+  box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 0.4);
+}
+
+.layout-frame__name {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.layout-frame__hint {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+.layout-frame--active {
+  z-index: 3;
+  cursor: grabbing;
+}
+
+.layout-frame--active .layout-frame__box {
+  border-style: solid;
+  background: color-mix(in srgb, var(--card) 85%, transparent);
+  box-shadow: 0 1.5rem 3rem rgb(0 0 0 / 0.5);
+}
+
+.layout-frame--swap .layout-frame__box {
+  border-style: solid;
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.layout-frame--swap .layout-frame__label {
+  border-color: var(--accent);
+}
+
+.layout-frame--swap .layout-frame__hint {
+  color: var(--text);
+  font-weight: 700;
+}
+
+/* Edges are invisible strips; corners show a dot. Both are at least a comfortable grab. */
+.layout-frame__handle {
+  position: absolute;
+  z-index: 1;
+}
+
+.layout-frame__handle--n,
+.layout-frame__handle--s {
+  left: 2rem;
+  right: 2rem;
+  height: 1.5rem;
+  cursor: ns-resize;
+}
+
+.layout-frame__handle--e,
+.layout-frame__handle--w {
+  top: 2rem;
+  bottom: 2rem;
+  width: 1.5rem;
+  cursor: ew-resize;
+}
+
+.layout-frame__handle--n {
+  top: -0.75rem;
+}
+
+.layout-frame__handle--s {
+  bottom: -0.75rem;
+}
+
+.layout-frame__handle--e {
+  right: -0.75rem;
+}
+
+.layout-frame__handle--w {
+  left: -0.75rem;
+}
+
+.layout-frame__handle--ne,
+.layout-frame__handle--nw,
+.layout-frame__handle--se,
+.layout-frame__handle--sw {
+  width: var(--hit);
+  height: var(--hit);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.layout-frame__handle--ne,
+.layout-frame__handle--sw {
+  cursor: nesw-resize;
+}
+
+.layout-frame__handle--nw,
+.layout-frame__handle--se {
+  cursor: nwse-resize;
+}
+
+.layout-frame__handle--ne {
+  top: calc(var(--hit) / -2);
+  right: calc(var(--hit) / -2);
+}
+
+.layout-frame__handle--nw {
+  top: calc(var(--hit) / -2);
+  left: calc(var(--hit) / -2);
+}
+
+.layout-frame__handle--se {
+  bottom: calc(var(--hit) / -2);
+  right: calc(var(--hit) / -2);
+}
+
+.layout-frame__handle--sw {
+  bottom: calc(var(--hit) / -2);
+  left: calc(var(--hit) / -2);
+}
+
+.layout-frame__handle--ne::after,
+.layout-frame__handle--nw::after,
+.layout-frame__handle--se::after,
+.layout-frame__handle--sw::after {
+  content: '';
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--bg);
+}
+
+/* Edges light up under the pointer, so it's clear they can be dragged. */
+.layout-frame__handle--n::after,
+.layout-frame__handle--s::after,
+.layout-frame__handle--e::after,
+.layout-frame__handle--w::after {
+  content: '';
+  position: absolute;
+  border-radius: 2px;
+  background: var(--accent);
+  opacity: 0;
+}
+
+.layout-frame__handle--n::after,
+.layout-frame__handle--s::after {
+  left: 0;
+  right: 0;
+  top: calc(50% - 2px);
+  height: 4px;
+}
+
+.layout-frame__handle--e::after,
+.layout-frame__handle--w::after {
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 2px);
+  width: 4px;
+}
+
+.layout-frame__handle:hover::after {
+  opacity: 1;
+}
+
+/* Where the card being dragged will land. */
+.layout-ghost {
+  position: relative;
+  z-index: 1;
+  padding: calc(var(--gap) / 2);
+  pointer-events: none;
+}
+
+.layout-ghost::before {
+  content: '';
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-card);
+  border: 2px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.layout-ghost--blocked::before {
+  border: 2px dashed var(--text-dim);
+  background: color-mix(in srgb, var(--text-dim) 10%, transparent);
+}
+
+/* A swap is shown on the other card itself. */
+.layout-ghost--swap {
+  display: none;
+}

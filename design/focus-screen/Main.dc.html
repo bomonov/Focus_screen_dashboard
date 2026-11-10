@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Focus Screen</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#000000}
+a{color:#FFC627}a:hover{color:#FFFFFF}
+@keyframes discspin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+button:focus-visible,a:focus-visible{outline:2px solid #FFC627;outline-offset:3px}
+</style>
+</helmet>
+<div style="min-height: 100vh; box-sizing: border-box; background: #000000; color: #FFFFFF; font-family: Arial, Helvetica, sans-serif; padding: 32px; display: flex; flex-direction: column; gap: 24px">
+<header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+<div style="display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap">
+<div style="font-size: 56px; font-weight: 700; letter-spacing: -1px; line-height: 1">{{timeStr}}</div>
+<div style="font-size: 18px; color: #BFBFBF">{{dateStr}}</div>
+</div>
+<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+<span style="font-size: 14px; color: #BFBFBF; border: 1px solid #484848; border-radius: 999px; padding: 10px 16px">Display 2 · Focus Screen</span>
+<a href="Settings.dc.html" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border-radius: 999px; background: #191919; border: 1px solid #484848; color: #FFFFFF; text-decoration: none; font-size: 15px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1"></path><circle cx="15" cy="6" r="2"></circle><circle cx="9" cy="12" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg>Customize</a>
+</div>
+</header>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: stretch">
+<section aria-label="Now playing" style="flex: 3 1 560px; min-width: 0; background: #191919; border-radius: 24px; padding: 32px; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-wrap: wrap; gap: 36px; align-items: center">
+<div aria-hidden="true" style="flex: 0 0 auto; width: 300px; height: 300px; border-radius: 50%; background: repeating-radial-gradient(circle at center, #0a0a0a 0px, #0a0a0a 2px, #161616 3px, #161616 5px); box-shadow: 0 0 0 1px #2a2a2a, 0 20px 50px rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; animation: discspin 8s linear infinite; animation-play-state: {{spinState}}">
+<div style="width: 150px; height: 150px; border-radius: 50%; background: {{track.coverA}}; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center">
+<div style="position: absolute; left: 0; bottom: 0; width: 150px; height: 62px; background: {{track.coverB}}"></div>
+<div style="position: absolute; left: 26px; top: 22px; width: 46px; height: 46px; border-radius: 50%; background: {{track.coverC}}"></div>
+<div style="position: relative; width: 18px; height: 18px; border-radius: 50%; background: #000000; box-shadow: 0 0 0 3px #2a2a2a"></div>
+</div>
+</div>
+<div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: {{accent}}">Now playing · {{track.player}}</span>
+<h1 style="margin: 0; font-size: 40px; line-height: 1.1; font-weight: 700">{{track.title}}</h1>
+<p style="margin: 0; font-size: 18px; color: #BFBFBF">{{track.artist}} · {{track.album}}</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="height: 6px; border-radius: 3px; background: #484848; overflow: hidden"><div style="height: 6px; width: {{progressPct}}; background: {{accent}}"></div></div>
+<div style="display: flex; justify-content: space-between; font-size: 13px; color: #BFBFBF"><span>{{posStr}}</span><span>{{durStr}}</span></div>
+</div>
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
+<button onClick="{{toggleShuffle}}" aria-label="Shuffle" aria-pressed="{{shuffleOn}}" style="width: 44px; height: 44px; border: none; border-radius: 50%; background: transparent; color: {{shuffleColor}}; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5"></path><path d="M4 20L21 3"></path><path d="M21 16v5h-5"></path><path d="M15 15l6 6"></path><path d="M4 4l5 5"></path></svg></button>
+<button onClick="{{back}}" aria-label="Previous track" style="width: 44px; height: 44px; border: none; border-radius: 50%; background: transparent; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="19 20 9 12 19 4 19 20"></polygon><line x1="5" y1="19" x2="5" y2="5"></line></svg></button>
+<button onClick="{{togglePlay}}" aria-label="{{playLabel}}" style="width: 64px; height: 64px; border: none; border-radius: 50%; background: {{accent}}; color: #000000; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0">
+<sc-if value="{{playing}}" hint-placeholder-val="{{ true }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg></sc-if>
+<sc-if value="{{paused}}" hint-placeholder-val="{{ false }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="7 4 20 12 7 20 7 4"></polygon></svg></sc-if>
+</button>
+<button onClick="{{next}}" aria-label="Next track" style="width: 44px; height: 44px; border: none; border-radius: 50%; background: transparent; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg></button>
+<button onClick="{{cycleRepeat}}" aria-label="{{repeatLabel}}" style="position: relative; width: 44px; height: 44px; border: none; border-radius: 50%; background: transparent; color: {{repeatColor}}; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 1l4 4-4 4"></path><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><path d="M7 23l-4-4 4-4"></path><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg><sc-if value="{{repeatOne}}" hint-placeholder-val="{{ false }}"><span style="position: absolute; top: 4px; right: 2px; font-size: 10px; font-weight: 700; background: {{accent}}; color: #000000; border-radius: 999px; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center">1</span></sc-if></button>
+<button onClick="{{toggleLyrics}}" aria-pressed="{{showLyrics}}" style="margin-left: auto; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid {{lyricsBorder}}; background: transparent; color: {{lyricsColor}}; font-family: inherit; font-size: 14px; cursor: pointer">Lyrics</button>
+</div>
+</div>
+</div>
+<sc-if value="{{showLyrics}}" hint-placeholder-val="{{ true }}">
+<div style="border-top: 1px solid #2a2a2a; padding-top: 24px; display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-size: 18px; color: #9A9A9A">[Previous lyric line]</p>
+<p style="margin: 0; font-size: 30px; font-weight: 700; color: #FFFFFF">[Current line, highlighted in sync with the song]</p>
+<p style="margin: 0; font-size: 18px; color: #9A9A9A">[Next lyric line]</p>
+<span style="font-size: 12px; color: #9A9A9A; letter-spacing: 1px; text-transform: uppercase">Synced lyrics · LRCLIB</span>
+</div>
+</sc-if>
+</section>
+<div style="flex: 2 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<section aria-label="To-do list" style="background: #191919; border-radius: 24px; padding: 28px; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px">
+<h2 style="margin: 0; font-size: 24px">To-do</h2>
+<span style="font-size: 14px; color: #BFBFBF">{{leftCount}} left</span>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<sc-for list="{{filters}}" as="f" hint-placeholder-count="4"><button onClick="{{f.pick}}" aria-pressed="{{f.on}}" style="min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid {{f.border}}; background: {{f.bg}}; color: {{f.fg}}; font-family: inherit; font-size: 14px; cursor: pointer">{{f.label}}</button></sc-for>
+</div>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column">
+<sc-for list="{{visibleTodos}}" as="item" hint-placeholder-count="5">
+<li style="display: flex; align-items: center; gap: 12px; padding: 6px 0; border-bottom: 1px solid #2a2a2a">
+<button onClick="{{item.toggle}}" aria-label="{{item.aria}}" aria-pressed="{{item.done}}" style="flex: 0 0 auto; width: 44px; height: 44px; border-radius: 12px; border: none; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0">
+<sc-if value="{{item.isCanvas}}" hint-placeholder-val="{{ true }}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="{{item.color}}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="2 9 12 4 22 9 12 14 2 9" fill="{{item.fill}}"></polygon><path d="M6 11.2v4.8c0 1.6 2.7 3 6 3s6-1.4 6-3v-4.8"></path><path d="M22 9v5"></path></svg></sc-if>
+<sc-if value="{{item.isRem}}" hint-placeholder-val="{{ false }}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="{{item.color}}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15.5V11a6 6 0 0 1 12 0v4.5l1.6 2.5H4.4L6 15.5z" fill="{{item.fill}}"></path><path d="M10 21a2 2 0 0 0 4 0"></path></svg></sc-if>
+<sc-if value="{{item.isGoogle}}" hint-placeholder-val="{{ false }}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="{{item.color}}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="{{item.fill}}"></circle><path d="M8 12.5l2.7 2.7L16.2 9.5" stroke="{{item.checkStroke}}" stroke-width="2.2"></path></svg></sc-if>
+</button>
+<div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 3px">
+<span style="font-size: 17px; color: {{item.textColor}}; text-decoration: {{item.deco}}">{{item.text}}</span>
+<span style="font-size: 13px; color: #BFBFBF">{{item.sourceLabel}} · {{item.due}}</span>
+</div>
+</li>
+</sc-for>
+</ul>
+</section>
+<section aria-label="Timer" style="background: #191919; border-radius: 24px; padding: 28px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap">
+<h2 style="margin: 0; font-size: 24px">Timer</h2>
+<div style="display: flex; gap: 4px; background: #000000; border-radius: 999px; padding: 4px; flex-wrap: wrap">
+<sc-for list="{{modes}}" as="m" hint-placeholder-count="3"><button onClick="{{m.pick}}" aria-pressed="{{m.on}}" style="min-height: 44px; padding: 0 14px; border-radius: 999px; border: none; background: {{m.bg}}; color: {{m.fg}}; font-family: inherit; font-size: 14px; cursor: pointer">{{m.label}}</button></sc-for>
+</div>
+</div>
+<sc-if value="{{isRing}}" hint-placeholder-val="{{ true }}">
+<div style="position: relative; width: 220px; height: 220px; align-self: center">
+<svg width="220" height="220" viewBox="0 0 220 220" role="img" aria-label="{{timerAria}}"><circle cx="110" cy="110" r="95" fill="none" stroke="#2a2a2a" stroke-width="10"></circle><circle cx="110" cy="110" r="95" fill="none" stroke="{{accent}}" stroke-width="10" stroke-linecap="round" stroke-dasharray="596.9" stroke-dashoffset="{{dashOffset}}" transform="rotate(-90 110 110)"></circle></svg>
+<div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px">
+<span style="font-size: 52px; font-weight: 700; letter-spacing: -1px">{{timerStr}}</span>
+<span style="font-size: 14px; color: #BFBFBF">{{timerSub}}</span>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{isBar}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap"><span style="font-size: 64px; font-weight: 700; letter-spacing: -1px">{{timerStr}}</span><span style="font-size: 14px; color: #BFBFBF">{{timerSub}}</span></div>
+<div style="height: 14px; border-radius: 7px; background: #2a2a2a; overflow: hidden"><div style="height: 14px; width: {{timerPct}}; background: {{accent}}"></div></div>
+</div>
+</sc-if>
+<sc-if value="{{isDigits}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 10px">
+<div role="img" aria-label="{{timerAria}}" style="display: flex; justify-content: center; gap: 8px">
+<sc-for list="{{digits}}" as="d" hint-placeholder-count="5"><span aria-hidden="true" style="display: inline-flex; align-items: center; justify-content: center; width: {{d.w}}; height: 110px; border-radius: 12px; background: {{d.bg}}; font-size: 76px; font-weight: 700">{{d.ch}}</span></sc-for>
+</div>
+<span style="font-size: 14px; color: #BFBFBF">{{timerSub}}</span>
+</div>
+</sc-if>
+<div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap">
+<button onClick="{{toggleTimer}}" style="min-height: 48px; padding: 0 28px; border-radius: 999px; border: none; background: {{accent}}; color: #000000; font-weight: 700; font-size: 16px; font-family: inherit; cursor: pointer">{{startLabel}}</button>
+<button onClick="{{resetTimer}}" style="min-height: 48px; padding: 0 22px; border-radius: 999px; border: 1px solid #484848; background: transparent; color: #FFFFFF; font-size: 16px; font-family: inherit; cursor: pointer">Reset</button>
+<sc-if value="{{canAdd}}" hint-placeholder-val="{{ true }}"><button onClick="{{addFive}}" style="min-height: 48px; padding: 0 22px; border-radius: 999px; border: 1px solid #484848; background: transparent; color: #FFFFFF; font-size: 16px; font-family: inherit; cursor: pointer">+5 min</button></sc-if>
+</div>
+</section>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#FFC627","options":["#FFC627","#4AB7C4","#FF7F32","#78BE20"]},"timerStyle":{"editor":"enum","default":"ring","options":["ring","bar","digits"]},"showLyrics":{"editor":"boolean","default":true},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(...args) {
+    super(...args);
+    this.tracks = [
+      { title: "Low Sun Hours", artist: "The Saguaro Set", album: "Night Shift Sessions", dur: 213, player: "Spotify", coverA: "#8C1D40", coverB: "#FFC627", coverC: "#FF7F32" },
+      { title: "Quiet Library", artist: "Lofi Desk Club", album: "Study Hall", dur: 187, player: "Apple Music", coverA: "#4AB7C4", coverB: "#191919", coverC: "#FFFFFF" },
+      { title: "Monsoon Drive", artist: "Mesa Lights", album: "Late Summer", dur: 241, player: "Spotify", coverA: "#484848", coverB: "#00A3E0", coverC: "#FFC627" }
+    ];
+    this.state = {
+      now: Date.now(), trackIdx: 0, pos: 84, playing: true, shuffle: false, repeat: "off", lyrics: null,
+      filter: "all", mode: "pomodoro", total: 1500, remaining: 1080, elapsed: 0, running: true, session: 2,
+      todos: [
+        { id: 1, text: "Read Chapter 4 + reading quiz", source: "canvas", sourceLabel: "Canvas · BIO 181", due: "Due today 11:59 PM", done: false },
+        { id: 2, text: "Lab report draft", source: "canvas", sourceLabel: "Canvas · CHM 113", due: "Due Thu", done: false },
+        { id: 3, text: "Pick up groceries", source: "rem", sourceLabel: "Apple Reminders", due: "Today", done: false },
+        { id: 4, text: "Email advisor about spring classes", source: "google", sourceLabel: "Google Tasks", due: "Tomorrow", done: false },
+        { id: 5, text: "Discussion post reply", source: "canvas", sourceLabel: "Canvas · ENG 102", due: "Submitted", done: true },
+        { id: 6, text: "Renew parking permit", source: "google", sourceLabel: "Google Tasks", due: "Done", done: true }
+      ]
+    };
+  }
+  componentDidMount() { this.iv = setInterval(() => this.tick(), 1000); }
+  componentWillUnmount() { clearInterval(this.iv); }
+  fmt(sec) { const m = Math.floor(sec / 60); const s = sec % 60; return m + ":" + (s < 10 ? "0" : "") + s; }
+  fmt2(sec) { const m = Math.floor(sec / 60); const s = sec % 60; return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s; }
+  nextTrack(s) {
+    if (s.repeat === "one") return { pos: 0 };
+    const n = this.tracks.length;
+    const i = s.shuffle ? (s.trackIdx + 1 + Math.floor(Math.random() * (n - 1))) % n : (s.trackIdx + 1) % n;
+    return { trackIdx: i, pos: 0 };
+  }
+  tick() {
+    const s = this.state;
+    const upd = { now: Date.now() };
+    const t = this.tracks[s.trackIdx];
+    if (s.playing) { if (s.pos + 1 >= t.dur) Object.assign(upd, this.nextTrack(s)); else upd.pos = s.pos + 1; }
+    if (s.running) {
+      if (s.mode === "stopwatch") upd.elapsed = s.elapsed + 1;
+      else if (s.remaining > 0) upd.remaining = s.remaining - 1;
+      else upd.running = false;
+    }
+    this.setState(upd);
+  }
+  renderVals() {
+    const s = this.state;
+    const accent = this.props.accent ?? "#FFC627";
+    const style = this.props.timerStyle ?? "ring";
+    const showLyrics = s.lyrics === null ? (this.props.showLyrics ?? true) : s.lyrics;
+    const d = new Date(s.now);
+    const track = this.tracks[s.trackIdx];
+    const colors = { canvas: "#FF7F32", rem: "#00A3E0", google: "#78BE20" };
+
+    const filterDefs = [["all", "All"], ["canvas", "Canvas"], ["rem", "Reminders"], ["google", "Google"]];
+    const filters = filterDefs.map(([v, label]) => {
+      const on = s.filter === v;
+      return { label, on, pick: () => this.setState({ filter: v }), bg: on ? "#FFFFFF" : "transparent", fg: on ? "#000000" : "#FFFFFF", border: on ? "#FFFFFF" : "#484848" };
+    });
+    const visibleTodos = s.todos
+      .filter((t) => s.filter === "all" || t.source === s.filter)
+      .slice().sort((a, b) => Number(a.done) - Number(b.done))
+      .map((t) => {
+        const c = colors[t.source];
+        return {
+          ...t, color: c, fill: t.done ? c : "none", checkStroke: t.done ? "#000000" : "none",
+          isCanvas: t.source === "canvas", isRem: t.source === "rem", isGoogle: t.source === "google",
+          textColor: t.done ? "#9A9A9A" : "#FFFFFF", deco: t.done ? "line-through" : "none",
+          aria: (t.done ? "Mark not done: " : "Mark done: ") + t.text,
+          toggle: () => this.setState({ todos: this.state.todos.map((x) => x.id === t.id ? { ...x, done: !x.done } : x) })
+        };
+      });
+
+    const modeDefs = [["pomodoro", "Pomodoro", 1500], ["countdown", "Countdown", 600], ["stopwatch", "Stopwatch", 0]];
+    const modes = modeDefs.map(([v, label, secs]) => {
+      const on = s.mode === v;
+      return { label, on, bg: on ? accent : "transparent", fg: on ? "#000000" : "#FFFFFF", pick: () => this.setState({ mode: v, total: secs, remaining: secs, elapsed: 0, running: false }) };
+    });
+    const isWatch = s.mode === "stopwatch";
+    const shown = isWatch ? s.elapsed : s.remaining;
+    const frac = isWatch ? (s.elapsed % 60) / 60 : (s.total ? s.remaining / s.total : 0);
+    const timerStr = this.fmt2(shown);
+    let timerSub = s.mode === "pomodoro" ? "Focus · session " + s.session + " of 4" : (isWatch ? "Counting up" : "Countdown");
+    if (!isWatch && s.remaining === 0) timerSub = "Time's up";
+
+    return {
+      accent,
+      timeStr: d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }),
+      dateStr: d.toLocaleDateString([], { weekday: "long", month: "long", day: "numeric" }),
+      track, playing: s.playing, paused: !s.playing,
+      spinState: s.playing ? "running" : "paused",
+      playLabel: s.playing ? "Pause" : "Play",
+      progressPct: Math.round((s.pos / track.dur) * 1000) / 10 + "%",
+      posStr: this.fmt(s.pos), durStr: this.fmt(track.dur),
+      shuffleOn: s.shuffle, shuffleColor: s.shuffle ? accent : "#BFBFBF",
+      repeatOne: s.repeat === "one", repeatColor: s.repeat === "off" ? "#BFBFBF" : accent,
+      repeatLabel: "Repeat: " + s.repeat,
+      showLyrics, lyricsBorder: showLyrics ? accent : "#484848", lyricsColor: showLyrics ? accent : "#FFFFFF",
+      togglePlay: () => this.setState({ playing: !this.state.playing }),
+      toggleShuffle: () => this.setState({ shuffle: !this.state.shuffle }),
+      cycleRepeat: () => this.setState({ repeat: { off: "all", all: "one", one: "off" }[this.state.repeat] }),
+      toggleLyrics: () => this.setState({ lyrics: !showLyrics }),
+      next: () => this.setState(this.nextTrack({ ...this.state, repeat: "off" })),
+      back: () => {
+        const st = this.state;
+        if (st.pos > 3) this.setState({ pos: 0 });
+        else this.setState({ trackIdx: (st.trackIdx + this.tracks.length - 1) % this.tracks.length, pos: 0 });
+      },
+      filters, visibleTodos, leftCount: s.todos.filter((t) => !t.done).length,
+      modes, isRing: style === "ring", isBar: style === "bar", isDigits: style === "digits",
+      timerStr, timerSub, timerAria: timerStr + (isWatch ? " elapsed" : " remaining"),
+      dashOffset: 596.9 * (1 - frac), timerPct: Math.round(frac * 1000) / 10 + "%",
+      digits: timerStr.split("").map((ch) => ({ ch, w: ch === ":" ? "28px" : "72px", bg: ch === ":" ? "transparent" : "#000000" })),
+      startLabel: s.running ? "Pause" : "Start", canAdd: !isWatch,
+      toggleTimer: () => this.setState({ running: !this.state.running }),
+      resetTimer: () => this.setState({ remaining: this.state.total, elapsed: 0, running: false }),
+      addFive: () => this.setState({ total: this.state.total + 300, remaining: this.state.remaining + 300 })
+    };
+  }
+}
+</script>
+</body>
+</html>

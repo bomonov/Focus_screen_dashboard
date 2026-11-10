@@ -1,0 +1,730 @@
+/* Sizes are the Customize mockup's px / 16; this window's rem is a fixed 16px (global.css). */
+/*
+ * A sidebar of sections and one pane, as in the Mac's own Settings: every section in one long
+ * page ran past five screens, and a two-column grid left holes beside its taller cards.
+ */
+.customize {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 14rem minmax(0, 1fr);
+}
+
+.customize__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-height: 0;
+  padding: 1.5rem 0.75rem 1.5rem 1.25rem;
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+}
+
+.customize__header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding-left: 0.75rem;
+}
+
+.customize__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+/* Closing the window does the same, so Done is a quiet outline, not the window's loudest thing. */
+.customize__done {
+  min-height: var(--hit);
+  padding: 0 1.5rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.customize__done:hover {
+  background: var(--card);
+}
+
+.customize__tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.customize__tab {
+  min-height: var(--hit);
+  padding: 0 0.75rem;
+  border: none;
+  border-radius: 0.75rem;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.customize__tab:hover {
+  color: var(--text);
+}
+
+.customize__tab[aria-selected='true'] {
+  background: var(--card);
+  color: var(--text);
+  font-weight: 700;
+}
+
+.customize__tab:focus-visible,
+.customize__done:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.customize__pane {
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+/* The section sits in the middle of its pane, at a width the rows read well at. */
+.customize__pane > .customize__section {
+  margin-inline: auto;
+}
+
+/* Narrow: the sections run across the top instead, and scroll sideways if they must. */
+@media (max-width: 52rem) {
+  .customize {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .customize__nav {
+    gap: 0.75rem;
+    padding: 1rem 1rem 0.75rem;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    overflow: visible;
+  }
+
+  .customize__header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 0;
+  }
+
+  /*
+   * The strip fades only at an end with more sections past it (Customize.tsx says which), so
+   * the first tab isn't faded at the start. Its padding gives focus rings room inside the
+   * scroller, which would cut them off at its edge.
+   */
+  .customize__tabs {
+    --fade-start: 0rem;
+    --fade-end: 0rem;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 0.25rem;
+    margin: -0.25rem;
+    scrollbar-width: none;
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 var(--fade-start),
+      #000 calc(100% - var(--fade-end)),
+      transparent
+    );
+  }
+
+  .customize__tabs[data-more-before] {
+    --fade-start: 1.5rem;
+  }
+
+  .customize__tabs[data-more-after] {
+    --fade-end: 2.5rem;
+  }
+}
+
+.customize__section {
+  min-width: 0;
+  max-width: 46rem;
+  background: var(--card);
+  border-radius: var(--radius-card);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+}
+
+.customize__section-title {
+  font-size: 1.375rem;
+}
+
+.customize__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.customize__group-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.customize__pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.customize__pill,
+.customize__button {
+  white-space: nowrap;
+  min-height: var(--hit);
+  padding: 0 1rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.customize__pill[aria-pressed='true'],
+.customize__button--primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.customize__pill:disabled {
+  cursor: default;
+}
+
+.customize__pill:disabled:not([aria-pressed='true']) {
+  color: var(--text-dim);
+}
+
+.customize__button:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.customize__hint {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+/* A hint inside a pill row takes its own line under the pills. */
+.customize__hint--wide {
+  flex-basis: 100%;
+}
+
+.customize__error {
+  font-size: 0.8125rem;
+  color: var(--source-canvas);
+}
+
+/* A line of status under a switch row (Next class: starting, blocked, no calendars). */
+.customize__note {
+  padding: 0.75rem 0.25rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* Class calendars: pills with the calendar's own color, under a switch row. */
+.customize__rows > .customize__group {
+  padding: 0.875rem 0.25rem 0.25rem;
+}
+
+.customize__calendar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.customize__calendar-dot {
+  flex: none;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: var(--text-dim);
+  /* Still visible on a chosen pill when the calendar's color is the accent's. */
+  box-shadow: 0 0 0 1.5px rgb(0 0 0 / 0.35);
+}
+
+/* Theme presets: the mockup's 2×2 grid of swatch cards. */
+.customize__themes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.customize__theme {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 0.625rem;
+  border-radius: 1rem;
+  border: 2px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.9375rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.customize__theme[aria-pressed='true'] {
+  border-color: var(--accent);
+}
+
+.customize__theme-swatch {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.375rem;
+  height: 4.5rem;
+  border-radius: 0.625rem;
+  padding: 0.625rem;
+  border: 1px solid var(--border);
+}
+
+.customize__theme-swatch > span {
+  height: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+/* Accent swatches: 44px circles; the chosen one gets a ring. */
+.customize__swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.customize__swatch {
+  position: relative;
+  width: var(--hit);
+  height: var(--hit);
+  border-radius: 50%;
+  border: 2px solid var(--border-strong);
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.customize__swatch[aria-pressed='true'] {
+  outline: 3px solid var(--text);
+  outline-offset: 2px;
+}
+
+.customize__swatch--custom {
+  background: conic-gradient(#ff7f32, #ffc627, #78be20, #4ab7c4, #00a3e0, #8c1d40, #ff7f32);
+}
+
+/* White with a dark edge, so it reads on every part of the rainbow. */
+.customize__swatch--custom svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #ffffff;
+  filter: drop-shadow(0 0 1px rgb(0 0 0 / 0.9)) drop-shadow(0 0 2px rgb(0 0 0 / 0.5));
+  pointer-events: none;
+}
+
+/* The real color input covers the swatch, invisible, so a click anywhere opens the picker. */
+.customize__color-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.customize__swatch--custom:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.customize__photo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-basis: 100%;
+}
+
+.customize__photo-thumb {
+  width: 5rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+  object-fit: cover;
+}
+
+/* Switch rows */
+.customize__rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.customize__toggle,
+.customize__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 3.25rem;
+  padding: 0.5rem 0.25rem;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-size: 1rem;
+  text-align: left;
+}
+
+.customize__toggle {
+  cursor: pointer;
+}
+
+/* Can't be turned on here (its add-on isn't installed): the switch fades, its words don't. */
+.customize__toggle:disabled {
+  cursor: default;
+}
+
+.customize__toggle:disabled .customize__switch {
+  opacity: 0.4;
+}
+
+/* Two buttons at the end of a row. */
+.customize__row-actions {
+  flex: none;
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Under pill groups the rows are ruled above, like the mockup's Timer and Music cards. */
+.customize__rows--ruled > :first-child {
+  border-top: 1px solid var(--border);
+}
+
+.customize__rows--ruled > * {
+  border-bottom: none;
+  border-top: 1px solid var(--border);
+}
+
+.customize__toggle-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.customize__switch {
+  flex: none;
+  position: relative;
+  width: 3rem;
+  height: 1.75rem;
+  border-radius: var(--radius-pill);
+  background: var(--border-strong);
+  transition: background 0.15s;
+}
+
+.customize__knob {
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: 1.375rem;
+  height: 1.375rem;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: transform 0.15s;
+}
+
+.customize__toggle[aria-checked='true'] .customize__switch {
+  background: var(--accent);
+}
+
+.customize__toggle[aria-checked='true'] .customize__knob {
+  transform: translateX(1.25rem);
+}
+
+/* To-do sources */
+.customize__source {
+  border-bottom: 1px solid var(--border);
+}
+
+.customize__source .customize__row {
+  min-height: 3.75rem;
+  border-bottom: none;
+  gap: 0.875rem;
+}
+
+.customize__source-icon {
+  flex: none;
+}
+
+.customize__source-icon .source-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.customize__form {
+  padding: 0.25rem 0 1rem;
+}
+
+/* Keyboard shortcuts: what each does, and its keys in a keycap. */
+.customize__keys {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.customize__keys dd {
+  margin: 0;
+}
+
+.customize__keys[aria-disabled='true'] {
+  opacity: 0.5;
+}
+
+.customize__key-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 2.75rem;
+  padding: 0.25rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 1rem;
+}
+
+.customize__kbd {
+  display: inline-block;
+  min-width: 5.5rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-strong);
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 1rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* A timer length's hours · minutes · seconds box, after its quick picks (LengthWheels.css). */
+.customize__length {
+  display: inline-flex;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .customize__switch,
+  .customize__knob {
+    transition: none;
+  }
+}
+
+/* Right-click menu size: a slider, and the menu itself under a pointer, resizing as it moves. */
+.menu-size__heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.menu-size__value {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.menu-size__slider,
+.customize__slider {
+  appearance: none;
+  width: 100%;
+  height: var(--hit);
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.menu-size__slider::-webkit-slider-runnable-track,
+.customize__slider::-webkit-slider-runnable-track {
+  height: 0.375rem;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    to right,
+    var(--accent) var(--fill),
+    var(--border-strong) var(--fill)
+  );
+}
+
+.menu-size__slider::-webkit-slider-thumb,
+.customize__slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: -0.5625rem;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0.0625rem 0.25rem rgb(0 0 0 / 0.45);
+  transition: transform 0.15s ease-out;
+}
+
+.menu-size__slider:active::-webkit-slider-thumb,
+.customize__slider:active::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
+
+.menu-size__slider:focus-visible,
+.customize__slider:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-pill);
+}
+
+/* A corner of the Focus Screen: room for the menu at its largest, so nothing below moves. */
+.menu-size__stage {
+  position: relative;
+  height: 28rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--bg);
+}
+
+.menu-size__card {
+  position: absolute;
+  left: 9%;
+  top: 14%;
+  width: 54%;
+  height: 72%;
+  border-radius: 1rem;
+  background: var(--card);
+}
+
+.menu-size__card--small {
+  left: 67%;
+  width: 27%;
+  height: 36%;
+}
+
+.menu-size__pointer {
+  position: absolute;
+  z-index: 1;
+  left: 1.25rem;
+  top: 1.25rem;
+  width: 0.875rem;
+  fill: #fff;
+  stroke: #000;
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+/*
+ * The real menu's rows and glass, hanging from the pointer, drawn at 0.75 of the Focus Screen's
+ * size so even 120% fits; CardMenu.css sizes everything from this font size and --hit.
+ */
+.card-menu--preview {
+  position: absolute;
+  left: 1.25rem;
+  top: 1.25rem;
+  opacity: 1;
+  font-size: calc(0.75rem * var(--menu-scale, 1));
+  pointer-events: none;
+  --hit: 2.0625rem;
+}
+
+.card-menu--preview [aria-disabled] {
+  color: var(--text-dim);
+}
+
+/* Next class › School: find a school in the bundled list. */
+.customize__school-search {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.customize__search-input {
+  width: 100%;
+  min-height: var(--hit);
+  padding: 0 0.875rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border-strong);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 1rem;
+  user-select: text;
+}
+
+.customize__search-input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.customize__school-results {
+  display: flex;
+  flex-direction: column;
+  max-height: 22rem;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+}
+
+.customize__school-result {
+  /* Full height, however many lines: a scrolling list must scroll, not squeeze its rows. */
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: var(--hit);
+  padding: 0 0.875rem;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9375rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.customize__school-result:last-child {
+  border-bottom: 0;
+}
+
+/* A bus stop: its name, its corner and number, and what stops there, stacked. */
+.customize__stop-result {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.125rem;
+  padding: 0.5rem 0.875rem;
+}
+
+.customize__search-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.customize__school-result:hover,
+.customize__school-result:focus-visible {
+  background: color-mix(in srgb, var(--text) 7%, transparent);
+}
+
+/* Trips › Arrive early: the number between − and +, wide enough that the buttons stay put. */
+.customize__early {
+  min-width: 6.5rem;
+  align-self: center;
+  text-align: center;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}

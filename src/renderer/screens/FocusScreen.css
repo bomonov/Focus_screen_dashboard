@@ -1,0 +1,103 @@
+.focus-screen {
+  position: relative;
+  height: 100%;
+  padding: var(--page-padding);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.focus-screen__cards {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  gap: var(--gap);
+}
+
+/* Each card sits in a slot; the slot takes the card's place in the layout and the card fills it. */
+.layout-slot {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout-slot > .card {
+  flex: 1 1 auto;
+}
+
+/* The mockup's flex 3 1 560px / 2 1 380px split: about 60% music, 40% to-do + timer. */
+.focus-screen__cards > .layout-slot--music {
+  flex: 3 1 35rem;
+}
+
+.focus-screen__side {
+  flex: 2 1 23.75rem;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+/*
+ * The mockup's right column is taller than a 16:10 screen, so the timer keeps its natural height
+ * (shrinking its face only when the window is short) and the to-do list takes what's left.
+ */
+.focus-screen__side > .layout-slot--todos {
+  flex: 1 1 0;
+  min-height: 8rem;
+}
+
+.focus-screen__side > .layout-slot--timer {
+  flex: 0 1 auto;
+}
+
+/* Burn-in shifts glide instead of jumping. */
+.focus-screen {
+  transition: transform 2s ease-in-out;
+}
+
+/* Without the music card, to-do and timer share the width side by side. */
+.focus-screen__cards--no-music .focus-screen__side {
+  flex: 1 1 auto;
+  flex-direction: row;
+}
+
+.focus-screen__cards--no-music .focus-screen__side > .layout-slot--todos {
+  flex: 3 1 0;
+  min-width: 0;
+}
+
+.focus-screen__cards--no-music .focus-screen__side > .layout-slot--timer {
+  flex: 2 1 0;
+  min-width: 0;
+}
+
+/* A timer on its own gets the whole column (or row) and a bigger face to fill it. */
+.focus-screen__side > .layout-slot--timer:only-child,
+.focus-screen__cards--no-music .focus-screen__side > .layout-slot--timer {
+  --timer-scale: 2.5;
+}
+
+.focus-screen__side > .layout-slot--timer:only-child {
+  flex: 1 1 auto;
+}
+
+.focus-screen__side > .layout-slot--timer:only-child .timer__face,
+.focus-screen__cards--no-music .focus-screen__side > .layout-slot--timer .timer__face {
+  flex: 1 1 0;
+  height: auto;
+}
+
+.focus-screen__empty {
+  margin: auto;
+  font-size: 1.375rem;
+  color: var(--text-dim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .focus-screen {
+    transition: none;
+  }
+}

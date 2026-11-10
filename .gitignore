@@ -1,0 +1,39 @@
+node_modules
+xcuserdata/
+dist
+out
+.build
+.DS_Store
+.eslintcache
+*.log*
+*.tsbuildinfo
+
+# Secrets: tokens live in safeStorage, never in files. Keep any stray ones out of git.
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+client_secret*.json
+credentials*.json
+extension/dist-safari
+
+# The user's separate forced-alignment project (models, recordings): not app code, and its
+# audio is copyrighted music.
+Lyrics engine/
+
+# Native helper build output (Xcode, .NET).
+DerivedData/
+native/**/build/
+native/win-media/bin/
+native/win-media/obj/
+# Playwright CLI output (may contain credentials)
+.playwright-cli/
+
+# graphify's knowledge graph (rebuilt by /graphify or `graphify update .`; rewritten whole each build)
+graphify-out/
+
+# Local tool folders (agent notes, design-check config, brainstorm mockups)
+.codex/
+.impeccable/
+.superpowers/

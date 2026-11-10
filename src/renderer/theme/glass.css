@@ -1,0 +1,91 @@
+/*
+ * Glass cards (Customize › Theme), after Apple's Liquid Glass: milky, frosted panels over a dark
+ * picture, each with an even, thin rim of light, and smaller pieces of glass (buttons, pills,
+ * chips) sitting on them. Text stays the theme's own, so it reads from the
+ * desk. Only a sharp photo gets blurred behind the cards (glass-frosted): album art is blurred
+ * already, and the blur is redone every frame the record spins.
+ */
+/* One even tint and one even rim, like real glass: no part of a card lit more than another. */
+:root.glass {
+  --glass-fill: rgb(255 255 255 / 0.1);
+  --glass-edge: rgb(255 255 255 / 0.2);
+  /* Small glass on the panel: buttons, chips, the timer's mode track. */
+  --glass-piece: rgb(255 255 255 / 0.09);
+  --glass-piece-edge: rgb(255 255 255 / 0.16);
+  --inset: rgb(255 255 255 / 0.07);
+  --glass-shadow: 0 1.5rem 3.5rem rgb(0 0 0 / 0.35);
+}
+
+/*
+ * Over a picture on a dark theme the glass turns smoky: the same 10% of white on half again as much
+ * dark (one colour, so it stays one even tint). Milky glass over a bright cover's colours put the
+ * small grey words at 1.9:1; this keeps the picture showing and every word readable (presets.ts
+ * fits the quieter greys to the lightest this glass gets).
+ */
+:root.glass.over-picture:not([data-theme='day']) {
+  --glass-fill: rgb(43 43 43 / 0.6);
+}
+
+/* Daylight: the same glass, but the white has to come from the light behind, not be added. */
+:root.glass[data-theme='day'] {
+  --glass-fill: rgb(255 255 255 / 0.5);
+  --glass-edge: rgb(255 255 255 / 0.75);
+  --glass-piece: rgb(255 255 255 / 0.45);
+  --glass-piece-edge: rgb(255 255 255 / 0.8);
+  --inset: rgb(255 255 255 / 0.4);
+  --glass-shadow: 0 1.25rem 3rem rgb(0 0 0 / 0.12);
+}
+
+:root.glass .card,
+:root.glass .top-bar__display,
+:root.glass .top-bar__customize:not(.top-bar__done),
+:root.glass .next-class {
+  background: var(--glass-fill);
+  border: none;
+  box-shadow:
+    inset 0 0 0 1px var(--glass-edge),
+    inset 0 0 1.5rem rgb(255 255 255 / 0.04),
+    var(--glass-shadow);
+}
+
+/* The top bar's pills keep their border's room: their padding centers the words around it. */
+:root.glass .next-class {
+  border: 1px solid transparent;
+}
+
+:root.glass-frosted .card,
+:root.glass-frosted .top-bar__display,
+:root.glass-frosted .top-bar__customize:not(.top-bar__done),
+:root.glass-frosted .next-class {
+  backdrop-filter: blur(1.5rem) saturate(1.6) brightness(1.1);
+}
+
+/* Smaller pieces of glass on the cards. Buttons filled in the accent stay solid. */
+:root.glass .timer__button:not(.timer__button--primary),
+:root.glass .music-controls__lyrics:not([aria-pressed='true']),
+:root.glass .todo-list__action--quiet,
+:root.glass .canvas-form__input {
+  background: var(--glass-piece);
+  border-color: var(--glass-piece-edge);
+}
+
+/* The tab bars keep their dark track, as in Apple's, edged like the other glass. */
+:root.glass .tab-bar {
+  --tab-track: rgb(0 0 0 / 0.32);
+  box-shadow: inset 0 0 0 1px var(--glass-piece-edge);
+}
+
+/* Glass shows the cover through two layers (the veil, then the card), so the cover itself gets a
+   little more color. The veil stays dark: the milky cards need a dark picture to read on. */
+:root.glass .backdrop--art .backdrop__image {
+  filter: blur(4rem) saturate(1.7);
+}
+
+:root.glass .backdrop--art .backdrop__veil {
+  opacity: 0.55;
+}
+
+/* Through frosted glass a photo can show more; the clock on it is big and bold enough. */
+:root.glass .backdrop--photo .backdrop__veil {
+  opacity: 0.4;
+}

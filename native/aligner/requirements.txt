@@ -1,0 +1,12 @@
+# The aligner's runtime (Python 3.12, macOS arm64). setup.sh installs exactly these.
+torch==2.14.1
+openai-whisper==20250625
+stable-ts==2.19.1
+soundfile==0.14.0
+# CTC alignment (ctc.py): local wav2vec2 models, the fast path for English and Japanese.
+transformers==4.57.6
+tokenizers==0.22.2
+safetensors==0.8.0
+huggingface-hub==0.36.2
+packaging==26.3
+hf-xet==1.7.0

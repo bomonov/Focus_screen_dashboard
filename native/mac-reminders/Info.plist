@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>CFBundleIdentifier</key>
+    <string>com.focusscreen.reminders</string>
+    <key>CFBundleName</key>
+    <string>Focus Screen Reminders</string>
+    <key>CFBundleDisplayName</key>
+    <string>Focus Screen Reminders</string>
+    <key>CFBundleExecutable</key>
+    <string>focus-screen-reminders</string>
+    <key>CFBundleIconFile</key>
+    <string>icon</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>0.1.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>12.0</string>
+    <!-- A helper the app runs; never a Dock icon or a window of its own. -->
+    <key>LSUIElement</key>
+    <true/>
+    <key>NSRemindersFullAccessUsageDescription</key>
+    <string>Focus Screen shows your reminders in its to-do list and checks them off when you do.</string>
+    <key>NSRemindersUsageDescription</key>
+    <string>Focus Screen shows your reminders in its to-do list and checks them off when you do.</string>
+    <!-- Calendar mode: only the calendars picked as class calendars, only read. -->
+    <key>NSCalendarsFullAccessUsageDescription</key>
+    <string>Focus Screen shows your next class from the calendars you pick. It only reads them.</string>
+    <key>NSCalendarsUsageDescription</key>
+    <string>Focus Screen shows your next class from the calendars you pick. It only reads them.</string>
+    <!-- Location mode: one fix every 15 minutes while the weather pill is shown. -->
+    <key>NSLocationUsageDescription</key>
+    <string>Focus Screen shows the weather where you are. Only a rounded position goes to the weather service.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Focus Screen shows the weather where you are. Only a rounded position goes to the weather service.</string>
+  </dict>
+</plist>

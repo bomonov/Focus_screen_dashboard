@@ -1,0 +1,200 @@
+/*
+ * A pill under the date's baseline: readable from the desk, quieter than the clock. Every pill
+ * in the top bar is the same height as its buttons (--hit), whatever it holds.
+ */
+.next-class {
+  flex: 0 1 auto;
+  display: inline-flex;
+  /*
+   * The words share one baseline: centered one by one, the small capital label sat 3px
+   * above the line it labels.
+   */
+  align-items: baseline;
+  gap: 0.625rem;
+  min-width: 0;
+  max-width: 100%;
+  height: var(--hit);
+  /* However narrow it gets, nothing spills past its border onto the pill beside it. */
+  overflow: hidden;
+  /*
+   * Baseline-aligned words sit at the top of the pill's line, so the padding centers them:
+   * their line is 1.5 × the pill's font (the label's smaller line fits inside it).
+   */
+  --pill-line: calc(1.125rem * 1.5);
+  padding: calc((var(--hit) - 2px - var(--pill-line)) / 2) 1.125rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-strong);
+  background: var(--card);
+  font-size: 1.125rem;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.next-class__dot {
+  flex: none;
+  align-self: center;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.next-class__label {
+  flex: none;
+  font-size: 0.8125rem;
+  letter-spacing: 0.125rem;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.next-class__title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700;
+}
+
+/* Hidden whole when the pill is squeezed (useDropToFit), the last part first. */
+.next-class__part[hidden] {
+  display: none;
+}
+
+.next-class__part {
+  flex: none;
+  color: var(--text-secondary);
+}
+
+.next-class__part::before {
+  content: '·';
+  margin-right: 0.625rem;
+  color: var(--text-dim);
+}
+
+/* A class with a building to show: the pill is a button, held down to open its map. */
+button.next-class {
+  color: var(--text);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 0.25s ease-out,
+    border-color 0.2s ease-out;
+}
+
+/* Held: it sinks a little while the hold builds, so it's clear something's coming. */
+button.next-class--pressing {
+  transform: scale(0.95);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+button.next-class:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* About to start: the accent says "time to go". */
+.next-class--soon {
+  border-color: var(--accent);
+}
+
+.next-class--soon .next-class__label {
+  color: var(--accent-text);
+}
+
+/* Smaller words than the pill's line: centered instead. */
+.next-class--setup {
+  align-items: center;
+  font-size: 0.9375rem;
+  color: var(--text-dim);
+}
+
+/*
+ * Today's classes are over: the pill keeps its place, blank but for a dim book. Swiped right to
+ * left, it shows the next day's first class (NextClass.tsx), and swiped back, blank again.
+ */
+.next-class--blank:not(.next-class--bubble) {
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  min-width: 5.5rem;
+}
+
+.next-class--blank .next-class__book {
+  display: block;
+  color: var(--text-dim);
+}
+
+.next-class--blank:not(.next-class--bubble) .next-class__book {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+/*
+ * A pill with pages, turned by a two-finger swipe (or a finger on a touch screen): never
+ * selected or scrolled by the touch.
+ */
+.next-class.next-class--paged {
+  touch-action: pan-y;
+  user-select: none;
+}
+
+/* Mid-swipe: the words follow the fingers (usePillSwipe), fading as they go. */
+.next-class[data-swiping] > *,
+.peek-card__content[data-swiping] > * {
+  transform: translateX(var(--swipe-x, 0px));
+  opacity: var(--swipe-fade, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button.next-class,
+  button.next-class--pressing {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* The class pill's book: only its bubble shows it, in the calendar's color. */
+.next-class__book {
+  flex: none;
+  width: 1.375rem;
+  height: 1.375rem;
+  color: var(--accent);
+}
+
+/* Icons only a bubble shows (the book, the shuttle's van). */
+.pill-icon--bubble {
+  display: none;
+}
+
+/*
+ * Another pill's card is open (the pill row, pillStage.tsx): this one steps aside into a round
+ * bubble with just its icon, as tall as the pill was (--bubble-size), so the row only changes
+ * across, never up or down.
+ */
+.next-class--bubble {
+  flex: none;
+  justify-content: center;
+  align-items: center;
+  width: var(--bubble-size, 2.75rem);
+  height: var(--bubble-size, 2.75rem);
+  padding: 0;
+}
+
+.next-class--bubble > :not(.pill-icon) {
+  display: none;
+}
+
+.next-class--bubble .pill-icon {
+  display: block;
+}
+
+.next-class--bubble .next-bus__icon {
+  width: 1.375rem;
+  height: 1.375rem;
+  color: var(--text);
+}
+
+/* Mid-morph: everything keeps its size and the pill's edge clips it, so it unrolls. */
+.next-class[data-morphing] > * {
+  flex-shrink: 0;
+}

@@ -1,0 +1,57 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* 1rem = 16px on the mockup's 1440x900 artboard and scales with the window, so the screen
+     reads the same from a desk on 1080p, 1440p and 4K (about 19px per rem at 1920x1080). */
+  font-size: clamp(12px, min(100vw / 90, 100vh / 56.25), 48px);
+}
+
+/* Customize and the lyrics editor are ordinary windows read up close, so their text stays at the
+   mockup's sizes. */
+html[data-view='customize'],
+html[data-view='lyrics-editor'] {
+  font-size: 16px;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  overflow: hidden;
+  /* A glanceable display: stray drags shouldn't highlight text. */
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Hide cursor: set while the pointer rests on the Focus Screen. */
+.cursor-hidden,
+.cursor-hidden * {
+  cursor: none !important;
+}

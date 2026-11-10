@@ -1,0 +1,221 @@
+/* The moving parts editor: the cover to click and the live preview side by side, a compact list
+   of parts under them that scrolls rather than growing, and the actions. */
+.parts-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 0 0.25rem;
+}
+
+.parts-editor__stage {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  max-width: 34rem;
+}
+
+.parts-editor__figure {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin: 0;
+  min-width: 0;
+}
+
+.parts-editor__cover,
+.parts-editor__preview {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 0.875rem;
+  overflow: hidden;
+  background: var(--border);
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+.parts-editor__cover {
+  cursor: crosshair;
+  /* Shift-click adds a piece: it mustn't also select the page's text. */
+  user-select: none;
+}
+
+.parts-editor__cover img,
+.parts-editor__preview img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+}
+
+/* A picked part, tinted in its colour: the mask is white on black, so it's read by brightness.
+   The selected one (what Shift-clicks add to) is the strongest. */
+.parts-editor__tint {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  transition: opacity 160ms ease-out;
+  pointer-events: none;
+  mask-mode: luminance;
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+}
+
+.parts-editor__tint--selected {
+  opacity: 0.6;
+}
+
+.parts-editor__status {
+  min-height: 1.25rem;
+}
+
+/* Four rows and half of the next show: the half row says there's more, which scrolls inside the
+   list, so the section never runs long. */
+.parts-editor__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-height: 13.75rem;
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  overflow-y: auto;
+  border-radius: 0.875rem;
+  background: var(--bg);
+  box-shadow: inset 0 0 0 1px var(--border);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+.parts-editor__part {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: var(--hit);
+  padding: 0 0.25rem 0 0;
+  border-radius: 0.625rem;
+}
+
+.parts-editor__part:hover {
+  background: var(--card);
+}
+
+.parts-editor__part--selected {
+  background: var(--card);
+  box-shadow: inset 0 0 0 1px var(--border-strong);
+}
+
+/* The number chip is the row's select button, its hit area the full row height. */
+.parts-editor__pick {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--hit);
+  height: var(--hit);
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.parts-editor__pick:disabled {
+  cursor: default;
+}
+
+.parts-editor__part--selected .parts-editor__chip {
+  box-shadow:
+    0 0 0 2px var(--card),
+    0 0 0 3.5px var(--text);
+}
+
+.parts-editor__chip {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  color: #000000;
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+/* The motion picker: a plain dropdown, drawn to match the pills. */
+.parts-editor__select {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.parts-editor__select select {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0 2.25rem 0 0.875rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.875rem;
+  appearance: none;
+  cursor: pointer;
+}
+
+.parts-editor__select select:disabled {
+  cursor: default;
+  color: var(--text-dim);
+}
+
+.parts-editor__select svg {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  width: 1rem;
+  height: 1rem;
+  translate: 0 -50%;
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+.parts-editor__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--hit);
+  height: var(--hit);
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.parts-editor__icon svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.parts-editor__icon:hover:not(:disabled) {
+  background: var(--border);
+  color: var(--text);
+}
+
+.parts-editor__icon:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.parts-editor__select select:focus-visible,
+.parts-editor__icon:focus-visible,
+.parts-editor__pick:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.parts-editor__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}

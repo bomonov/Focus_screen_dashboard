@@ -1,0 +1,220 @@
+/*
+ * A card's menu on liquid glass, after iOS 26's context menus: a dark, frosted panel whose rim
+ * bends and catches the light (CardMenu's SVG backdrop filter), over a light dim of the screen.
+ * Its size, opacity and blur are set from script every frame (no CSS animation), so it can grow
+ * out of the dot that opened it and shrink back in.
+ *
+ * Everything inside is in em of the panel's font size, which is the rem times --menu-scale, so
+ * the right-click menu can be drawn smaller or larger (Customize) and stay crisp. An em inside
+ * a row is the row's own (larger) font size, hence the odd-looking fractions there.
+ */
+:root {
+  --menu-fill: rgb(40 40 42 / 0.5);
+  --menu-edge: rgb(255 255 255 / 0.14);
+  --menu-highlight: rgb(255 255 255 / 0.12);
+  --menu-press: rgb(255 255 255 / 0.2);
+  --menu-well: rgb(0 0 0 / 0.22);
+  --menu-line: rgb(255 255 255 / 0.12);
+  --menu-scrim: rgb(0 0 0 / 0.28);
+  --menu-shadow: 0 1.5rem 4rem rgb(0 0 0 / 0.5), 0 0.25rem 1rem rgb(0 0 0 / 0.3);
+}
+
+:root[data-theme='day'] {
+  --menu-fill: rgb(255 255 255 / 0.58);
+  --menu-edge: rgb(0 0 0 / 0.08);
+  --menu-highlight: rgb(0 0 0 / 0.07);
+  --menu-press: rgb(0 0 0 / 0.12);
+  --menu-well: rgb(0 0 0 / 0.05);
+  --menu-line: rgb(0 0 0 / 0.1);
+  --menu-scrim: rgb(0 0 0 / 0.12);
+  --menu-shadow: 0 1.5rem 4rem rgb(0 0 0 / 0.18), 0 0.25rem 1rem rgb(0 0 0 / 0.08);
+}
+
+.card-menu-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+
+/* Closing: clicks go straight through to the screen again. */
+.card-menu-layer--closing,
+.card-menu-layer--closing * {
+  pointer-events: none;
+}
+
+.card-menu-scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--menu-scrim);
+  opacity: 0;
+}
+
+.card-menu {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  min-width: 17em;
+  max-width: min(28em, calc(100vw - 2rem));
+  border-radius: 1.25em;
+  font-size: calc(1rem * var(--menu-scale, 1));
+  overflow: hidden;
+  background: var(--menu-fill);
+  box-shadow:
+    inset 0 0 0 1px var(--menu-edge),
+    var(--menu-shadow);
+  color: var(--text);
+  opacity: 0;
+  outline: none;
+  will-change: transform, opacity;
+}
+
+/* Where SVG glass can't be made, plain frosted glass. */
+.card-menu--frosted {
+  backdrop-filter: blur(0.75em) saturate(1.6);
+}
+
+.card-menu__scroll {
+  position: relative;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.card-menu__content {
+  padding: 0.375em;
+}
+
+.card-menu__status {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25em;
+  padding: 0.625em 0.875em 0.5em;
+}
+
+.card-menu__line {
+  font-size: 0.9375em;
+  line-height: 1.3;
+  color: var(--text-secondary);
+}
+
+.card-menu__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-menu__separator {
+  flex: none;
+  height: 1px;
+  margin: 0.3125em 0.875em;
+  background: var(--menu-line);
+}
+
+.card-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 0.556em;
+  width: 100%;
+  min-height: calc(var(--hit) * var(--menu-scale, 1));
+  padding: 0 0.889em 0 0.778em;
+  border: 0;
+  border-radius: 0.778em;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 1.125em;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.12s ease-out;
+}
+
+/* The pointer and the arrow keys share one highlight: the focused row. */
+.card-menu__item:focus {
+  background: var(--menu-highlight);
+}
+
+.card-menu__item:active {
+  background: var(--menu-press);
+}
+
+.card-menu__item:disabled {
+  color: var(--text-dim);
+  background: transparent;
+  cursor: default;
+}
+
+/* A column for checkmarks, only in lists with something to check. */
+.card-menu__check {
+  display: none;
+  flex: none;
+  width: 1em;
+  height: 1em;
+  margin-left: -0.222em;
+}
+
+.card-menu__list--checks > .card-menu__item > .card-menu__check,
+.card-menu__list--checks > .card-menu__group > .card-menu__item > .card-menu__check {
+  display: block;
+}
+
+.card-menu__check > svg,
+.card-menu__chevron > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.card-menu__label {
+  flex: 1;
+}
+
+.card-menu__shortcut,
+.card-menu__value {
+  margin-left: 1.25em;
+  font-family: inherit;
+  font-size: 0.889em;
+  color: var(--text-dim);
+}
+
+.card-menu__chevron {
+  flex: none;
+  width: 0.889em;
+  height: 0.889em;
+  color: var(--text-dim);
+  transition: transform 0.32s cubic-bezier(0.3, 0.7, 0.2, 1.15);
+}
+
+.card-menu__item[aria-expanded='true'] .card-menu__chevron {
+  transform: rotate(90deg);
+}
+
+.card-menu__item[aria-expanded='true'] .card-menu__value {
+  opacity: 0;
+}
+
+/* A submenu's rows, folded to nothing until CardMenu unfolds them (it sets the height). */
+.card-menu__sub {
+  height: 0;
+  overflow: hidden;
+}
+
+.card-menu__sub-rows {
+  margin: 0.125em 0 0.25em;
+  padding: 0.25em;
+  border-radius: 1.125em;
+  background: var(--menu-well);
+}
+
+.card-menu__sub-rows .card-menu__item {
+  border-radius: 0.778em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-menu__item,
+  .card-menu__chevron {
+    transition: none;
+  }
+}

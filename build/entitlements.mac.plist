@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>com.apple.security.cs.allow-jit</key>
+    <true/>
+    <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+    <true/>
+    <key>com.apple.security.cs.allow-dyld-environment-variables</key>
+    <true/>
+    <!-- Hardened runtime blocks Apple Events without this; osascript reads Spotify and Music. -->
+    <key>com.apple.security.automation.apple-events</key>
+    <true/>
+    <!-- Also inherited by the Reminders helper when it's re-signed inside the app: its calendar
+         mode (Next class) can't ask for Calendar access under hardened runtime without it. -->
+    <key>com.apple.security.personal-information.calendars</key>
+    <true/>
+    <!-- Likewise its location mode (the weather pill) can't ask for Location without this. -->
+    <key>com.apple.security.personal-information.location</key>
+    <true/>
+  </dict>
+</plist>

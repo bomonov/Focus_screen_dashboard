@@ -1,0 +1,953 @@
+/*
+ * The Color-Code Lyrics window: mockup A (design/lyrics-singers/editor.html), Aegisub's layout.
+ * The toolbar, the waveform, every line in a list, and the line being edited with the cast at the
+ * bottom. Everything sits on the theme's card color, which the singers' colors are fitted to.
+ * This window's rem is a fixed 16px (global.css).
+ */
+.lyrics-editor {
+  --editor-danger: #ff7b72;
+  /* Lines the user added: no singer's color (R16), white at low opacity, black on Daylight. */
+  --lyrics-added: rgb(255 255 255 / 0.35);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  color: var(--text);
+}
+
+:root[data-theme='day'] .lyrics-editor {
+  --editor-danger: #b42318;
+  /* Daylight's card is light: white can't show on it. */
+  --lyrics-added: rgb(0 0 0 / 0.35);
+}
+
+.lyrics-editor--closed,
+.lyrics-editor__waiting {
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+  font-size: 1.0625rem;
+  text-align: center;
+}
+
+.lyrics-editor__waiting {
+  flex: 1;
+}
+
+/* --- Buttons ---------------------------------------------------------------------------- */
+
+.lyrics-editor__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: var(--hit);
+  padding: 0 1rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9375rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.lyrics-editor__button:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--text) 7%, transparent);
+}
+
+/* An on/off that's on (Tap timing, choosing the cast): the mockup's white pill, under the pointer too. */
+.lyrics-editor__button[aria-pressed='true'],
+.lyrics-editor__button[aria-pressed='true']:hover:not(:disabled) {
+  border-color: var(--text);
+  background: var(--text);
+  color: var(--card);
+  font-weight: 700;
+}
+
+.lyrics-editor__button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.lyrics-editor__button--quiet {
+  border-color: transparent;
+  color: var(--text-secondary);
+}
+
+.lyrics-editor__button--danger {
+  border-color: var(--editor-danger);
+  color: var(--editor-danger);
+  font-weight: 700;
+}
+
+.lyrics-editor__button--accent {
+  border-color: var(--accent);
+  color: var(--accent-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The one thing a box is for (Add 3 lines): the mockup's white pill. */
+.lyrics-editor__button--primary {
+  border-color: var(--text);
+  background: var(--text);
+  color: var(--card);
+  font-weight: 700;
+}
+
+.lyrics-editor__button--primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--text) 88%, var(--card));
+}
+
+.lyrics-editor__button--icon {
+  justify-content: center;
+  width: var(--hit);
+  padding: 0;
+  font-size: 1.25rem;
+}
+
+.lyrics-editor button:focus-visible,
+.lyrics-editor [role='slider']:focus-visible,
+.lyrics-editor input:focus-visible,
+.lyrics-editor textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.lyrics-editor input[type='text'] {
+  min-height: var(--hit);
+  min-width: 0;
+  padding: 0 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 0.75rem;
+  background: var(--inset);
+  color: var(--text);
+  font: inherit;
+  font-size: 1rem;
+  user-select: text;
+}
+
+.lyrics-editor__label {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.lyrics-editor kbd {
+  padding: 0 0.3rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 0.25rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* --- Toolbar ---------------------------------------------------------------------------- */
+
+.editor-toolbar {
+  flex: none;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.editor-toolbar__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.editor-toolbar__song {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  max-width: 22rem;
+  margin-right: 0.5rem;
+}
+
+.editor-toolbar__title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.editor-toolbar__byline {
+  overflow: hidden;
+  color: var(--text-dim);
+  font-size: 0.875rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.editor-toolbar__time {
+  padding: 0 0.25rem;
+  color: var(--text-secondary);
+  font-family: Menlo, monospace;
+  font-size: 0.9375rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.editor-toolbar__length {
+  color: var(--text-dim);
+}
+
+/* Undo, Redo and "Remove colors…" keep together at the right, on a row of their own if need be. */
+.editor-toolbar__end {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.editor-toolbar__away {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.25rem 0.25rem 0.875rem;
+  border-radius: 0.875rem;
+  background: var(--inset);
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+}
+
+.editor-toolbar__confirm {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+}
+
+/* "Tap: Words / Lines": two halves of one pill, the picked one filled like any on/off. */
+.tap-mode {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tap-mode__label {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+}
+
+.tap-mode__switch {
+  display: inline-flex;
+}
+
+.tap-mode__switch .lyrics-editor__button:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.tap-mode__switch .lyrics-editor__button:last-child {
+  margin-left: -1px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* --- Waveform --------------------------------------------------------------------------- */
+
+.waveform {
+  position: relative;
+  flex: none;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  background: var(--inset);
+}
+
+.waveform__canvas {
+  display: block;
+  width: 100%;
+  touch-action: none;
+}
+
+.waveform__playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1px;
+  width: 2px;
+  background: var(--accent);
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* Where the loudness would be (the lanes above still draw). */
+.waveform__note {
+  position: absolute;
+  inset: 52px 1rem 6px;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  pointer-events: none;
+}
+
+/* On a backing of its own, so the ticks pass behind the words rather than through them. */
+.waveform__note span {
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-pill);
+  background: var(--inset);
+  color: var(--text-dim);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* --- Line list -------------------------------------------------------------------------- */
+
+.line-list {
+  position: relative;
+  flex: 1 1 8rem;
+  min-height: 6rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.line-list__head,
+.line-list__row {
+  display: grid;
+  grid-template-columns: 2.25rem 4.75rem 4.75rem 6.5rem minmax(0, 1fr);
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.375rem 1rem;
+}
+
+.line-list__head {
+  border-bottom: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.line-list__rows {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.line-list__row {
+  min-height: 2.5rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9375rem;
+  cursor: pointer;
+}
+
+.line-list__row:hover {
+  background: color-mix(in srgb, var(--text) 4%, transparent);
+}
+
+/* A line the user added: a bar of its own down the left (the selection's accent bar wins). */
+.line-list__row--added {
+  box-shadow: inset 3px 0 0 var(--lyrics-added);
+}
+
+.line-list__row[aria-selected='true'] {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+/* The rest of a run of lines (Shift-click): lit more quietly, so the line being edited stands out. */
+.line-list__row--run[aria-selected='true'] {
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.line-list__mono {
+  color: var(--text-secondary);
+  font-family: Menlo, monospace;
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* A time that's the editor's guess (≈1:33): dim, to the second. */
+.line-list__mono--guess {
+  color: var(--text-dim);
+}
+
+.line-list__who {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+}
+
+.line-list__text {
+  overflow: hidden;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.line-list__row--voice .line-list__text {
+  padding-left: 1.25rem;
+  font-size: 0.875rem;
+}
+
+.line-list__voice-mark {
+  color: var(--text-dim);
+  font-weight: 400;
+}
+
+/* A line the lyrics have that the coding hasn't: uncolored and quieter until it's colored. */
+.line-list__row--new .line-list__text {
+  color: var(--text-secondary);
+}
+
+.line-list__row--new[aria-disabled='true'] {
+  cursor: default;
+}
+
+.line-list__changed {
+  margin-left: 0.5rem;
+  padding: 0 0.4rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+/* "added": outlined in the added color, its word in the text color (R16). */
+/* A music break the user marked: nobody's words, so the row says what it is, quietly. */
+.line-list__break {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.line-list__added {
+  margin-left: 0.5rem;
+  padding: 0 0.4rem;
+  border: 1px solid var(--lyrics-added);
+  border-radius: var(--radius-pill);
+  color: var(--text);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.line-list__also {
+  margin-left: 0.5rem;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+/* "＋ Add lines": over the top of the list, so the lines and the waveform stay where they are. */
+.add-lines {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  left: 1rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--accent);
+  border-radius: 0.875rem;
+  background: var(--card);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.35);
+}
+
+.add-lines__caption {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+}
+
+.add-lines__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.add-lines textarea {
+  min-height: 7.5rem;
+  max-height: 40vh;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 0.75rem;
+  background: var(--inset);
+  color: var(--text);
+  font: inherit;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  resize: vertical;
+  user-select: text;
+}
+
+.add-lines__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.add-lines__count {
+  flex: 1;
+  color: var(--text-dim);
+  font-size: 0.875rem;
+}
+
+.add-lines__count--problem {
+  color: var(--editor-danger);
+}
+
+/* Several singers: their gradient runs across the words. */
+.painted-gradient {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* --- The edited line -------------------------------------------------------------------- */
+
+.lyrics-editor__edit {
+  flex: 0 0 auto;
+  max-height: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem 1rem;
+  overflow-y: auto;
+  border-top: 1px solid var(--border);
+}
+
+.edit-line {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+/* The line's number and times, with "Time by listening" at the far end. */
+.edit-line__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.edit-line__meta {
+  padding-top: 0.25rem;
+  color: var(--text-dim);
+  font-size: 0.8125rem;
+}
+
+.listen {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+.listen__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.25rem 0.75rem;
+}
+
+.listen__why,
+.listen__note {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+}
+
+.listen__why:empty {
+  display: none;
+}
+
+.edit-line__words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.3;
+  touch-action: none;
+}
+
+.edit-word {
+  padding: 0.125rem 0.375rem;
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.edit-word:hover {
+  background: color-mix(in srgb, var(--text) 5%, transparent);
+}
+
+.edit-word--picked {
+  border-color: var(--text);
+}
+
+/* The word J marks next. */
+.edit-word--tap {
+  box-shadow: inset 0 -3px 0 var(--accent);
+}
+
+.edit-line__empty {
+  color: var(--text-dim);
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.edit-line__actions,
+.edit-line__add {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.edit-line__add input {
+  width: 22rem;
+}
+
+/* An added line's words being retyped: one field the width of the line. */
+.edit-line__retype {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.edit-line__retype input[type='text'] {
+  flex: 1 1 22rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.edit-line__problem {
+  flex-basis: 100%;
+  color: var(--editor-danger);
+  font-size: 0.875rem;
+}
+
+.romaji-line__wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+}
+
+.romaji-line {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 2;
+}
+
+/* The text and the handles laid over it (each handle is moved onto its space by script). */
+.romaji-line__text {
+  position: relative;
+}
+
+/* A space keeps its width as a box, so its middle can be measured for a handle. */
+.romaji-line__space {
+  display: inline-block;
+  white-space: pre;
+}
+
+.romaji-line__handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1.5rem;
+  transform: translateX(-50%);
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+.romaji-line__handle::before {
+  content: '';
+  position: absolute;
+  top: 0.125rem;
+  bottom: 0.125rem;
+  left: calc(50% - 1.5px);
+  width: 3px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.romaji-line__handle:focus-visible {
+  border-radius: 0.375rem;
+}
+
+/* A split nothing was sure of: dashed, a start to drag from. */
+.romaji-line__text--unsure .romaji-line__handle::before {
+  width: 0;
+  border-left: 3px dashed var(--accent);
+  border-radius: 0;
+  background: none;
+}
+
+.romaji-line__note {
+  color: var(--text-dim);
+  font-size: 0.8125rem;
+}
+
+/* --- Singers ---------------------------------------------------------------------------- */
+
+.song-cast {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.song-cast__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.song-cast__empty {
+  margin-right: 0.5rem;
+  color: var(--text-dim);
+  font-size: 0.9375rem;
+}
+
+.singer-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: var(--hit);
+  padding: 0.25rem 0.75rem 0.25rem 0.25rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9375rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.singer-badge:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--text) 7%, transparent);
+}
+
+.singer-badge[aria-pressed='true'],
+.singer-badge[aria-pressed='true']:hover:not(:disabled) {
+  border-color: var(--text);
+  background: color-mix(in srgb, var(--text) 10%, transparent);
+  font-weight: 700;
+}
+
+.singer-badge:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.singer-badge--bare {
+  padding: 0.25rem;
+}
+
+.singer-badge--drop {
+  outline: 2px dashed var(--accent);
+  outline-offset: 1px;
+}
+
+/* The number key that picks them, on the circle's corner. */
+.singer-badge__key {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  min-width: 1.125rem;
+  height: 1.125rem;
+  padding: 0 0.2rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 0.5625rem;
+  background: var(--card);
+  color: var(--text-secondary);
+  font-size: 0.6875rem;
+  font-weight: 700;
+}
+
+.singer-circle {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  /* A pale color still has an edge on a white card. */
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.12);
+}
+
+.singer-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.singer-circle--small {
+  width: 1.375rem;
+  height: 1.375rem;
+  border-width: 1.5px;
+  font-size: 0.5625rem;
+}
+
+.cast-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+}
+
+.cast-picker--choosing {
+  border-color: var(--accent);
+}
+
+.cast-picker__hint {
+  color: var(--text-dim);
+  font-size: 0.875rem;
+}
+
+.cast-picker__groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  align-items: start;
+  gap: 0.5rem 1rem;
+}
+
+.cast-picker__group {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.cast-picker__group .lyrics-editor__label {
+  padding: 0 0.25rem 0.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cast-picker__group .singer-badge {
+  justify-content: flex-start;
+}
+
+.cast-picker__group > .lyrics-editor__button {
+  align-self: flex-start;
+  margin-top: 0.25rem;
+}
+
+.add-singer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 0.75rem;
+}
+
+.add-singer__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.add-singer__field--color {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.add-singer input[type='color'] {
+  width: var(--hit);
+  height: var(--hit);
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.add-singer__error {
+  color: var(--editor-danger);
+  font-size: 0.8125rem;
+}
+
+.add-singer__actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.lyrics-editor__notice {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+}
+
+.lyrics-editor__hint {
+  color: var(--text-dim);
+  font-size: 0.8125rem;
+  line-height: 1.8;
+}
+
+/* A badge's picture menu, opened by right-clicking it. */
+.picture-menu {
+  position: fixed;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  min-width: 13rem;
+  padding: 0.375rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 0.875rem;
+  background: var(--card);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.35);
+}
+
+.picture-menu button {
+  min-height: var(--hit);
+  padding: 0 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9375rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.picture-menu button:hover:not(:disabled),
+.picture-menu button:focus-visible {
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+}
+
+.picture-menu button:disabled {
+  color: var(--text-dim);
+  cursor: default;
+}

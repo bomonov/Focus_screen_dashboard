@@ -1,0 +1,134 @@
+/* A coming bus's route: a peek card (PeekCard.css), wider than the class map for the path. */
+.bus-route {
+  width: min(30rem, calc(100vw - 2rem));
+}
+
+.bus-route__lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.bus-route__lines polyline {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* A dark edge under the whole path, so it reads on the day theme's light map too. */
+.bus-route__casing {
+  stroke: rgb(0 0 0 / 0.45);
+  stroke-width: 13;
+}
+
+/* Where the bus comes from: there, but quieter than where it goes. */
+.bus-route__behind {
+  stroke: var(--accent);
+  stroke-width: 6;
+  stroke-opacity: 0.5;
+}
+
+.bus-route__ahead {
+  stroke: var(--accent);
+  stroke-width: 9;
+}
+
+/* Arrows sliding along the path, the way the bus goes. */
+.bus-route__arrow path {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bus-route__arrow .bus-route__arrow-shade {
+  stroke: rgb(0 0 0 / 0.5);
+  stroke-width: 6.5;
+}
+
+/* The bus, live: it glides from one reported spot to the next. */
+.bus-route__bus {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0.125rem solid #fff;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0.25rem 0.75rem rgb(0 0 0 / 0.45);
+  transform: translate(-50%, -50%);
+  transition:
+    left 1.2s ease-in-out,
+    top 1.2s ease-in-out,
+    transform 1.2s ease-in-out,
+    opacity 0.3s ease-out;
+}
+
+/*
+ * Waiting at the stop: beside the pin, level with its head (the pin stands 2.1rem above its
+ * spot, 1.75rem wide), so neither hides the other.
+ */
+.bus-route__bus--wait {
+  transform: translate(calc(-50% + 2.25rem), calc(-50% - 1.225rem));
+}
+
+.bus-route__bus--wait-left {
+  transform: translate(calc(-50% - 2.25rem), calc(-50% - 1.225rem));
+}
+
+/* The route's other buses going the same way: smaller, grey, the card's own one stands out. */
+.bus-route__bus--other {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-color: rgb(255 255 255 / 0.85);
+  background: #3a3a3a;
+  box-shadow: 0 0.125rem 0.5rem rgb(0 0 0 / 0.4);
+}
+
+.bus-route__bus--other .bus-route__bus-icon {
+  width: 0.875rem;
+  height: 0.875rem;
+  color: #fff;
+}
+
+.bus-route__bus-icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  color: #000;
+}
+
+.bus-route__bus--past {
+  opacity: 0.5;
+}
+
+.bus-route__live {
+  font-size: 0.875rem;
+  color: var(--text-dim);
+}
+
+.bus-route__live--on::before {
+  content: '';
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  background: var(--accent);
+  vertical-align: 0.0625rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bus-route__bus {
+    transition: none;
+  }
+}
+
+/* Swiped to another route: out of sight for the moment until its map comes (BusRouteCard). */
+.bus-route--paging {
+  opacity: 0;
+}

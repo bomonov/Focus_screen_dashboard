@@ -1,0 +1,60 @@
+/* Next bus wears Next class's pill (NextClass.css); only its icon and quiet words differ. */
+.next-bus__icon {
+  flex: none;
+  align-self: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  color: var(--text-secondary);
+}
+
+.next-bus__quiet {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-dim);
+}
+
+/* No times to count down: the pill steps back. */
+.next-bus--quiet {
+  border-color: var(--border);
+}
+
+/*
+ * Beside the clock and Next class, room runs out. The live Bus pill keeps its size; the
+ * Shuttle pill gives way. Route names stay whole, and nothing spills past a pill's border.
+ */
+.next-bus {
+  overflow: hidden;
+}
+
+.next-bus:not(.next-bus--shuttle) {
+  flex-shrink: 0;
+}
+
+.next-bus .next-class__title {
+  flex: none;
+}
+
+/*
+ * The times after the route, one line tall: a part that doesn't fit wraps onto the hidden
+ * second line, so each shows whole or not at all, the last ones ("+2 more") going first.
+ */
+.next-bus__parts {
+  flex: 0 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.625rem;
+  height: 1.5em;
+  line-height: 1.5em;
+  overflow: hidden;
+}
+
+/* Where the bus goes: only while the pill is stretched for its route card. */
+.next-bus__held-part {
+  display: none;
+}
+
+.next-class--held .next-bus__held-part {
+  display: block;
+}

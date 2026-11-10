@@ -1,0 +1,82 @@
+/*
+ * The weather pill, after Next class and Next bus in the same pill style (NextClass.css). It's
+ * the one that gives way when the row runs short: it shrinks first, then drops its place.
+ */
+.next-class.weather:not(.next-class--bubble) {
+  /*
+   * So much more than the others' 1 that they shrink under a pixel (less than useDropToFit
+   * counts as cut) until this one is down to its icon and temperature.
+   */
+  flex-shrink: 10000;
+  /* Never narrower than its icon and temperature, which sit in the middle once the place goes. */
+  min-width: 7rem;
+  justify-content: center;
+}
+
+.weather .next-class__title {
+  flex: none;
+}
+
+.weather__icon {
+  flex: none;
+  align-self: center;
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+/* Held to open its card, or (set up) clicked to ask macOS, open System Settings or read again. */
+button.next-class.weather {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* The setup pill keeps the setup style's dim words (NextClass.css). */
+button.next-class.weather:not(.next-class--setup) {
+  color: var(--text);
+}
+
+/* NextClass.css's button.next-class would make them full white. */
+button.next-class--setup.weather {
+  color: var(--text-dim);
+}
+
+/* It gives way first, so its words are the ones that run short: trimmed, never cut mid-word. */
+.weather__setup-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.next-class--setup .weather__icon {
+  color: var(--text-dim);
+}
+
+/* Each part of an icon in its own colour, fitted per theme to 3:1 on the cards (presets.ts). */
+.weather-icon__sun {
+  stroke: var(--weather-sun, #ffc627);
+}
+
+.weather-icon__moon {
+  stroke: var(--weather-moon, #d9d9e8);
+}
+
+.weather-icon__cloud {
+  stroke: var(--weather-cloud, #bfbfbf);
+}
+
+.weather-icon__rain {
+  stroke: var(--weather-rain, #5ab4f0);
+}
+
+.weather-icon__storm {
+  stroke: var(--weather-storm, #b48cf0);
+}
+
+.weather-icon__snow {
+  stroke: var(--weather-snow, #cfe8ff);
+}
+
+/* Waiting on Location or a read: the icon quiet, like the words. */
+.next-class--setup .weather-icon * {
+  stroke: currentColor;
+}

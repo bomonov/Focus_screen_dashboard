@@ -1,0 +1,112 @@
+<style>
+  .fs { background:radial-gradient(120% 90% at 70% 100%, #2a1a10 0%, #000 60%); color:#fff; font-family:Arial,Helvetica,sans-serif; border-radius:14px; padding:18px 20px 22px; margin-top:10px; }
+  .fs.z { zoom:0.78; }
+  .row { display:flex; align-items:center; gap:12px; }
+  .pill { display:inline-flex; align-items:center; gap:10px; height:44px; padding:0 18px; border-radius:999px; border:1px solid #484848; background:#191919; font-size:18px; white-space:nowrap; }
+  .bubble { width:44px; height:44px; padding:0; justify-content:center; }
+  .b { font-weight:700; }
+  .sec { color:#bfbfbf; }
+  .sec::before { content:'·'; margin-right:10px; color:#9a9a9a; }
+  .wx { width:22px; height:22px; flex:none; }
+  .sun { color:#ffc627; } .moon { color:#d9d9e8; } .cloud { color:#bfbfbf; } .rain { color:#5ab4f0; }
+  .card { margin:10px 0 0 112px; width:384px; border-radius:20px; background:rgb(43 43 43 / 0.78); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.14), 0 18px 40px rgb(0 0 0 / 0.5); padding:16px 18px 12px; }
+  .now { display:flex; align-items:center; gap:14px; }
+  .now .big { font-size:44px; font-weight:700; line-height:1; }
+  .now .words { display:flex; flex-direction:column; gap:3px; font-size:16px; }
+  .dim { color:#9a9a9a; }
+  .hours { display:grid; grid-template-columns:repeat(6, 1fr); margin-top:16px; padding-top:12px; border-top:1px solid rgb(255 255 255 / 0.1); text-align:center; font-size:14px; }
+  .hours div { display:flex; flex-direction:column; align-items:center; gap:6px; }
+  .days { margin-top:12px; padding-top:8px; border-top:1px solid rgb(255 255 255 / 0.1); font-size:15px; }
+  .day { display:grid; grid-template-columns:56px 28px 1fr; align-items:center; padding:5px 0; }
+  .bar { position:relative; height:6px; border-radius:3px; background:rgb(255 255 255 / 0.1); }
+  .bar i { position:absolute; top:0; bottom:0; border-radius:3px; background:linear-gradient(90deg,#ffc627,#ff7f32); }
+  .lohi { display:flex; justify-content:space-between; font-size:13px; color:#bfbfbf; margin-bottom:3px; }
+  .credit { margin-top:12px; font-size:12px; color:#9a9a9a; }
+  .note { font-size:13px; color:#9a9a9a; margin-top:10px; }
+</style>
+
+<h2>Should holding the pill open more?</h2>
+<p class="subtitle">Like holding Next class (its map) or the bus (its route): the other pills shrink to icons and a glass card grows out of the weather. Click the one you'd want.</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>No, the pill is enough</h3>
+      <p>Nothing to hold. Simplest.</p>
+      <div class="fs z"><div class="row">
+        <div class="pill"><span class="b">CSE 340</span><span class="sec">in 15 min</span></div>
+        <div class="pill"><span class="b">Orbit Venus</span><span class="sec">4 min</span></div>
+        <div class="pill"><svg class="wx sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg><span class="b">98°</span><span class="sec">Tempe</span></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Today: how it feels and the next few hours</h3>
+      <p>What it's like now in words, "feels like", today's high and low, and the next six hours.</p>
+      <div class="fs z">
+        <div class="row">
+          <div class="pill bubble"><svg class="wx" style="color:#00a3e0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v15H5.5A1.5 1.5 0 0 0 4 20.5zM20 5.5A1.5 1.5 0 0 0 18.5 4H13v15h5.5a1.5 1.5 0 0 1 1.5 1.5z"/></svg></div>
+          <div class="pill bubble"><svg class="wx cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="5" y="4" width="14" height="13" rx="2.5"/><path d="M5 11h14M8 20v-3M16 20v-3"/></svg></div>
+          <div class="pill"><svg class="wx sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg><span class="b">98°</span><span class="sec">Tempe</span></div>
+        </div>
+        <div class="card">
+          <div class="now">
+            <svg style="width:46px;height:46px" class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+            <span class="big">98°</span>
+            <div class="words"><span class="b">Sunny</span><span class="dim">Feels like 101°</span><span class="dim">High 101° · Low 74°</span></div>
+          </div>
+          <div class="hours">
+            <div><span class="dim">3 PM</span><svg class="wx sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg><span class="b">100°</span></div>
+            <div><span class="dim">4 PM</span><svg class="wx sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg><span class="b">101°</span></div>
+            <div><span class="dim">5 PM</span><svg class="wx cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 18z"/></svg><span class="b">99°</span></div>
+            <div><span class="dim">6 PM</span><svg class="wx cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 18z"/></svg><span class="b">95°</span></div>
+            <div><span class="dim">7 PM</span><svg class="wx moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><span class="b">90°</span></div>
+            <div><span class="dim">8 PM</span><svg class="wx moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><span class="b">86°</span></div>
+          </div>
+          <div class="credit">Weather: Open-Meteo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Today plus the next few days</h3>
+      <p>B, with five days under it, each with its high and low on one shared scale.</p>
+      <div class="fs z">
+        <div class="row">
+          <div class="pill bubble"><svg class="wx" style="color:#00a3e0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v15H5.5A1.5 1.5 0 0 0 4 20.5zM20 5.5A1.5 1.5 0 0 0 18.5 4H13v15h5.5a1.5 1.5 0 0 1 1.5 1.5z"/></svg></div>
+          <div class="pill bubble"><svg class="wx cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="5" y="4" width="14" height="13" rx="2.5"/><path d="M5 11h14M8 20v-3M16 20v-3"/></svg></div>
+          <div class="pill"><svg class="wx sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg><span class="b">98°</span><span class="sec">Tempe</span></div>
+        </div>
+        <div class="card">
+          <div class="now">
+            <svg style="width:46px;height:46px" class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+            <span class="big">98°</span>
+            <div class="words"><span class="b">Sunny</span><span class="dim">Feels like 101°</span><span class="dim">High 101° · Low 74°</span></div>
+          </div>
+          <div class="hours">
+            <div><span class="dim">3 PM</span><span class="b">100°</span></div>
+            <div><span class="dim">4 PM</span><span class="b">101°</span></div>
+            <div><span class="dim">5 PM</span><span class="b">99°</span></div>
+            <div><span class="dim">6 PM</span><span class="b">95°</span></div>
+            <div><span class="dim">7 PM</span><span class="b">90°</span></div>
+            <div><span class="dim">8 PM</span><span class="b">86°</span></div>
+          </div>
+          <div class="days">
+            <div class="day"><span>Wed</span><svg class="wx sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22"/></svg><div><div class="lohi"><span>73°</span><span>100°</span></div><div class="bar"><i style="left:5%;right:8%"></i></div></div></div>
+            <div class="day"><span>Thu</span><svg class="wx cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M7 18h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 18z"/></svg><div><div class="lohi"><span>70°</span><span>94°</span></div><div class="bar"><i style="left:0;right:22%"></i></div></div></div>
+            <div class="day"><span>Fri</span><svg class="wx rain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 14z"/><path d="M8 17.5l-1 3M12 17.5l-1 3M16 17.5l-1 3"/></svg><div><div class="lohi"><span>68°</span><span>86°</span></div><div class="bar"><i style="left:0;right:40%"></i></div></div></div>
+          </div>
+          <div class="credit">Weather: Open-Meteo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p class="note">The class and bus bubbles show just their icons while the weather card is open, as they do for the other cards. Tapping one switches to its card.</p>

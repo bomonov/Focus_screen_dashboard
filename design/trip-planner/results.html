@@ -1,0 +1,150 @@
+<style>
+  .fs { background:radial-gradient(120% 90% at 30% 100%, #1d1a10 0%, #000 60%); color:#fff; font-family:Arial,Helvetica,sans-serif; border-radius:14px; padding:18px 20px 22px; margin-top:10px; }
+  .fs.z { zoom:0.8; }
+  .top { display:flex; justify-content:flex-end; gap:12px; }
+  .bubble { display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:999px; border:1px solid #484848; background:#191919; }
+  .bubble.on { border-color:#ffc627; }
+  .ico { width:22px; height:22px; flex:none; }
+  .card { margin:10px 0 0 auto; width:460px; border-radius:22px; background:rgb(43 43 43 / 0.82); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.14), 0 18px 40px rgb(0 0 0 / 0.5); padding:14px 16px 12px; font-size:16px; }
+  .field { display:flex; align-items:center; gap:10px; height:44px; padding:0 14px; border-radius:12px; background:rgb(0 0 0 / 0.35); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1); font-size:17px; }
+  .field .ph { color:#9a9a9a; }
+  .field .typed { color:#fff; }
+  .from { margin:8px 2px 4px; font-size:14px; color:#bfbfbf; display:flex; justify-content:space-between; }
+  .from b { color:#fff; font-weight:400; }
+  .row { display:flex; align-items:center; gap:12px; padding:10px 4px; border-top:1px solid rgb(255 255 255 / 0.08); }
+  .row:first-of-type { border-top:none; }
+  .rowico { width:34px; height:34px; border-radius:999px; background:rgb(255 255 255 / 0.08); display:flex; align-items:center; justify-content:center; flex:none; }
+  .rowtxt { display:flex; flex-direction:column; gap:2px; min-width:0; flex:1; }
+  .t { font-weight:700; }
+  .s { color:#bfbfbf; font-size:14px; }
+  .right { text-align:right; font-size:14px; color:#bfbfbf; white-space:nowrap; }
+  .right .t { color:#ffc627; font-size:16px; }
+  .head { font-size:13px; color:#bfbfbf; margin:10px 4px 2px; }
+  .legs { display:flex; align-items:center; gap:6px; flex-wrap:wrap; font-size:14px; color:#bfbfbf; }
+  .chip { display:inline-flex; align-items:center; gap:4px; height:26px; padding:0 9px; border-radius:7px; background:#ffc627; color:#000; font-weight:700; font-size:14px; }
+  .chip.rail { background:#8a7cf5; color:#000; }
+  .chip.asu { background:#8c1d40; color:#fff; }
+  .w { display:inline-flex; align-items:center; gap:2px; }
+  .sep { color:#9a9a9a; }
+  .opt { display:grid; grid-template-columns:76px 1fr auto; align-items:center; gap:12px; padding:11px 12px; border-top:1px solid rgb(255 255 255 / 0.08); }
+  .opt:first-of-type { border-top:none; }
+  .opt.best { background:rgb(255 255 255 / 0.06); border-radius:12px; border-top-color:transparent; }
+  .lv { display:flex; flex-direction:column; }
+  .lv .n { font-size:26px; font-weight:700; line-height:1; }
+  .lv .u { font-size:13px; color:#bfbfbf; }
+  .live { display:inline-flex; align-items:center; gap:4px; color:#78be20; font-size:13px; }
+  .steps { margin:6px 0 4px; }
+  .step { display:grid; grid-template-columns:52px 22px 1fr; align-items:start; gap:8px; min-height:34px; }
+  .step .tm { text-align:right; font-weight:700; font-size:15px; padding-top:1px; }
+  .rail-line { position:relative; display:flex; justify-content:center; height:100%; }
+  .rail-line i { position:absolute; top:4px; bottom:-30px; width:4px; border-radius:2px; background:#ffc627; }
+  .rail-line i.dots { background:none; border-left:3px dotted #9a9a9a; width:0; }
+  .rail-line b { position:relative; width:12px; height:12px; border-radius:50%; background:#000; border:3px solid #ffc627; margin-top:2px; }
+  .rail-line b.g { border-color:#9a9a9a; }
+  .step .d { font-size:15px; }
+  .step .d .s { display:block; }
+  .others { margin-top:6px; border-top:1px solid rgb(255 255 255 / 0.1); padding-top:6px; }
+  .mini { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:7px 4px; font-size:14px; }
+  .credit { margin-top:8px; font-size:12px; color:#9a9a9a; }
+  .note { font-size:13px; margin-top:8px; }
+</style>
+
+<h2>What should the search card show?</h2>
+<p class="subtitle">Top right of the Focus Screen: the search bubble next to Customize, now an icon too. First, what you'd see the moment you open it (not a choice, just context). Below it, two ways to show the trips once you pick Home. The stops and times are made up.</p>
+
+<div class="section">
+  <div class="label">When it opens</div>
+  <div class="fs z">
+    <div class="top">
+      <span class="bubble on"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></span>
+      <span class="bubble"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></span>
+    </div>
+    <div class="card">
+      <div class="field"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#9a9a9a" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><span class="ph">Where to?</span></div>
+      <div class="from"><span>From <b>where you are</b> · Sun Devil Fitness Complex</span><span>Leave now</span></div>
+      <div class="row">
+        <span class="rowico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#ffc627" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-6 8 6v8H4z"/><path d="M10 19v-5h4v5"/></svg></span>
+        <span class="rowtxt"><span class="t">Home</span><span class="s">Orbit Venus · 23 min</span></span>
+        <span class="right"><span class="t">Leave in 6 min</span></span>
+      </div>
+      <div class="row">
+        <span class="rowico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#ffc627" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v15H5.5A1.5 1.5 0 0 0 4 20.5zM20 5.5A1.5 1.5 0 0 0 18.5 4H13v15h5.5a1.5 1.5 0 0 1 1.5 1.5z"/></svg></span>
+        <span class="rowtxt"><span class="t">CSE 340 · tomorrow 9:00 AM</span><span class="s">Brickyard (BYENG) 210 · walk 12 min</span></span>
+        <span class="right">Next class</span>
+      </div>
+      <div class="row">
+        <span class="rowico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#bfbfbf" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg></span>
+        <span class="rowtxt"><span class="t">Alex's</span><span class="s">Saved · Mesa</span></span>
+        <span class="right"></span>
+      </div>
+      <div class="row">
+        <span class="rowico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#bfbfbf" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/></svg></span>
+        <span class="rowtxt"><span class="t">Trader Joe's</span><span class="s">Recent · Rural Rd &amp; Southern Ave</span></span>
+        <span class="right"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="options">
+
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>A list of ways, like Transit's</h3>
+      <p>Three ways to get there, one row each: how soon to leave, the steps in a line, and when you'd arrive. The soonest-arriving one is on top. Click a row to open its steps.</p>
+      <div class="fs z">
+        <div class="card" style="margin-top:0">
+          <div class="field"><span class="typed">Home</span></div>
+          <div class="from"><span>From <b>where you are</b></span><span>Leave now</span></div>
+          <div class="opt best">
+            <span class="lv"><span class="n">6</span><span class="u">min to leave</span></span>
+            <span class="legs"><span class="w">🚶5</span><span class="sep">›</span><span class="chip">Orbit Venus</span><span class="sep">›</span><span class="w">🚶3</span><span class="live">● live</span></span>
+            <span class="right"><span class="t" style="color:#fff">4:41</span><br>23 min</span>
+          </div>
+          <div class="opt">
+            <span class="lv"><span class="n">11</span><span class="u">min to leave</span></span>
+            <span class="legs"><span class="w">🚶7</span><span class="sep">›</span><span class="chip">72</span><span class="sep">›</span><span class="chip">Orbit Mars</span><span class="sep">›</span><span class="w">🚶2</span></span>
+            <span class="right"><span class="t" style="color:#fff">4:52</span><br>29 min</span>
+          </div>
+          <div class="opt">
+            <span class="lv"><span class="n">14</span><span class="u">min to leave</span></span>
+            <span class="legs"><span class="w">🚶9</span><span class="sep">›</span><span class="chip rail">Light rail</span><span class="sep">›</span><span class="chip">Orbit Venus</span><span class="sep">›</span><span class="w">🚶3</span></span>
+            <span class="right"><span class="t" style="color:#fff">5:03</span><br>37 min</span>
+          </div>
+          <div class="credit">Data: Valley Metro via City of Phoenix Open Data</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>The best way spelled out, the others below</h3>
+      <p>The best trip as steps on a line, each with its time: walk to the stop, the bus (live or scheduled), where to get off, the walk at the end. Two other ways sit underneath as single lines; click one to swap it in.</p>
+      <div class="fs z">
+        <div class="card" style="margin-top:0">
+          <div class="field"><span class="typed">Home</span></div>
+          <div class="from"><span>From <b>where you are</b></span><span>Leave now</span></div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline; margin:8px 4px 6px">
+            <span style="font-size:22px; font-weight:700; color:#ffc627">Leave in 6 min</span><span class="s">Home 4:41 · 23 min</span>
+          </div>
+          <div class="steps">
+            <div class="step"><span class="tm">4:18</span><span class="rail-line"><i class="dots"></i><b class="g"></b></span><span class="d">Walk 5 min<span class="s">to Rural Rd &amp; Terrace Rd</span></span></div>
+            <div class="step"><span class="tm">4:23</span><span class="rail-line"><i></i><b></b></span><span class="d"><span class="chip">Orbit Venus</span> <span class="live">● live, 1 min late</span><span class="s">toward Apache Blvd · 8 stops</span></span></div>
+            <div class="step"><span class="tm">4:38</span><span class="rail-line"><i class="dots"></i><b></b></span><span class="d">Get off at Apache Blvd &amp; McClintock Dr<span class="s">walk 3 min</span></span></div>
+            <div class="step"><span class="tm">4:41</span><span class="rail-line"><b class="g"></b></span><span class="d"><span class="t">Home</span></span></div>
+          </div>
+          <div class="others">
+            <div class="mini"><span class="legs"><span class="w">🚶7</span><span class="sep">›</span><span class="chip">72</span><span class="sep">›</span><span class="chip">Orbit Mars</span></span><span class="s">leave in 11 · home 4:52</span></div>
+            <div class="mini"><span class="legs"><span class="w">🚶9</span><span class="sep">›</span><span class="chip rail">Light rail</span><span class="sep">›</span><span class="chip">Orbit Venus</span></span><span class="s">leave in 14 · home 5:03</span></div>
+          </div>
+          <div class="credit">Data: Valley Metro via City of Phoenix Open Data</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<p class="note">The 🚶 emoji stands in for a drawn walking icon. In the real card each route chip would use the route's own color from Valley Metro's schedule, where it has one.</p>

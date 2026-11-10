@@ -1,0 +1,176 @@
+<h2>How much should each word pop as it's sung?</h2>
+<p class="subtitle">The light-up stays as it is now (word by word). Only the pop is added: a little lift, a swell and a soft glow as each word lights. Romaji stays under the Japanese line. Press Play, then click the one you like.</p>
+
+<div style="display:flex;gap:12px;align-items:center;margin-bottom:16px">
+  <button class="mock-button" id="play" style="min-height:44px;padding:0 22px;font-size:15px;cursor:pointer">▶ Play</button>
+  <span class="label" id="status">Plays one English line, then one Japanese line with romaji (about 10 s).</span>
+</div>
+
+<div class="options" id="choices">
+  <div class="option" data-choice="now" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Now: light-up only</h3>
+      <p>What the app does today, for comparison.</p>
+      <div class="lyr-panel" data-style="none"></div>
+    </div>
+  </div>
+  <div class="option" data-choice="gentle" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Gentle pop</h3>
+      <p>Each word rises 2 px and swells to 103% as it lights, then settles. A faint glow.</p>
+      <div class="lyr-panel" data-style="gentle"></div>
+    </div>
+  </div>
+  <div class="option" data-choice="spicy" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Spicy-style pop</h3>
+      <p>Words wait a touch smaller, then rise 4 px, swell to 106% and glow as they light, then settle. Closest to Spicy Lyrics.</p>
+      <div class="lyr-panel" data-style="spicy"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .lyr-panel {
+    margin-top: 12px;
+    padding: 18px 22px 20px;
+    border-radius: 24px;
+    background: #191919;
+    border: 1px solid #2a2a2a;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+    min-height: 168px;
+    overflow: hidden;
+  }
+  .lyr-row { font-weight: 700; font-size: 30px; line-height: 1.25; margin: 6px 0; }
+  .lyr-row.dim { opacity: 0.42; font-size: 26px; }
+  .lyr-row.dimmer { opacity: 0.24; font-size: 26px; filter: blur(1px); }
+  .lyr-word {
+    display: inline-block;
+    transform-origin: 50% 80%;
+    background-image: linear-gradient(90deg, #fff 45%, rgba(255,255,255,0.38) 55%);
+    background-size: 225% 100%;
+    background-position: 100% 0;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    will-change: transform, filter;
+  }
+  .lyr-romaji { display: block; font-size: 0.55em; font-weight: 400; color: #bfbfbf; margin-top: 4px; }
+</style>
+
+<script>
+(() => {
+  const SONG = [
+    { prev: 'Every street was quiet when we met', text: 'We were running through the city lights tonight', next: '夜の街を 歩いて 君を探してた', sec: 4.4 },
+    { prev: 'We were running through the city lights tonight', text: '夜の街を 歩いて 君を探してた', romaji: 'yoru no machi wo aruite kimi wo sagashiteta', next: 'ずっと 声が 聞こえてた', sec: 4.8 }
+  ]
+  // How each style pops a word: lift (px), swell, how much smaller it waits, glow (px, strength).
+  const STYLES = {
+    none: null,
+    gentle: { lift: 2, swell: 0.03, wait: 0, glow: 6, glowA: 0.28, rest: 0.06 },
+    spicy: { lift: 4, swell: 0.06, wait: 0.03, glow: 12, glowA: 0.5, rest: 0.12 }
+  }
+  const panels = [...document.querySelectorAll('.lyr-panel')]
+
+  // Times by letters, like the app guesses them for lines without word timings.
+  function words(text, sec) {
+    const tokens = text.split(' ')
+    const weights = tokens.map((t) => Math.max(1, [...t].length))
+    const total = weights.reduce((a, b) => a + b, 0)
+    let at = 0
+    return tokens.map((t, i) => {
+      const w = { text: t, start: at, end: at + (sec * weights[i]) / total }
+      at = w.end
+      return w
+    })
+  }
+
+  function build(panel, line) {
+    panel.innerHTML = ''
+    const row = (cls, text) => {
+      const d = document.createElement('div')
+      d.className = 'lyr-row ' + cls
+      d.textContent = text
+      panel.appendChild(d)
+      return d
+    }
+    row('dim', line.prev)
+    const current = row('', '')
+    const spans = words(line.text, line.sec).map((w, i, all) => {
+      const s = document.createElement('span')
+      s.className = 'lyr-word'
+      s.textContent = w.text
+      current.appendChild(s)
+      if (i < all.length - 1) current.appendChild(document.createTextNode(' '))
+      return { el: s, ...w }
+    })
+    if (line.romaji) {
+      const r = document.createElement('span')
+      r.className = 'lyr-romaji'
+      r.textContent = line.romaji
+      current.appendChild(r)
+    }
+    row('dimmer', line.next)
+    return spans
+  }
+
+  // A quick rise and an easy settle: peaks ~0.28 s in, gone by ~0.9 s.
+  function bump(t) {
+    if (t <= 0) return 0
+    const rise = 0.28
+    if (t < rise) return 1 - Math.pow(1 - t / rise, 3)
+    const fall = (t - rise) / 0.62
+    return fall >= 1 ? 0 : 0.5 + 0.5 * Math.cos(Math.PI * fall)
+  }
+
+  function paint(spans, style, t) {
+    for (const w of spans) {
+      const p = Math.min(1, Math.max(0, (t - w.start) / (w.end - w.start)))
+      w.el.style.backgroundPosition = `${100 - 100 * p}% 0`
+      if (!style) continue
+      const since = t - w.start
+      const b = bump(since)
+      const sung = since > 0
+      const waitScale = sung ? 1 : 1 - style.wait
+      const scale = waitScale + style.swell * b
+      const lift = -style.lift * b + (sung ? 0 : style.wait * 30)
+      w.el.style.transform = `translateY(${lift.toFixed(2)}px) scale(${scale.toFixed(4)})`
+      const glowA = style.glowA * b + (p >= 1 ? style.rest : style.rest * p)
+      w.el.style.filter = glowA > 0.01 ? `drop-shadow(0 0 ${style.glow}px rgba(255,255,255,${glowA.toFixed(3)}))` : 'none'
+    }
+  }
+
+  let running = 0
+  function play() {
+    const run = ++running
+    let index = 0
+    const status = document.getElementById('status')
+    const next = () => {
+      if (run !== running) return
+      if (index >= SONG.length) { status.textContent = 'Done. Press Play to see it again.'; return }
+      const line = SONG[index++]
+      const built = panels.map((panel) => ({ spans: build(panel, line), style: STYLES[panel.dataset.style] }))
+      const t0 = performance.now() + 500
+      status.textContent = 'Playing…'
+      const frame = (now) => {
+        if (run !== running) return
+        const t = (now - t0) / 1000
+        for (const b of built) paint(b.spans, b.style, t)
+        if (t < line.sec + 1.2) requestAnimationFrame(frame)
+        else next()
+      }
+      requestAnimationFrame(frame)
+    }
+    next()
+  }
+
+  // Show the first line still, ready to play.
+  for (const panel of panels) paint(build(panel, SONG[0]), STYLES[panel.dataset.style], -1)
+  document.getElementById('play').addEventListener('click', play)
+})()
+</script>

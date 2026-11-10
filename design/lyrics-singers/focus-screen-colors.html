@@ -1,0 +1,98 @@
+<style>
+  .options { display:block !important; }
+  .options .option { display:block !important; padding:12px; margin-bottom:18px; }
+  .options .option h3 { margin:0 0 10px; }
+  .optnote { font-size:13px; margin:10px 2px 0; }
+  .lc { --ichika:#33AAEE; --minori:#FFCCAA; --kohane:#FF6699; --tsukasa:#FFBB00; --kanade:#BB6688; --miku:#33CCBB;
+    background:#000; border-radius:14px; padding:18px; font-family:Arial,Helvetica,sans-serif; color:#fff; min-width:640px; }
+  .lc * { box-sizing:border-box; }
+  .card { background:#191919; border:1px solid #2a2a2a; border-radius:24px; padding:22px 26px; position:relative; }
+  .eyebrow { font-size:11px; letter-spacing:1.6px; color:#bfbfbf; font-weight:700; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; }
+  .row { margin:10px 0; transition:none; }
+  .jp { font-size:26px; font-weight:700; line-height:1.3; }
+  .ro { font-size:14px; color:#9a9a9a; margin-top:2px; }
+  .past { opacity:.35; filter:blur(.4px); }
+  .next { opacity:.55; }
+  .later { opacity:.35; filter:blur(1px); }
+  .cur .jp { font-size:31px; }
+  .lit { -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .dimw { color:rgba(255,255,255,.38); }
+  .glow { text-shadow:0 0 14px rgba(255,255,255,.18); }
+  .badges { display:flex; gap:6px; }
+  .bdg { width:26px; height:26px; border-radius:50%; display:grid; place-items:center; font-size:10px; font-weight:700; color:#000; }
+  .bdg.off { opacity:.25; filter:grayscale(.6); }
+  .who { display:inline-flex; gap:3px; margin-right:8px; vertical-align:middle; }
+  .who i { width:9px; height:9px; border-radius:50%; display:inline-block; }
+</style>
+
+<h2>Singer colors on the Focus Screen: three ways</h2>
+<p class="subtitle">The same moment in each, with made-up lyrics: Ichika starts the line, Minori joins halfway, and the next line is everyone. Click the one you like, then tell me in the chat.</p>
+
+<div class="options">
+
+<!-- A -->
+<div class="option" data-choice="a" onclick="toggleSelect(this)">
+<h3>A · Every line in its singer's color, like the video</h3>
+<div class="lc"><div class="card">
+  <div class="eyebrow"><span>NOW PLAYING · LYRICS</span></div>
+  <div class="row past"><div class="jp" style="color:var(--kanade)">夜明けの色を 探してた</div><div class="ro" style="color:var(--kanade)">yoake no iro wo sagashiteta</div></div>
+  <div class="row cur">
+    <div class="jp glow">
+      <span style="color:var(--ichika)">ここから始まる</span>
+      <span class="lit" style="background-image:linear-gradient(90deg,var(--ichika),var(--minori));-webkit-mask-image:linear-gradient(90deg,#000 34%,rgba(0,0,0,.38) 34%);mask-image:linear-gradient(90deg,#000 34%,rgba(0,0,0,.38) 34%)">新しい世界へ</span>
+    </div>
+    <div class="ro"><span style="color:var(--ichika)">koko kara hajimaru</span> <span class="lit" style="background-image:linear-gradient(90deg,var(--ichika),var(--minori))">atarashii sekai e</span></div>
+  </div>
+  <div class="row next"><div class="jp lit" style="background-image:linear-gradient(90deg,var(--ichika),var(--minori),var(--kohane),var(--tsukasa),var(--kanade),var(--miku))">みんなで歌おう</div><div class="ro lit" style="background-image:linear-gradient(90deg,var(--ichika),var(--minori),var(--kohane),var(--tsukasa),var(--kanade),var(--miku))">minna de utaou</div></div>
+  <div class="row later"><div class="jp" style="color:var(--tsukasa)">まだ見ぬ明日を</div></div>
+</div></div>
+<p class="optnote">Always colorful. The words still to be sung are the same color but faint, and the sung line is full color with the light running through it. It's closest to fan videos.</p>
+</div>
+
+<!-- B -->
+<div class="option" data-choice="b" onclick="toggleSelect(this)">
+<h3>B · Lyrics stay white; only the light that runs is colored</h3>
+<div class="lc"><div class="card">
+  <div class="eyebrow"><span>NOW PLAYING · LYRICS</span></div>
+  <div class="row past"><div class="jp"><span class="who"><i style="background:var(--kanade)"></i></span>夜明けの色を 探してた</div></div>
+  <div class="row cur">
+    <div class="jp glow">
+      <span class="who"><i style="background:var(--ichika)"></i><i style="background:var(--minori)"></i></span><span style="color:var(--ichika)">ここから始まる</span>
+      <span style="position:relative;display:inline-block"><span class="dimw">新しい世界へ</span><span class="lit" style="position:absolute;left:0;top:0;background-image:linear-gradient(90deg,var(--ichika),var(--minori));-webkit-mask-image:linear-gradient(90deg,#000 34%,transparent 34%);mask-image:linear-gradient(90deg,#000 34%,transparent 34%)">新しい世界へ</span></span>
+    </div>
+    <div class="ro">koko kara hajimaru atarashii sekai e</div>
+  </div>
+  <div class="row next"><div class="jp"><span class="who"><i style="background:var(--ichika)"></i><i style="background:var(--minori)"></i><i style="background:var(--kohane)"></i><i style="background:var(--tsukasa)"></i><i style="background:var(--kanade)"></i><i style="background:var(--miku)"></i></span>みんなで歌おう</div></div>
+  <div class="row later"><div class="jp"><span class="who"><i style="background:var(--tsukasa)"></i></span>まだ見ぬ明日を</div></div>
+</div></div>
+<p class="optnote">Calmer, like today's lyrics. Color only appears as the words are sung, and small dots before each line say who's coming.</p>
+</div>
+
+<!-- C -->
+<div class="option" data-choice="c" onclick="toggleSelect(this)">
+<h3>C · Faint tints, plus a row of who's singing now</h3>
+<div class="lc"><div class="card">
+  <div class="eyebrow"><span>NOW PLAYING · LYRICS</span>
+    <span class="badges">
+      <span class="bdg" style="background:var(--ichika)">Ic</span>
+      <span class="bdg" style="background:var(--minori)">Mi</span>
+      <span class="bdg off" style="background:var(--kohane)">Ko</span>
+      <span class="bdg off" style="background:var(--tsukasa)">Ts</span>
+      <span class="bdg off" style="background:var(--kanade)">Ka</span>
+      <span class="bdg off" style="background:var(--miku)">Mk</span>
+    </span></div>
+  <div class="row past"><div class="jp" style="color:color-mix(in srgb,var(--kanade) 45%, white)">夜明けの色を 探してた</div></div>
+  <div class="row cur">
+    <div class="jp glow">
+      <span style="color:var(--ichika)">ここから始まる</span>
+      <span class="lit" style="background-image:linear-gradient(90deg,var(--ichika),var(--minori));-webkit-mask-image:linear-gradient(90deg,#000 34%,rgba(0,0,0,.42) 34%);mask-image:linear-gradient(90deg,#000 34%,rgba(0,0,0,.42) 34%)">新しい世界へ</span>
+    </div>
+    <div class="ro"><span style="color:color-mix(in srgb,var(--ichika) 60%, #aaa)">koko kara hajimaru</span> atarashii sekai e</div>
+  </div>
+  <div class="row next"><div class="jp lit" style="background-image:linear-gradient(90deg,color-mix(in srgb,var(--ichika) 45%,white),color-mix(in srgb,var(--minori) 45%,white),color-mix(in srgb,var(--kohane) 45%,white),color-mix(in srgb,var(--tsukasa) 45%,white),color-mix(in srgb,var(--kanade) 45%,white),color-mix(in srgb,var(--miku) 45%,white))">みんなで歌おう</div></div>
+  <div class="row later"><div class="jp" style="color:color-mix(in srgb,var(--tsukasa) 45%, white)">まだ見ぬ明日を</div></div>
+</div></div>
+<p class="optnote">In between: lines carry a soft tint of their singers, and the sung part is full color. The badges at the top light up for whoever is singing right now; your own chibi pictures would go in those circles.</p>
+</div>
+
+</div>

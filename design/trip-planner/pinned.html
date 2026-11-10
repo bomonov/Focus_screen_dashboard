@@ -1,0 +1,95 @@
+<style>
+  .fs { background:#000; color:#fff; font-family:Arial,Helvetica,sans-serif; border-radius:14px; padding:16px 18px; overflow:hidden; margin-top:10px; }
+  .fs-scale { zoom:0.5; }
+  .bar { display:flex; justify-content:space-between; align-items:flex-end; gap:16px; width:1440px; }
+  .left, .right { display:flex; align-items:flex-end; gap:16px; min-width:0; }
+  .clock { display:flex; align-items:baseline; gap:16px; white-space:nowrap; }
+  .time { font-size:56px; font-weight:700; letter-spacing:-1px; line-height:1; }
+  .date { font-size:18px; color:#bfbfbf; }
+  .pill { display:inline-flex; align-items:center; gap:10px; height:44px; padding:0 18px; border-radius:999px; border:1px solid #484848; background:#191919; font-size:18px; white-space:nowrap; }
+  .bubble { width:44px; padding:0; justify-content:center; }
+  .lbl { font-size:13px; letter-spacing:2px; text-transform:uppercase; color:#bfbfbf; }
+  .b { font-weight:700; }
+  .sec { color:#bfbfbf; }
+  .sec::before { content:'·'; margin-right:10px; color:#9a9a9a; }
+  .ico { width:22px; height:22px; flex:none; }
+  .chip { display:inline-flex; align-items:center; height:26px; padding:0 10px; border-radius:7px; background:#5a1769; color:#fff; font-weight:700; font-size:15px; }
+  .hl { outline:3px dashed #4fd1c5; outline-offset:6px; }
+  .due { border-color:#ffc627; }
+  .due .b { color:#ffc627; }
+  .cards-below { display:flex; gap:24px; margin-top:28px; width:1440px; }
+  .ghost { flex:1; height:110px; border-radius:24px; background:#191919; border:1px solid #2a2a2a; }
+  .caption { font-size:13px; margin:10px 2px 0; }
+</style>
+
+<h2>Where should a picked trip stay?</h2>
+<p class="subtitle">You've picked "Home by Orbit Venus" and closed the card. Its countdown stays until you go. The new part has a dashed teal outline; hold it to open the steps again. The times are made up. Click the one you like.</p>
+
+<div class="options">
+
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>The search bubble grows into the countdown</h3>
+      <p>The top-right corner stays the trip's place: the magnifying glass turns into "Leave in 6 min · Orbit Venus". When the trip ends it shrinks back into the bubble.</p>
+      <div class="fs"><div class="fs-scale">
+        <div class="bar">
+          <div class="left">
+            <div class="clock"><span class="time">4:12</span><span class="date">Mon, Nov 2</span></div>
+            <div class="pill"><span class="lbl">Bus</span><span class="b">Orbit Venus</span><span class="sec">9 min</span><span class="sec">then 24 min</span></div>
+            <div class="pill"><span class="b">78°</span><span class="sec">Tempe</span></div>
+          </div>
+          <div class="right">
+            <div class="pill hl">
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#ffc627" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-6 8 6v8H4z"/><path d="M10 19v-5h4v5"/></svg>
+              <span class="b">Leave in 6 min</span><span class="chip">Orbit Venus</span><span class="sec">home 4:41</span>
+            </div>
+            <div class="pill bubble"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></div>
+          </div>
+        </div>
+        <div class="cards-below"><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>A pill in the row with the others</h3>
+      <p>It joins Next class, Bus and Weather on the left while it lasts, and works like them (hold for the card, the others shrink to bubbles). The corner keeps its plain search bubble.</p>
+      <div class="fs"><div class="fs-scale">
+        <div class="bar">
+          <div class="left">
+            <div class="clock"><span class="time">4:12</span><span class="date">Mon, Nov 2</span></div>
+            <div class="pill hl">
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#ffc627" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-6 8 6v8H4z"/><path d="M10 19v-5h4v5"/></svg>
+              <span class="b">Leave in 6 min</span><span class="chip">Orbit Venus</span><span class="sec">home 4:41</span>
+            </div>
+            <div class="pill"><span class="lbl">Bus</span><span class="b">Orbit Venus</span><span class="sec">9 min</span><span class="sec">then 24 min</span></div>
+            <div class="pill"><span class="b">78°</span><span class="sec">Tempe</span></div>
+          </div>
+          <div class="right">
+            <div class="pill bubble"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></div>
+            <div class="pill bubble"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></div>
+          </div>
+        </div>
+        <div class="cards-below"><div class="ghost"></div><div class="ghost"></div><div class="ghost"></div></div>
+      </div></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="section">
+  <div class="label">Either way, when it's time to go</div>
+  <div class="fs"><div class="fs-scale" style="zoom:0.7">
+    <div style="display:flex; gap:18px; align-items:center">
+      <div class="pill"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#ffc627" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-6 8 6v8H4z"/><path d="M10 19v-5h4v5"/></svg><span class="b">Leave in 6 min</span><span class="chip">Orbit Venus</span><span class="sec">home 4:41</span></div>
+      <span style="color:#9a9a9a; font-size:22px">→</span>
+      <div class="pill due"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#ffc627" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-6 8 6v8H4z"/><path d="M10 19v-5h4v5"/></svg><span class="b">Leave now</span><span class="chip">Orbit Venus</span><span class="sec">home 4:41</span></div>
+      <span style="color:#9a9a9a; font-size:22px">→</span>
+      <div class="pill"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#ffc627" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-6 8 6v8H4z"/><path d="M10 19v-5h4v5"/></svg><span class="sec" style="color:#bfbfbf">Missed it</span><span class="b">next: leave in 9 min</span><span class="chip" style="background:#0b6e4f">72</span></div>
+    </div>
+  </div></div>
+  <p class="caption">At leave time the border turns gold ("Leave now", like the Bus pill's "Due"). If the bus goes before you do, it offers the next way rather than vanishing.</p>
+</div>

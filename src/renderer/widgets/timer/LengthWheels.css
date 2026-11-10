@@ -1,0 +1,179 @@
+/*
+ * The timer's length as hours : minutes : seconds wheels. On the card, the group sits in the
+ * face's size container and scales to fit it with cq units, like the faces; every size inside
+ * is in em of that one font size. In a settings row it's one compact box.
+ */
+.length-wheels {
+  display: flex;
+  align-items: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.length-wheels--card {
+  /* Three rows of 3.1em plus the units: 10.7em tall at most. */
+  font-size: min(var(--timer-scale, 1) * 1rem, 100cqh / 10.7, 100cqw / 17);
+  gap: 0.375em;
+}
+
+.length-wheels__colon {
+  color: var(--text-dim);
+  font-weight: 700;
+}
+
+.length-wheels--card .length-wheels__colon {
+  font-size: 2.25em;
+  /* Level with the middle numbers, above the units. */
+  padding-bottom: 0.55em;
+}
+
+.length-wheel {
+  display: grid;
+  justify-items: center;
+  border-radius: 0.75em;
+  color: var(--text);
+  cursor: ns-resize;
+  user-select: none;
+  /* The wheel takes its own drags and scrolls; nothing should scroll or zoom under them. */
+  touch-action: none;
+  outline: none;
+}
+
+.length-wheel:focus-visible .length-wheel__window {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.length-wheel__window {
+  border-radius: inherit;
+}
+
+.length-wheel__value {
+  display: block;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.length-wheel__unit {
+  color: var(--text-secondary);
+}
+
+/*
+ * Card: the rows glide through a window three rows tall (LengthWheel draws where each is), the
+ * middle one between two rules. One row's height is --row, in em of the wheel's font.
+ */
+.length-wheel--card {
+  --row: 3.1em;
+  min-width: 3.5em;
+}
+
+.length-wheel--card .length-wheel__window {
+  position: relative;
+  display: block;
+  width: 3.6em;
+  height: calc(var(--row) * 3);
+  overflow: clip;
+  /* The rows above and below fade out towards the window's edges. */
+  mask-image: linear-gradient(transparent, #000 22%, #000 78%, transparent);
+}
+
+/* The rules either side of the middle row, which stay put while the numbers glide past. */
+.length-wheel--card .length-wheel__window::before,
+.length-wheel--card .length-wheel__window::after {
+  content: '';
+  position: absolute;
+  left: 0.3em;
+  right: 0.3em;
+  height: 1px;
+  background: var(--border-strong);
+}
+
+.length-wheel--card .length-wheel__window::before {
+  top: calc(50% - var(--row) / 2);
+}
+
+.length-wheel--card .length-wheel__window::after {
+  top: calc(50% + var(--row) / 2);
+}
+
+.length-wheel__row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(50% - var(--row) / 2);
+  height: var(--row);
+  display: grid;
+  place-items: center;
+  will-change: transform, opacity;
+}
+
+.length-wheel__digits {
+  font-size: 3em;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  will-change: transform;
+}
+
+.length-wheel--card .length-wheel__unit {
+  font-size: 0.875em;
+  margin-top: 0.25em;
+}
+
+/* A short room: just the middle row and its unit, larger than three rows would allow. */
+@container (max-height: 9rem) {
+  .length-wheels--card {
+    font-size: min(var(--timer-scale, 1) * 1rem, 100cqh / 4.7, 100cqw / 17);
+  }
+
+  .length-wheel--card .length-wheel__window {
+    height: var(--row);
+    mask-image: none;
+  }
+
+  .length-wheel--card .length-wheel__window::before,
+  .length-wheel--card .length-wheel__window::after {
+    display: none;
+  }
+}
+
+/* Row: hours, minutes and seconds in one box, each a number and its letter. */
+.length-wheels--row {
+  gap: 0;
+  padding: 0 0.25rem;
+  /* Its edge is drawn, not a border, so each number inside gets the box's full 44px. */
+  box-shadow: inset 0 0 0 1px var(--border-strong);
+  border-radius: 0.75rem;
+  background: var(--inset);
+}
+
+.length-wheels--row .length-wheels__colon {
+  display: none;
+}
+
+.length-wheel--row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.125rem;
+  /* A 44px target each, like every control. */
+  min-width: var(--hit);
+  min-height: var(--hit);
+  padding: 0 0.375rem;
+  border-radius: 0.5rem;
+}
+
+.length-wheel--row .length-wheel__value {
+  font-size: 1.0625rem;
+}
+
+.length-wheel--row .length-wheel__unit {
+  font-size: 0.8125rem;
+}
+
+.length-wheel--row:focus-visible {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+.length-wheel--row:focus-visible .length-wheel__window {
+  outline: none;
+}

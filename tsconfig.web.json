@@ -1,0 +1,22 @@
+{
+  "extends": "@electron-toolkit/tsconfig/tsconfig.web.json",
+  "include": [
+    "src/renderer/**/*",
+    "src/preload/*.d.ts",
+    "src/main/ipc.ts",
+    "src/main/services/settings/schema.ts",
+    "src/main/services/settings/layout.ts",
+    "src/main/services/timer/types.ts",
+    "src/main/services/music/types.ts",
+    "src/main/services/lyrics/types.ts",
+    "src/main/services/lyrics/pickerTypes.ts",
+    "src/main/services/todos/types.ts",
+    "src/main/services/calendar/types.ts"
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "noImplicitAny": true,
+    "noUncheckedIndexedAccess": true,
+    "jsx": "react-jsx"
+  }
+}

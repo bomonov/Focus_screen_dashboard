@@ -1,0 +1,15 @@
+# What graphify leaves out of the knowledge graph (gitignore syntax).
+# Third-party agent skills and Claude Code's own folder (other sessions' worktrees live there).
+.agents/
+.claude/
+.vscode/
+# Reference mockups and generated icons: pictures, not the app's logic.
+design/
+assets/
+build/
+*.png
+*.svg
+*.jpg
+*.jpeg
+*.webp
+*.icns

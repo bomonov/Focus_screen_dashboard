@@ -1,0 +1,6 @@
+/* Where the next class is: a peek card (PeekCard.css) with a piece of the campus map. */
+
+/* The map keeps the picture's shape (440 × 260), so the pin's spot stays on the building. */
+.class-map__picture {
+  aspect-ratio: 440 / 260;
+}

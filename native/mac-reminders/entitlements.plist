@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <!-- Hardened runtime: macOS won't even ask for Calendar access without this (Next class).
+         Reminders needs no entitlement. -->
+    <key>com.apple.security.personal-information.calendars</key>
+    <true/>
+    <!-- Likewise for Location (the weather pill's location mode). -->
+    <key>com.apple.security.personal-information.location</key>
+    <true/>
+  </dict>
+</plist>
