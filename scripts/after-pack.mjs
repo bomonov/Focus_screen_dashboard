@@ -13,6 +13,11 @@ export async function afterPack(context) {
   for (const helper of HELPERS) {
     const source = join(homedir(), 'Library/Developer/FocusScreen', helper)
     if (!existsSync(source)) {
+      // The audio helper is optional (it only times plain lyrics); the app checks for it.
+      if (helper === 'Focus Screen Audio.app') {
+        console.warn(`[after-pack] ${helper} not built; packing without it.`)
+        continue
+      }
       throw new Error(`${source} is missing; npm run build:mac builds it first.`)
     }
     cpSync(source, join(app, 'Contents/Resources', helper), { recursive: true })
