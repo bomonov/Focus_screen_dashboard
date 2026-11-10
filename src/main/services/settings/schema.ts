@@ -145,6 +145,8 @@ export type MusicSource = 'auto' | 'appleMusic' | 'youtube'
 
 export interface MusicSettings {
   source: MusicSource
+  /** The YouTube video itself in the card, in place of the cover (Bek's fork). */
+  showVideo: boolean
   cover: CoverStyle
   spinSpeed: SpinSpeed
   coverLight: CoverLight
@@ -299,6 +301,7 @@ const MOTION_STRENGTH = { min: 0.5, max: 2.5 }
 export function defaultMusicSettings(): MusicSettings {
   return {
     source: 'auto',
+    showVideo: true,
     cover: 'record',
     spinSpeed: 'normal',
     coverLight: 'sheen',
@@ -535,6 +538,7 @@ function parseTimerSettings(value: unknown, base: TimerSettings): TimerSettings 
 function parseMusicSettings(value: unknown, base: MusicSettings): MusicSettings {
   const raw = section(value)
   return {
+    showVideo: bool(raw.showVideo, base.showVideo),
     source: oneOf(raw.source, ['auto', 'appleMusic', 'youtube'], base.source),
     cover: oneOf(raw.cover, ['record', 'animated'], base.cover),
     spinSpeed: oneOf(raw.spinSpeed, ['normal', 'slow', 'still'], base.spinSpeed),
