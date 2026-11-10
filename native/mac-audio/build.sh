@@ -18,7 +18,7 @@ cd "$(dirname "$0")"
 HERE="$(pwd)"
 APP="$OUT/Focus Screen Audio.app"
 
-ARCHS="--arch arm64 --arch x86_64"
+ARCHS="${FOCUS_SCREEN_ARCHS:---arch arm64 --arch x86_64}"
 swift build -c release $ARCHS
 BIN_DIR="$(swift build -c release $ARCHS --show-bin-path)"
 
