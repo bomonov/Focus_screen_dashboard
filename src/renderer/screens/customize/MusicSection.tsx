@@ -95,6 +95,12 @@ export function MusicSection({
           />
         )}
         <ToggleRow
+          label="Show YouTube videos"
+          hint="The video or podcast playing in your YouTube tab, muted, in place of the cover"
+          on={music.showVideo}
+          onToggle={(showVideo) => update({ music: { showVideo } })}
+        />
+        <ToggleRow
           label="Romaji under Japanese lyrics"
           hint="From VocaDB, which gets the song’s title to find them, or made on this computer from a dictionary for songs it hasn’t got"
           on={music.romaji}

@@ -29,6 +29,7 @@ import {
 
 const music: MusicSettings = {
   source: 'auto',
+  showVideo: true,
   cover: 'record',
   spinSpeed: 'normal',
   coverLight: 'sheen',
