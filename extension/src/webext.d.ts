@@ -34,7 +34,7 @@ interface WebExtApi {
   }
   tabs: {
     sendMessage(tabId: number, message: unknown): Promise<unknown>
-    query(filter: { url: string }): Promise<{ id?: number }[]>
+    query(filter: { url: string | string[] }): Promise<{ id?: number }[]>
     onRemoved: WebExtEvent<(tabId: number) => void>
   }
   storage: {

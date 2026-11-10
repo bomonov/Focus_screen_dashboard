@@ -297,7 +297,9 @@ ext.tabs.onRemoved.addListener((tabId) => {
 /** After the worker (re)starts it knows no tabs; ask open YouTube Music tabs to report. */
 async function wake(): Promise<void> {
   const open = await Promise.resolve()
-    .then(() => ext.tabs.query({ url: 'https://music.youtube.com/*' }))
+    .then(() =>
+      ext.tabs.query({ url: ['https://music.youtube.com/*', 'https://www.youtube.com/*'] })
+    )
     .catch(() => [])
   const ask: TabMessage = { type: 'report' }
   for (const tab of open) {
