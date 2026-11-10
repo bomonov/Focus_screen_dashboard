@@ -16,6 +16,8 @@ import { joinOr, musicView, upNextShown } from './music/musicView'
 import { prepareEyebrow } from './music/prepareView'
 import { SeekBar } from './music/SeekBar'
 import { UpNextRow } from './music/UpNextRow'
+import { YouTubeVideo } from './music/YouTubeVideo'
+import { youTubeVideoId } from './music/youTubeVideoView'
 import './NowPlaying.css'
 
 interface NowPlayingProps {
@@ -32,11 +34,14 @@ export function NowPlaying({ settings }: NowPlayingProps): React.JSX.Element {
   const showLyrics = settings?.showLyrics ?? false
   const showPlayerName = settings?.showPlayerName ?? true
   const layout = lyricsLayout(showLyrics, track, lyrics)
+  const videoId = settings?.showVideo === false ? null : youTubeVideoId(music)
 
   return (
     <Card label="Now playing" className={`now-playing now-playing--${layout.kind}`}>
       <div className="now-playing__main">
-        {settings?.cover === 'animated' ? (
+        {music && videoId ? (
+          <YouTubeVideo key={videoId} videoId={videoId} state={music} />
+        ) : settings?.cover === 'animated' ? (
           <AnimatedCover
             track={track}
             playing={music?.playing ?? false}
